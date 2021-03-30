@@ -1,8 +1,6 @@
 package com.uff.pedalauff.modelo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "vaga")
@@ -14,6 +12,8 @@ public class Vaga implements Serializable {
     private String qrCode;
     @Column(nullable = false, length = 58)
     private boolean disponibilidade;
+    @ManyToOne
+    private Posto posto;
 
     public Vaga() {
     }

@@ -5,50 +5,37 @@ import com.uff.pedalauff.enums.EstadoBicicleta;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "bicicleta")
 public class Bicicleta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "idBicicleta")
     private Integer idBicicleta;
     @Column(nullable = false, length = 58)
     private String qrCode;
     @Column(nullable = false, length = 58)
-    private boolean cestinho;
-    @Column(nullable = false, length = 58)
     private EstadoBicicleta estadoAtual;
-    //@Column(nullable = false, length = 58)
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPosto")
-    private Posto posto;
-    //@Column(nullable = false, length = 58)
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idVaga")
-    private Vaga vaga;
+    @OneToMany(mappedBy = "bicicletaAlugada")
+    private List<Aluguel> alugueis;
 
     public Bicicleta() {
     }
 
-    public Bicicleta(Integer idBicicleta, String qrCode, boolean cestinho, EstadoBicicleta estadoAtual, Posto posto, Vaga vaga) {
+    public Bicicleta(Integer idBicicleta, String qrCode, boolean cestinho, EstadoBicicleta estadoAtual, List<Aluguel> alugueis) {
         this.idBicicleta = idBicicleta;
         this.qrCode = qrCode;
-        this.cestinho = cestinho;
+        //this.cestinho = cestinho;
         this.estadoAtual = estadoAtual;
-        this.posto = posto;
-        this.vaga = vaga;
+        this.alugueis = alugueis;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Integer getIdBicicleta() {
         return idBicicleta;
-    }
-
-    public EstadoBicicleta getEstadoAtual() {
-        return estadoAtual;
-    }
-
-    public void setEstadoAtual(EstadoBicicleta estadoAtual) {
-        this.estadoAtual = estadoAtual;
     }
 
     public void setIdBicicleta(Integer idBicicleta) {
@@ -63,28 +50,28 @@ public class Bicicleta implements Serializable {
         this.qrCode = qrCode;
     }
 
-    public boolean isCestinho() {
+  /*  public boolean isCestinho() {
         return cestinho;
     }
 
     public void setCestinho(boolean cestinho) {
         this.cestinho = cestinho;
+    }*/
+
+    public EstadoBicicleta getEstadoAtual() {
+        return estadoAtual;
     }
 
-    public Posto getPosto() {
-        return posto;
+    public void setEstadoAtual(EstadoBicicleta estadoAtual) {
+        this.estadoAtual = estadoAtual;
     }
 
-    public void setPosto(Posto posto) {
-        this.posto = posto;
+    public List<Aluguel> getAlugueis() {
+        return alugueis;
     }
 
-    public Vaga getVaga() {
-        return vaga;
-    }
-
-    public void setVaga(Vaga vaga) {
-        this.vaga = vaga;
+    public void setAlugueis(List<Aluguel> alugueis) {
+        this.alugueis = alugueis;
     }
 
     public static void alteraEstadoBicicleta(Bicicleta bicicleta, EstadoBicicleta estado) {

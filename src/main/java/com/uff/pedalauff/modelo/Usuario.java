@@ -1,7 +1,11 @@
 package com.uff.pedalauff.modelo;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "usuario")
 public class Usuario implements Serializable {
@@ -16,6 +20,8 @@ public class Usuario implements Serializable {
     private String email;
     @Column(nullable = false, length = 10)
     private String senha;
+    @OneToMany(mappedBy = "usuarioAlugado")
+    private List<Aluguel> alugueis;
 
     public Usuario() {
     }

@@ -14,25 +14,24 @@ public class Aluguel implements Serializable {
     private Date dthrAluguel;
     @Column(nullable = false, length = 58)
     private Date dthrDevolucao;
-    //@Column(nullable = false, length = 58)
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idBicicleta")
-    private Bicicleta bicicleta;
-    //@Column(nullable = false, length = 58)
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idUsuario")
-    private Usuario usuario;
-
+    @ManyToOne
+    private Bicicleta bicicletaAlugada;
+    @ManyToOne
+    private Usuario usuarioAlugado;
 
     public Aluguel() {
     }
 
-    public Aluguel(Integer idAluguel, Date dthrAluguel, Date dthrDevolucao, Bicicleta bicicleta, Usuario usuario) {
+    public Aluguel(Integer idAluguel, Date dthrAluguel, Date dthrDevolucao, Bicicleta bicicletaAlugada, Usuario usuarioAlugado) {
         this.idAluguel = idAluguel;
         this.dthrAluguel = dthrAluguel;
         this.dthrDevolucao = dthrDevolucao;
-        this.bicicleta = bicicleta;
-        this.usuario = usuario;
+        this.bicicletaAlugada = bicicletaAlugada;
+        this.usuarioAlugado = usuarioAlugado;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Integer getIdAluguel() {
@@ -59,20 +58,20 @@ public class Aluguel implements Serializable {
         this.dthrDevolucao = dthrDevolucao;
     }
 
-    public Bicicleta getBicicleta() {
-        return bicicleta;
+    public Bicicleta getBicicletaAlugada() {
+        return bicicletaAlugada;
     }
 
-    public void setBicicleta(Bicicleta bicicleta) {
-        this.bicicleta = bicicleta;
+    public void setBicicletaAlugada(Bicicleta bicicletaAlugada) {
+        this.bicicletaAlugada = bicicletaAlugada;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getUsuarioAlugado() {
+        return usuarioAlugado;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioAlugado(Usuario usuarioAlugado) {
+        this.usuarioAlugado = usuarioAlugado;
     }
 
     //parâmetro listaBicicleta temporário até desenvolvermos a conexão com o BD
