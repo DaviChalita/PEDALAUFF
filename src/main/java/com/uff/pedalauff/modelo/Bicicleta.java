@@ -14,7 +14,9 @@ public class Bicicleta implements Serializable {
     private Integer idBicicleta;
     @Column(nullable = false, length = 58)
     private String qrCode;
-    @Column(nullable = false, length = 58)
+    @Column
+    private boolean cestinho;
+    @Enumerated
     private EstadoBicicleta estadoAtual;
     @OneToMany(mappedBy = "bicicletaAlugada")
     private List<Aluguel> alugueis;
@@ -25,7 +27,7 @@ public class Bicicleta implements Serializable {
     public Bicicleta(Integer idBicicleta, String qrCode, boolean cestinho, EstadoBicicleta estadoAtual, List<Aluguel> alugueis) {
         this.idBicicleta = idBicicleta;
         this.qrCode = qrCode;
-        //this.cestinho = cestinho;
+        this.cestinho = cestinho;
         this.estadoAtual = estadoAtual;
         this.alugueis = alugueis;
     }
@@ -50,13 +52,13 @@ public class Bicicleta implements Serializable {
         this.qrCode = qrCode;
     }
 
-  /*  public boolean isCestinho() {
+    public boolean isCestinho() {
         return cestinho;
     }
 
     public void setCestinho(boolean cestinho) {
         this.cestinho = cestinho;
-    }*/
+    }
 
     public EstadoBicicleta getEstadoAtual() {
         return estadoAtual;
