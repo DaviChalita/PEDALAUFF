@@ -1,37 +1,43 @@
 package com.uff.pedalauff.modelo;
 
+
 import com.uff.pedalauff.enums.EstadoBicicleta;
 
-public class Bicicleta {
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
+
+@Entity(name = "bicicleta")
+public class Bicicleta implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idBicicleta;
+    @Column(nullable = false, length = 58)
     private String qrCode;
-    private boolean cestinho;
+    @Enumerated
     private EstadoBicicleta estadoAtual;
-    private Posto posto;
-    private Vaga vaga;
+    @OneToOne(mappedBy = "bicicletaAlugada")
+    private Aluguel aluguel;
+    @ManyToMany
+    List<Vaga> vagas;
 
     public Bicicleta() {
     }
 
-    public Bicicleta(Integer idBicicleta, String qrCode, boolean cestinho, EstadoBicicleta estadoAtual, Posto posto, Vaga vaga) {
+    public Bicicleta(Integer idBicicleta, String qrCode, EstadoBicicleta estadoAtual, Aluguel aluguel) {
         this.idBicicleta = idBicicleta;
         this.qrCode = qrCode;
-        this.cestinho = cestinho;
         this.estadoAtual = estadoAtual;
-        this.posto = posto;
-        this.vaga = vaga;
+        this.aluguel = aluguel;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Integer getIdBicicleta() {
         return idBicicleta;
-    }
-
-    public EstadoBicicleta getEstadoAtual() {
-        return estadoAtual;
-    }
-
-    public void setEstadoAtual(EstadoBicicleta estadoAtual) {
-        this.estadoAtual = estadoAtual;
     }
 
     public void setIdBicicleta(Integer idBicicleta) {
@@ -46,32 +52,23 @@ public class Bicicleta {
         this.qrCode = qrCode;
     }
 
-    public boolean isCestinho() {
-        return cestinho;
+    public EstadoBicicleta getEstadoAtual() {
+        return estadoAtual;
     }
 
-    public void setCestinho(boolean cestinho) {
-        this.cestinho = cestinho;
+    public void setEstadoAtual(EstadoBicicleta estadoAtual) {
+        this.estadoAtual = estadoAtual;
     }
 
-    public Posto getPosto() {
-        return posto;
+    public Aluguel getAluguel() {
+        return aluguel;
     }
 
-    public void setPosto(Posto posto) {
-        this.posto = posto;
-    }
-
-    public Vaga getVaga() {
-        return vaga;
-    }
-
-    public void setVaga(Vaga vaga) {
-        this.vaga = vaga;
+    public void setAluguel(Aluguel aluguel) {
+        this.aluguel = aluguel;
     }
 
     public static void alteraEstadoBicicleta(Bicicleta bicicleta, EstadoBicicleta estado) {
         bicicleta.setEstadoAtual(estado);
     }
-
 }

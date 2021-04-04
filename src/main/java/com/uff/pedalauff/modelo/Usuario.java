@@ -2,11 +2,13 @@ package com.uff.pedalauff.modelo;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "usuario")
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idUsuario;
     @Column(nullable = false, length = 58)
     private Integer matricula;
@@ -16,6 +18,8 @@ public class Usuario implements Serializable {
     private String email;
     @Column(nullable = false, length = 10)
     private String senha;
+    @OneToMany(mappedBy = "usuarioAlugado")
+    private List<Aluguel> alugueis;
 
     public Usuario() {
     }

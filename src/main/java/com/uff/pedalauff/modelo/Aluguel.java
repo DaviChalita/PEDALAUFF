@@ -1,18 +1,37 @@
 package com.uff.pedalauff.modelo;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-public class Aluguel {
+@Entity(name = "aluguel")
+public class Aluguel implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer idAluguel;
+    @Column(length = 58)
+    private Date dthrAluguel;
+    @Column(length = 58)
+    private Date dthrDevolucao;
+    @OneToOne
+    private Bicicleta bicicletaAlugada;
+    @ManyToOne
+    private Usuario usuarioAlugado;
+
     public Aluguel() {
     }
 
-    public Aluguel(Integer idAluguel, Date dthrAluguel, Date dthrDevolucao, Bicicleta bicicleta, Usuario usuario) {
+    public Aluguel(Integer idAluguel, Date dthrAluguel, Date dthrDevolucao, Bicicleta bicicletaAlugada, Usuario usuarioAlugado) {
         this.idAluguel = idAluguel;
         this.dthrAluguel = dthrAluguel;
         this.dthrDevolucao = dthrDevolucao;
-        this.bicicleta = bicicleta;
-        this.usuario = usuario;
+        this.bicicletaAlugada = bicicletaAlugada;
+        this.usuarioAlugado = usuarioAlugado;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Integer getIdAluguel() {
@@ -39,50 +58,20 @@ public class Aluguel {
         this.dthrDevolucao = dthrDevolucao;
     }
 
-    public Bicicleta getBicicleta() {
-        return bicicleta;
+    public Bicicleta getBicicletaAlugada() {
+        return bicicletaAlugada;
     }
 
-    public void setBicicleta(Bicicleta bicicleta) {
-        this.bicicleta = bicicleta;
+    public void setBicicletaAlugada(Bicicleta bicicletaAlugada) {
+        this.bicicletaAlugada = bicicletaAlugada;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getUsuarioAlugado() {
+        return usuarioAlugado;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    private Integer idAluguel;
-    private Date dthrAluguel;
-    private Date dthrDevolucao;
-    private Bicicleta bicicleta;
-    private Usuario usuario;
-
-    //parâmetro listaBicicleta temporário até desenvolvermos a conexão com o BD
-    public static boolean scanQrCodeBike(String qrCode, List<Bicicleta> listaBicicleta) {
-        for (Bicicleta bicicleta : listaBicicleta) {
-            if (bicicleta.getIdBicicleta().equals(qrCode)) {
-                return true;
-            }
-        }
-        //busca instancia no banco aonde tem id_bicicleta = qrCode
-        //retorna falso se nao encontrar
-        return false;
-    }
-
-    //parâmetro listaVaga temporário até desenvolvermos a conexão com o BD
-    public static boolean scanQrCodeVaga(String qrCode, List<Vaga> listaVaga) {
-        for (Vaga vaga : listaVaga) {
-            if (vaga.getIdVaga().equals(qrCode)) {
-                return true;
-            }
-        }
-        //busca instancia no banco aonde tem id_vaga = qrCode
-        //retorna falso se nao encontrar
-        return false;
+    public void setUsuarioAlugado(Usuario usuarioAlugado) {
+        this.usuarioAlugado = usuarioAlugado;
     }
 
 }
