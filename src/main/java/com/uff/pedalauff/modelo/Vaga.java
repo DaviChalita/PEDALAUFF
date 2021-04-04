@@ -1,6 +1,9 @@
 package com.uff.pedalauff.modelo;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Entity(name = "vaga")
@@ -48,7 +51,8 @@ public class Vaga implements Serializable {
         this.disponibilidade = disponibilidade;
     }
 
-    public static void alteraDisponibilidadeVaga(Vaga vaga) {
+    public void alteraDisponibilidadeVaga(Vaga vaga) {
         vaga.setDisponibilidade(!vaga.isDisponibilidade());
     }
+
 }

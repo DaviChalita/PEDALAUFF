@@ -20,19 +20,19 @@ public class AluguelControlador {
     @Autowired
     private BicicletaRepo repoBicicleta;
 
-    @GetMapping(path = "/api/aluguel/{idAluguel}")
+    @GetMapping(path = "/aluguel/{idAluguel}")
     public ResponseEntity consultar(@PathVariable("idAluguel") Integer idAluguel) {
         return repoAluguel.findById(idAluguel)
                 .map(record -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping(path = "/api/aluguel/salvar")
+    @PostMapping(path = "/aluguel/salvar")
     public Aluguel salvar(@RequestBody Aluguel aluguel) {
         return repoAluguel.save(aluguel);
     }
 
-    @PostMapping(path = "/api/aluguel/altstatbike/{idBicicleta}")
+    @PostMapping(path = "/aluguel/altstatbike/{idBicicleta}")
     public String alteraEstadoBicicleta(@PathVariable("idBicicleta") Integer idBicicleta) {
         Bicicleta bicicleta = repoBicicleta.findById(idBicicleta).get();
         if (bicicleta.getEstadoAtual().equals(NA_VAGA)) {

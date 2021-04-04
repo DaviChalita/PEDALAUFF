@@ -1,6 +1,9 @@
 package com.uff.pedalauff.modelo;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,6 +16,8 @@ public class Posto implements Serializable {
     private String endereco;
     @Column(nullable = false, length = 58)
     private String campus;
+    @Column(nullable = false)
+    private int qtdVagasDisp;
     @OneToMany
     private List<Vaga> vagas;
 
@@ -24,16 +29,24 @@ public class Posto implements Serializable {
         this.idPosto = idPosto;
     }
 
-    public Posto(Integer idPosto, String endereco, String campus, List<Vaga> vagas) {
+    public Posto(Integer idPosto, String endereco, String campus, int qtdVagasDisp, List<Vaga> vagas) {
         this.idPosto = idPosto;
         this.endereco = endereco;
         this.campus = campus;
+        this.qtdVagasDisp = qtdVagasDisp;
         this.vagas = vagas;
     }
 
-
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public int getQtdVagasDisp() {
+        return qtdVagasDisp;
+    }
+
+    public void setQtdVagasDisp(int qtdVagasDips) {
+        this.qtdVagasDisp = qtdVagasDips;
     }
 
     public Integer getIdPosto() {
@@ -66,5 +79,9 @@ public class Posto implements Serializable {
 
     public void setVagas(List<Vaga> vagas) {
         this.vagas = vagas;
+    }
+
+    public boolean temVagasDisp(int qtdVagasDisp) {
+            return qtdVagasDisp > 0;
     }
 }

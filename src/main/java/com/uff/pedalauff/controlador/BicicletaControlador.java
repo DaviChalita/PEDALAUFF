@@ -11,16 +11,26 @@ public class BicicletaControlador {
     @Autowired
     private BicicletaRepo repo;
 
-    @GetMapping(path = "/api/bicicleta/{idBicicleta}")
-    public ResponseEntity consultar(@PathVariable("idBicicleta") Integer idBicicleta){
+    @GetMapping(path = "/bicicleta/consulta/{idBicicleta}")
+    public ResponseEntity consultar(@PathVariable("idBicicleta") Integer idBicicleta) {
         return repo.findById(idBicicleta)
                 .map(record -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping(path = "/api/bicicleta/salvar")
-    public Bicicleta salvar(@RequestBody Bicicleta bicicleta){
+    @PostMapping(path = "/bicicleta/salvar")
+    public Bicicleta salvar(@RequestBody Bicicleta bicicleta) {
         return repo.save(bicicleta);
+    }
+
+    @GetMapping(path = "/bicicleta/scanqrcode/{qrCode}")
+    public ResponseEntity scanQrCode(@PathVariable("qrCode") String qrCode) {
+        Integer idBicicleta = repo.findByQrCode(qrCode).getIdBicicleta();
+        return repo.findById(idBicicleta)
+                .map(record -> ResponseEntity.ok()
+                        .body("Bicicleta " + record.getIdBicicleta() + " escaneada"))
+                .orElse(ResponseEntity.notFound().build());
+
     }
 
 }
