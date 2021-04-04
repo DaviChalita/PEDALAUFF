@@ -29,7 +29,7 @@ public class VagaControlador {
         Integer idVaga = repo.findByQrCode(qrCode).getIdVaga();
         return repo.findById(idVaga)
                 .map(record -> ResponseEntity.ok()
-                        .body("Bicicleta " + record.getIdVaga() + " escaneada"))
+                        .body("Vaga " + record.getIdVaga() + " escaneada"))
                 .orElse(ResponseEntity.notFound().build());
 
     }
