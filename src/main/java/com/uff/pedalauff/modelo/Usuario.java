@@ -1,9 +1,6 @@
 package com.uff.pedalauff.modelo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,6 +8,7 @@ import java.util.List;
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idUsuario;
     @Column(nullable = false, length = 58)
     private Integer matricula;

@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.Map;
+
 import static com.uff.pedalauff.enums.EstadoBicicleta.EM_USO;
 import static com.uff.pedalauff.enums.EstadoBicicleta.NA_VAGA;
 
@@ -27,9 +30,27 @@ public class AluguelControlador {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping(path = "/aluguel/salvar")
+    /*@PostMapping(path = "/aluguel/salvar")
     public Aluguel salvar(@RequestBody Aluguel aluguel) {
+        aluguel.setDthrAluguel(new Date(System.currentTimeMillis()));
+        aluguel.setDthrDevolucao(new Date(System.currentTimeMillis()));
         return repoAluguel.save(aluguel);
+    }*/
+
+    @PostMapping(path = "/aluguel/salvar")
+    public Aluguel salvar(@RequestBody Map<String, Integer> json) {
+        Aluguel aluguel = new Aluguel();
+        aluguel.setDthrAluguel(new Date(System.currentTimeMillis()));
+        aluguel.setDthrDevolucao(new Date(System.currentTimeMillis()));
+        Bicicleta bicicleta = repoBicicleta.findById(json.get("idBicicleta")).get();
+        aluguel.setBicicletaAlugada(bicicleta);
+        return repoAluguel.save(aluguel);
+    }
+
+    @GetMapping(path = "/aluguel/todosAlugueis")
+    public Iterable<Aluguel> todosAlugueis() {
+        return repoAluguel.findAll();
+
     }
 
     @PostMapping(path = "/aluguel/altstatbike/{idBicicleta}")
@@ -41,7 +62,6 @@ public class AluguelControlador {
             bicicleta.setEstadoAtual(NA_VAGA);
         }
         repoBicicleta.save(bicicleta);
-        return "Estado da Bicicleta: " + idBicicleta + " atualizado para: " + bicicleta.getEstadoAtual();
+        return "Estado da Bicicleta: " + bicicleta.getIdBicicleta() + " atualizado para: " + bicicleta.getEstadoAtual();
     }
-
 }

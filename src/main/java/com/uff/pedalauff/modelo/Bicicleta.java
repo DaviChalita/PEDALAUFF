@@ -11,22 +11,25 @@ import java.util.List;
 public class Bicicleta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idBicicleta;
     @Column(nullable = false, length = 58)
     private String qrCode;
     @Enumerated
     private EstadoBicicleta estadoAtual;
-    @OneToMany(mappedBy = "bicicletaAlugada")
-    private List<Aluguel> alugueis;
+    @OneToOne(mappedBy = "bicicletaAlugada")
+    private Aluguel aluguel;
+    @ManyToMany
+    List<Vaga> vagas;
 
     public Bicicleta() {
     }
 
-    public Bicicleta(Integer idBicicleta, String qrCode, EstadoBicicleta estadoAtual, List<Aluguel> alugueis) {
+    public Bicicleta(Integer idBicicleta, String qrCode, EstadoBicicleta estadoAtual, Aluguel aluguel) {
         this.idBicicleta = idBicicleta;
         this.qrCode = qrCode;
         this.estadoAtual = estadoAtual;
-        this.alugueis = alugueis;
+        this.aluguel = aluguel;
     }
 
     public static long getSerialVersionUID() {
@@ -57,16 +60,15 @@ public class Bicicleta implements Serializable {
         this.estadoAtual = estadoAtual;
     }
 
-    public List<Aluguel> getAlugueis() {
-        return alugueis;
+    public Aluguel getAluguel() {
+        return aluguel;
     }
 
-    public void setAlugueis(List<Aluguel> alugueis) {
-        this.alugueis = alugueis;
+    public void setAluguel(Aluguel aluguel) {
+        this.aluguel = aluguel;
     }
 
     public static void alteraEstadoBicicleta(Bicicleta bicicleta, EstadoBicicleta estado) {
         bicicleta.setEstadoAtual(estado);
     }
-
 }

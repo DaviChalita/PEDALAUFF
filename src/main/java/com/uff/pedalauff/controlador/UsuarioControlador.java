@@ -37,7 +37,7 @@ public class UsuarioControlador {
             System.out.println("Não achou usuário relacionado ao email e/ou a senha");
         }
         Integer idUsuario = -1;
-        if (idUsuarioEmail == idUsuarioSenha)
+        if (idUsuarioEmail.equals(idUsuarioSenha))
             idUsuario = idUsuarioEmail;
 
         return repo.findById(idUsuario)

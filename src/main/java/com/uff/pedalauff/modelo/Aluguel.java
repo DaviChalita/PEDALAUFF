@@ -3,18 +3,18 @@ package com.uff.pedalauff.modelo;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Entity(name = "aluguel")
 public class Aluguel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idAluguel;
-    @Column(nullable = false, length = 58)
+    @Column(length = 58)
     private Date dthrAluguel;
-    @Column(nullable = false, length = 58)
+    @Column(length = 58)
     private Date dthrDevolucao;
-    @ManyToOne
+    @OneToOne
     private Bicicleta bicicletaAlugada;
     @ManyToOne
     private Usuario usuarioAlugado;
@@ -72,30 +72,6 @@ public class Aluguel implements Serializable {
 
     public void setUsuarioAlugado(Usuario usuarioAlugado) {
         this.usuarioAlugado = usuarioAlugado;
-    }
-
-    //parâmetro listaBicicleta temporário até desenvolvermos a conexão com o BD
-    public static boolean scanQrCodeBike(String qrCode, List<Bicicleta> listaBicicleta) {
-        for (Bicicleta bicicleta : listaBicicleta) {
-            if (bicicleta.getIdBicicleta().equals(qrCode)) {
-                return true;
-            }
-        }
-        //busca instancia no banco aonde tem id_bicicleta = qrCode
-        //retorna falso se nao encontrar
-        return false;
-    }
-
-    //parâmetro listaVaga temporário até desenvolvermos a conexão com o BD
-    public static boolean scanQrCodeVaga(String qrCode, List<Vaga> listaVaga) {
-        for (Vaga vaga : listaVaga) {
-            if (vaga.getIdVaga().equals(qrCode)) {
-                return true;
-            }
-        }
-        //busca instancia no banco aonde tem id_vaga = qrCode
-        //retorna falso se nao encontrar
-        return false;
     }
 
 }

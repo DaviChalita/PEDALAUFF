@@ -30,7 +30,6 @@ public class BicicletaControlador {
                 .map(record -> ResponseEntity.ok()
                         .body("Bicicleta " + record.getIdBicicleta() + " escaneada"))
                 .orElse(ResponseEntity.notFound().build());
-
     }
 
 }
