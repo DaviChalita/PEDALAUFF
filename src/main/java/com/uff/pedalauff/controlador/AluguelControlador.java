@@ -47,13 +47,13 @@ public class AluguelControlador {
         return repoAluguel.save(aluguel);
     }
 
-    @GetMapping(path = "/aluguel/todosAlugueis")
+/*    @GetMapping(path = "/aluguel/todosAlugueis")
     public Iterable<Aluguel> todosAlugueis() {
         return repoAluguel.findAll();
 
-    }
+    }*/
 
-    @PostMapping(path = "/aluguel/altstatbike/{idBicicleta}")
+    @GetMapping(path = "/aluguel/altstatbike/{idBicicleta}")
     public String alteraEstadoBicicleta(@PathVariable("idBicicleta") Integer idBicicleta) {
         Bicicleta bicicleta = repoBicicleta.findById(idBicicleta).get();
         if (bicicleta.getEstadoAtual().equals(NA_VAGA)) {
