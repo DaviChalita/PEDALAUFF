@@ -17,8 +17,6 @@ public class Bicicleta implements Serializable {
     private String qrCode;
     @Enumerated
     private EstadoBicicleta estadoAtual;
-    @OneToOne(mappedBy = "bicicletaAlugada")
-    private Aluguel aluguel;
     @ManyToMany
     List<Vaga> vagas;
 
@@ -29,7 +27,7 @@ public class Bicicleta implements Serializable {
         this.idBicicleta = idBicicleta;
         this.qrCode = qrCode;
         this.estadoAtual = estadoAtual;
-        this.aluguel = aluguel;
+        //this.aluguel = aluguel;
     }
 
     public static long getSerialVersionUID() {
@@ -60,14 +58,14 @@ public class Bicicleta implements Serializable {
         this.estadoAtual = estadoAtual;
     }
 
-    public Aluguel getAluguel() {
+    /*public Aluguel getAluguel() {
         return aluguel;
     }
 
     public void setAluguel(Aluguel aluguel) {
         this.aluguel = aluguel;
     }
-
+*/
     public static void alteraEstadoBicicleta(Bicicleta bicicleta, EstadoBicicleta estado) {
         bicicleta.setEstadoAtual(estado);
     }
