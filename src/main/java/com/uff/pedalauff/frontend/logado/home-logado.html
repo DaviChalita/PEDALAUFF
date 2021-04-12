@@ -1,0 +1,273 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>PedalaUFF</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="is-preload">
+
+    <!-- Header -->
+    <header id="header">
+        <a class="logo" href="../index.html">PedalaUFF</a>
+    </header>
+
+    <!-- Banner -->
+    <div id="heading">
+        <h1>Pedala UFF - Aluguel de bicicletas</h1>
+    </div>
+
+    <!-- Modal alugar -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalAlugar" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Alugar</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="home-logado.html">
+                            <div class="row gtr-uniform">
+                                <div class="col-6 col-12-xsmall">
+                                    <label for="your_nome_completo">Código da Bike*</label>
+                                    <input minlength="3" type="text" name="name" id="name" value=""
+                                        placeholder="Código..." required pattern="\D+\w+" />
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Submit" class="primary" /></li>
+                                        <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                                value="Fechar" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Fim modal alugar -->
+
+    <!-- Modal devolver -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalDevolver" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Devolver</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="home-logado.html">
+                            <div class="row gtr-uniform">
+                                <div class="col-6 col-12-xsmall">
+                                    <label for="your_nome_completo">Código da Vaga*</label>
+                                    <input minlength="3" type="text" name="name" id="name" value=""
+                                        placeholder="Código..." required pattern="\D+\w+" />
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Submit" class="primary" /></li>
+                                        <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                                value="Fechar" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Fim modal devolver -->
+
+    <!-- Modal procurar -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalProcurar" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Selecione qual bicicletário você quer ver</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Break -->
+                        <div class="col-12">
+                            <select name="category" id="category" onchange="trazMapa(this);"
+                                onfocus="this.selectedIndex = -1;">
+                                <option value="-1">- Select -</option>
+                                <option value="gragoata">Bicicletário Gragoatá</option>
+                                <option value="vermelha">Bicicletário Praia Vermelha</option>
+                                <option value="valonguinho">Bicicletário Valonguinho</option>
+                                <option value="veterinaria">Bicicletário Veterinária</option>
+                            </select>
+                        </div>
+                        <div hidden id="gragoata">
+                            <br></br>
+                            <center>
+                                <iframe src="https://www.google.com/maps/d/embed?mid=1z2eijbEoCY69AnyFRrf_-O0vaTR5UwK9"
+                                    width="500" height="500"></iframe>
+                            </center>
+                        </div>
+                        <div hidden id="vermelha">
+                            vermelha
+                        </div>
+                        <div hidden id="valonguinho">
+                            valonguinho
+                        </div>
+                        <div hidden id="veterinaria">
+                            veterinaria
+                        </div>
+                        <!-- Break -->
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Fim modal procurar -->
+
+    <!-- Highlights -->
+    <section class="wrapper">
+        <div class="inner">
+            <header class="special">
+                <h2>O que você deseja fazer?</h2>
+            </header>
+            <div class="highlights">
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fa-paper-plane-o" data-toggle="modal"
+                                data-target="#myModalAlugar"><span class="label">Icon</span></a>
+                            <h3>Alugar</h3>
+                        </header>
+                        <p>Insira o código de uma bicicleta para alugá-la.</p>
+                    </div>
+                </section>
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fa-qrcode" data-toggle="modal" data-target="#myModalDevolver"><span
+                                    class="label">Icon</span></a>
+                            <h3>Devolver</h3>
+                        </header>
+                        <p>Insira o código da vaga para devolver a bicicletaa.</p>
+                    </div>
+                </section>
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fa-map-marker" data-toggle="modal"
+                                data-target="#myModalProcurar"><span class="label">Procurar</span></a>
+                            <h3>Procurar</h3>
+                        </header>
+                        <p>Procure um bicicletário.</p>
+                    </div>
+                </section>
+                <section></section>
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="../index.html" class="icon fa-vcard-o"><span class="label">Icon</span></a>
+                            <h3>Logout</h3>
+                        </header>
+                        <p>Deslogue para não deixar registros.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+
+
+
+    </div>
+    </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
+            <div class="content">
+                <section>
+                    <h3>Git do projeto</h3>
+                    <ul class="plain">
+                        <li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Grupo</h3>
+                    <p>Catherine</p>
+                    <p>Davi Chalita</p>
+                    <p>Isaac Klein</p>
+                    <p>Sophia Duboc</p>
+                </section>
+            </div>
+            <div class="copyright">
+                &copy; PedalaUFF
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/browser.min.js"></script>
+    <script src="../assets/js/breakpoints.min.js"></script>
+    <script src="../assets/js/util.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        function trazMapa(obj) {
+
+            for (var j = 1; j < obj.options.length; j++) {
+                var btnValue = obj.options[j].value;
+                document.getElementById(btnValue).hidden = true;
+            }
+
+            var btnValue = obj.options[obj.selectedIndex].value;
+            document.getElementById(btnValue).hidden = false;
+
+            return;
+
+            // Do your thing here
+
+            // reset 
+            obj.selectedIndex = 0;
+        }
+    </script>
+
+
+</body>
+
+</html>

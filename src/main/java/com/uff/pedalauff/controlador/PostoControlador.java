@@ -10,36 +10,17 @@ import org.springframework.web.bind.annotation.*;
 public class PostoControlador {
 
     @Autowired
-    private PostoRepo repo;
+    private PostoRepo postoRepo;
 
     @GetMapping(path = "/posto/{idPosto}")
     public ResponseEntity consultar(@PathVariable("idPosto") Integer idPosto) {
-        return repo.findById(idPosto)
+        return postoRepo.findById(idPosto)
                 .map(record -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping(path = "/posto/salvar")
     public Posto salvar(@RequestBody Posto posto) {
-        return repo.save(posto);
+        return postoRepo.save(posto);
     }
-
-    @GetMapping(path = "/posto/vagasdisp/{idPosto}")
-    public ResponseEntity dispVagas(@PathVariable("idPosto") Integer idPosto) {
-        Posto posto = repo.findById(idPosto).get();
-        ResponseEntity responseEntity;
-        if (posto.temVagasDisp(posto.getQtdVagasDisp())) {
-            responseEntity = repo.findById(idPosto)
-                    .map(record -> ResponseEntity.ok()
-                            .body("Existem: " + record.getQtdVagasDisp() + " vagas disponiveis"))
-                    .orElse(ResponseEntity.notFound().build());
-        } else {
-            responseEntity = repo.findById(idPosto)
-                    .map(record -> ResponseEntity.ok()
-                            .body("Não existem vagas disponiveis"))
-                    .orElse(ResponseEntity.notFound().build());
-        }
-        return responseEntity;
-    }
-
 }

@@ -2,8 +2,10 @@ package com.uff.pedalauff.controlador;
 
 import com.uff.pedalauff.modelo.Aluguel;
 import com.uff.pedalauff.modelo.Bicicleta;
+import com.uff.pedalauff.modelo.Usuario;
 import com.uff.pedalauff.repo.AluguelRepo;
 import com.uff.pedalauff.repo.BicicletaRepo;
+import com.uff.pedalauff.repo.UsuarioRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,9 @@ public class AluguelControlador {
 
     @Autowired
     private BicicletaRepo repoBicicleta;
+
+    @Autowired
+    private UsuarioRepo repoUsuario;
 
     @GetMapping(path = "/aluguel/{idAluguel}")
     public ResponseEntity consultar(@PathVariable("idAluguel") Integer idAluguel) {
@@ -43,6 +48,8 @@ public class AluguelControlador {
         aluguel.setDthrAluguel(new Date(System.currentTimeMillis()));
         aluguel.setDthrDevolucao(new Date(System.currentTimeMillis()));
         Bicicleta bicicleta = repoBicicleta.findById(json.get("idBicicleta")).get();
+        Usuario usuario = repoUsuario.findById(json.get("idUsuario")).get();
+        aluguel.setUsuarioAlugado(usuario);
         aluguel.setBicicletaAlugada(bicicleta);
         return repoAluguel.save(aluguel);
     }

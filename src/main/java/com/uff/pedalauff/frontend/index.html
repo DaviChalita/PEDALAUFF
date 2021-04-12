@@ -1,0 +1,183 @@
+<!--
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>PedalaUFF</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body class="is-preload">
+
+&lt;!&ndash; Header &ndash;&gt;
+<header id="header">
+    <a class="logo" href="index.html">PedalaUFF</a>
+</header>
+&lt;!&ndash; Modal Login &ndash;&gt;
+<div class="container">
+    &lt;!&ndash; Trigger the modal with a button &ndash;&gt;
+
+    &lt;!&ndash; Modal &ndash;&gt;
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            &lt;!&ndash; Modal content&ndash;&gt;
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Login</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="http://localhost:8080/usuario/salvar">
+                        <div class="row gtr-uniform">
+                            <div class="col-6 col-12-xsmall">
+                                <label>Nome*</label>
+                                <input minlength="3" type="text" name="nome" id="name" value=""
+                                       placeholder="Name..." required pattern="\D+\w+"/>
+                            </div>
+                            <div class="col-6 col-12-xsmall">
+                                <label>Email*</label>
+                                <input type="email" name="email" id="email" value="" placeholder="Email..." required
+                                       pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"/>
+                            </div>
+                            <div class="col-6 col-12-xsmall">
+                                <label>CPF*</label>
+                                <input type="text" name="matricula" id="cpf" value="" placeholder="CPF..."
+                                       maxlength="14"
+                                       required/>
+                            </div>
+                            <div class="col-6 col-12-xsmall">
+                                <label>Celular</label>
+                                <input type="text" name="senha" id="tel" value="" placeholder="Celular..."
+                                />
+                            </div>
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" value="Submit" class="primary" onclick="teste()"/></li>
+                                    <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                               value="Fechar"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+&lt;!&ndash; Fim moal login &ndash;&gt;
+
+&lt;!&ndash; Banner &ndash;&gt;
+<div id="heading">
+    <h1>Pedala UFF</h1>
+</div>
+
+&lt;!&ndash; Highlights &ndash;&gt;
+<section class="wrapper">
+    <div class="inner">
+        <header class="special">
+            <h2>Aluguel de bicicletas na UFF</h2>
+            <p>Este site é destinado ao aluguel de bicicletas para transportar-se entre os campus da UFF.</p>
+        </header>
+        <div class="highlights">
+            <section></section>
+            <section center>
+                <div class="content">
+                    <header>
+                        <a href="#" class="icon fa-vcard-o" data-toggle="modal" data-target="#myModal"><span
+                                class="label">Icon</span></a>
+                        <h3>Login</h3>
+                    </header>
+                    <p>Faça login para acessar as funcionalidades do PedalaUFF.</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</section>
+
+&lt;!&ndash; Footer &ndash;&gt;
+<footer id="footer">
+    <div class="inner">
+        <div class="content">
+            <section>
+                <h3>Git do projeto</h3>
+                <ul class="plain">
+                    <li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
+                </ul>
+            </section>
+            <section>
+                <h3>Grupo</h3>
+                <p>Catherine</p>
+                <p>Davi Chalita</p>
+                <p>Isaac Klein</p>
+                <p>Sophia Duboc</p>
+            </section>
+        </div>
+        <div class="copyright">
+            &copy; PedalaUFF
+        </div>
+    </div>
+</footer>
+<style>
+    #container {
+        margin: 0px auto;
+        width: 500px;
+        height: 375px;
+        border: 10px #333 solid;
+    }
+
+    #videoElement {
+        width: 500px;
+        height: 375px;
+        background-color: #666;
+    }
+</style>
+
+&lt;!&ndash; Scripts &ndash;&gt;
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/form.js"></script>
+<script src="assets/js/mask.js"></script>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/formToJson.js"></script>
+&lt;!&ndash;<script>
+    $(document).ready(function () {
+        var $campoCpf = $("#cpf").mask('000.000.000-00', {
+            reverse: true
+        });
+        var $campoCelular = $("#tel").mask('(00)0 0000-0000', {
+            reverse: true
+        });
+        var $campoMoney = $("#money").mask("#.##0,00", {
+            reverse: true
+        });
+    });
+</script>&ndash;&gt;
+<script>
+    function teste(){
+        $("form").submit(function () {
+            console.log("Desespero")
+            $('.alert').append(JSON.stringify($("form").formToJson()));
+            console.log($(this).formToJson());
+            return false;
+        });
+    }
+</script>
+
+</body>
+
+</html>-->
