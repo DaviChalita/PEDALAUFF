@@ -71,22 +71,9 @@ public class VagaControlador {
     //todo refazer
     @GetMapping(path = "/vaga/disp/{idPosto}")
     public /*ResponseEntity*/ String dispVagas(@PathVariable("idPosto") Integer idPosto) {
-        //Posto posto = postoRepo.findById(idPosto).get();
         Integer vagasDisp = vagaRepo.qtdVagasDisp(idPosto);
-        /*ResponseEntity responseEntity;
+        System.out.println("Vagas Disps:" + vagasDisp);
 
-        if (posto.temVagasDisp(posto.getQtdVagasDisp())) {
-            responseEntity = repo.findById(idPosto)
-                    .map(record -> ResponseEntity.ok()
-                            .body("Existem: " + record.getQtdVagasDisp() + " vagas disponiveis"))
-                    .orElse(ResponseEntity.notFound().build());
-        } else {
-            responseEntity = repo.findById(idPosto)
-                    .map(record -> ResponseEntity.ok()
-                            .body("Não existem vagas disponiveis"))
-                    .orElse(ResponseEntity.notFound().build());
-        }
-        return responseEntity;*/
         return "Numero de vagas disponiveis no posto: " + idPosto + " = " + vagasDisp;
     }
 

@@ -7,8 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 public interface VagaRepo extends CrudRepository<Vaga, Integer> {
     Vaga findByQrCode(String qrCode);
 
-    @Query(value = "select p.idPosto, count(v.disponibilidade) as quantidadeVaga from vaga v join posto p " +
-            "on v.posto.idPosto = p.idPosto where v.disponibilidade = True group by p.idPosto")
+    @Query("select count(disponibilidade) from vaga " +
+            "where posto.idPosto = ?1 and disponibilidade = true")
     Integer qtdVagasDisp(Integer idPosto);
 
 }
