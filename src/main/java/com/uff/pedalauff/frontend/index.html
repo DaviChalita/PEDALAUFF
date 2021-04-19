@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>PedalaUFF</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body class="is-preload">
+
+    <!-- Header -->
+    <header id="header">
+        <a class="logo" href="index.html">PedalaUFF</a>
+    </header>
+    <!-- Modal Login -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal Login -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Login</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="logado/home-logado.html">
+                            <div class="row gtr-uniform">
+                                <div class="col-6 col-12-xsmall">
+                                    <label>Matrícula*</label>
+                                    <input type="text" name="matricula" id="matricula" value=""
+                                        placeholder="Número de matrícula da UFF" pattern="\d{9}" required />
+                                </div>
+                                <div class="col-6 col-12-xsmall">
+                                    <label>Senha</label>
+                                    <input type="password" name="senha" id="senha" value="" placeholder="Senha"
+                                        required />
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Submit" class="primary" /></li>
+                                        <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                                value="Fechar" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Fim modal login -->
+
+    <!-- Modal Registre-se -->
+    <div class="modal fade" id="myModalRegistro" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Registre-se</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="http://localhost:8080/usuario/salvar" id="myform">
+                        <div class="row gtr-uniform">
+                            <div class="col-6 col-12-xsmall">
+                                <label for="your_nome_completo">Nome*</label>
+                                <input minlength="3" type="text" name="nome" id="name" value="" placeholder="Nome"
+                                    required pattern="\D+\w+" />
+                            </div>
+                            <div class="col-6 col-12-xsmall">
+                                <label for="your_email">Email*</label>
+                                <input type="email" name="email" id="email" value="" placeholder="Email do iduff"
+                                    required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" />
+                            </div>
+                            <div class="col-6 col-12-xsmall">
+                                <label>Matrícula*</label>
+                                <input type="text" name="matricula" id="matricula" value=""
+                                    placeholder="Número de matrícula da UFF" required pattern="\d{9}" />
+                            </div>
+
+                            <div class="col-6 col-12-xsmall">
+                                <label for="password">Senha*</label>
+                                <input type="password" name="senha" id="password" value="" placeholder="Senha"
+                                    minlength="6" maxlength="14" required />
+                            </div>
+                            <div class="col-6 col-12-xsmall">
+                                <label for="comfirm_password">Confirme a senha*</label>
+                                <input type="password" name="comfirm_password" id="confirm_password" value=""
+                                    placeholder="Confirme a senha" minlength="6" maxlength="14" required />
+                            </div>
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" value="Submit" class="primary" /></li>
+                                    <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                            value="Fechar" /></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+
+    <!-- Fim modal registre-se -->
+
+    <!-- Banner -->
+    <div id="heading">
+        <h1>Pedala UFF</h1>
+    </div>
+
+    <!-- Highlights -->
+    <section class="wrapper">
+        <div class="inner">
+            <header class="special">
+                <h2>Aluguel de bicicletas na UFF</h2>
+                <p>Este site é destinado ao aluguel de bicicletas para transportar-se entre os campus da UFF.</p>
+            </header>
+            <div class="highlights">
+                <section></section>
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fa-vcard-o" data-toggle="modal" data-target="#myModal"><span
+                                    class="label">Icon</span></a>
+                            <h3>Login</h3>
+                        </header>
+                        <p>Faça login para acessar as funcionalidades do PedalaUFF.</p>
+                        <p>Ainda não tem login? <a data-toggle="modal" data-target="#myModalRegistro"> Registre-se</a>
+                        </p>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
+            <div class="content">
+                <section>
+                    <h3>Git do projeto</h3>
+                    <ul class="plain">
+                        <li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Grupo</h3>
+                    <p>Catherine Costa</p>
+                    <p>Davi Chalita</p>
+                    <p>Isaac Klein</p>
+                    <p>Sophia Duboc</p>
+                </section>
+            </div>
+            <div class="copyright">
+                &copy; PedalaUFF
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/confirm_senha.js"></script>
+    <script src="assets/js/form_json.js"></script>
+</body>
+
+</html>

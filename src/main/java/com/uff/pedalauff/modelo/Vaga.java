@@ -21,7 +21,7 @@ public class Vaga implements Serializable {
     @OneToOne
     private Bicicleta bicicleta;
 
-    public void alteraDisponibilidadeVaga(Vaga vaga) {
+    public void alteraDisponibilidadeVaga(@org.jetbrains.annotations.NotNull Vaga vaga) {
         vaga.setDisponibilidade(!vaga.isDisponibilidade());
     }
 

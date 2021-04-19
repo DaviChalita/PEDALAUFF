@@ -14,10 +14,10 @@ public class Usuario implements Serializable {
     private Integer idUsuario;
     @Column(nullable = false, length = 58)
     private Integer matricula;
-    @Column(nullable = false, length = 58)
+    @Column(nullable = false, unique = true, length = 58)
     private String nome;
-    @Column(nullable = false, length = 58)
+    @Column(nullable = false, unique = true, length = 58)
     private String email;
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 58)
     private String senha;
 }

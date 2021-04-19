@@ -21,11 +21,19 @@ public class UsuarioControlador {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @CrossOrigin
     @PostMapping(path = "/usuario/salvar")
-    public Usuario salvar(@RequestBody Usuario usuario) {
-        return repo.save(usuario);
+    public String salvar(@RequestBody Usuario usuario) {
+        try {
+            repo.save(usuario);
+        } catch (Exception e) {
+            System.out.println("Exceção: " + e.getMessage());
+            return "Já existe usuário cadastrado com esse email e/ou matrícula";
+        }
+        return "Usuário registrado com sucesso";
     }
 
+    //todo fazer verificacao via query
     @PostMapping(path = "/usuario/logar")
     public ResponseEntity login(@RequestBody Map<String, String> json) {
         Integer idUsuarioEmail = -1;

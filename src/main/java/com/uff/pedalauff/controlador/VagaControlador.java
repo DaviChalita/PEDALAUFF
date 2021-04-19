@@ -1,5 +1,6 @@
 package com.uff.pedalauff.controlador;
 
+import com.uff.pedalauff.enums.EstadoBicicleta;
 import com.uff.pedalauff.modelo.Bicicleta;
 import com.uff.pedalauff.modelo.Posto;
 import com.uff.pedalauff.modelo.Vaga;
@@ -32,18 +33,33 @@ public class VagaControlador {
     }
 
     @PostMapping(path = "/vaga/salvar")
-    public Vaga salvar(@RequestBody Map<String, String> json) {
+    public String salvar(@RequestBody Map<String, String> json) {
         Vaga vaga = new Vaga();
-        vaga.setQrCode(json.get("qrCode"));
-        vaga.setDisponibilidade(
-                Boolean.parseBoolean(json.get("disponibilidade")));
-        Posto posto = postoRepo.findById(
-                Integer.parseInt(json.get("idPosto"))).get();
-        Bicicleta bicicleta = bicicletaRepo.findById(
-                Integer.parseInt(json.get("idBicicleta"))).get();
-        vaga.setPosto(posto);
-        vaga.setBicicleta(bicicleta);
-        return vagaRepo.save(vaga);
+        try {
+            vaga.setQrCode(json.get("qrCode"));
+            vaga.setDisponibilidade(true);
+        } catch (NullPointerException e) {
+            return "Vaga está sendo criada sem Qr Code";
+        }
+
+        try {
+            Posto posto = postoRepo.findById(
+                    Integer.parseInt(json.get("idPosto"))).get();
+            vaga.setPosto(posto);
+        } catch (NullPointerException e) {
+            return "Vaga não pode ser criada sem um posto vinculado, favor tentar novamente";
+        }
+
+        try {
+            Bicicleta bicicleta = bicicletaRepo.findById(
+                    Integer.parseInt(json.get("idBicicleta"))).get();
+            vaga.setBicicleta(bicicleta);
+            vaga.setDisponibilidade(false);
+        } catch (NullPointerException e) {
+            System.out.println("Vaga sendo criada sem uma bicicleta vinculada");
+        }
+        vagaRepo.save(vaga);
+        return "Vaga criada com sucesso";
     }
 
 
@@ -54,27 +70,41 @@ public class VagaControlador {
                 .map(record -> ResponseEntity.ok()
                         .body("Vaga " + record.getIdVaga() + " escaneada"))
                 .orElse(ResponseEntity.notFound().build());
-
     }
 
-    @GetMapping(path = "vaga/alteradisp/{idVaga}")
-    public ResponseEntity alteraDispVaga(@PathVariable("idVaga") Integer idVaga) {
-        Vaga vaga = vagaRepo.findById(idVaga).get();
+    @PostMapping(path = "vaga/alteradisp/")
+    public String alteraDispVaga(@RequestBody Map<String, Integer> json) {
+        Vaga vaga;
+        try {
+            vaga = vagaRepo.findById(json.get("idVaga")).get();
+        } catch (NullPointerException e) {
+            return "Favor inserir o id da Vaga";
+        }
         vaga.alteraDisponibilidadeVaga(vaga);
+        Bicicleta bicicleta;
+        if (vaga.isDisponibilidade()) {
+            bicicleta = vaga.getBicicleta();
+            bicicleta.setEstadoAtual(EstadoBicicleta.EM_USO);
+            vaga.setBicicleta(null);
+        } else {
+            try {
+                bicicleta = bicicletaRepo.findById(json.get("idBicicleta")).get();
+                bicicleta.setEstadoAtual(EstadoBicicleta.NA_VAGA);
+                vaga.setBicicleta(bicicleta);
+            } catch (NullPointerException e) {
+                return "Você está tentando inserir uma bicicleta na vaga, especifique o Id da Bicicleta";
+            }
+        }
+        bicicletaRepo.save(bicicleta);
         vagaRepo.save(vaga);
-        return vagaRepo.findById(idVaga)
-                .map(record -> ResponseEntity.ok()
-                        .body("Novo estado da vaga: " + vaga.isDisponibilidade()))
-                .orElse(ResponseEntity.notFound().build());
+        return "Disponibilidade da Vaga está: " + vaga.isDisponibilidade();
     }
 
-    //todo refazer
     @GetMapping(path = "/vaga/disp/{idPosto}")
-    public /*ResponseEntity*/ String dispVagas(@PathVariable("idPosto") Integer idPosto) {
+    public String dispVagas(@PathVariable("idPosto") Integer idPosto) {
         Integer vagasDisp = vagaRepo.qtdVagasDisp(idPosto);
         System.out.println("Vagas Disps:" + vagasDisp);
 
         return "Numero de vagas disponiveis no posto: " + idPosto + " = " + vagasDisp;
     }
-
 }

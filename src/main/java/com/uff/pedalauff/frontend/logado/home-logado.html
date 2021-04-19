@@ -1,0 +1,277 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>PedalaUFF</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="is-preload">
+
+    <!-- Header -->
+    <header id="header">
+        <a class="logo" href="../index.html">PedalaUFF</a>
+    </header>
+
+    <!-- Banner -->
+    <div id="heading">
+        <h1>Pedala UFF - Aluguel de bicicletas</h1>
+    </div>
+
+    <!-- Modal alugar -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalAlugar" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Alugar</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="home-logado.html" id="myform">
+                            <div class="row gtr-uniform">
+                                <div class="col-6 col-12-xsmall">
+                                    <label for="your_nome_completo">Código da Bike*</label>
+                                    <input minlength="3" type="text" name="name" id="name" value=""
+                                        placeholder="Código..." required />
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Submit" class="primary" /></li>
+                                        <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                                value="Fechar" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Fim modal alugar -->
+
+    <!-- Modal devolver -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalDevolver" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Devolver</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="home-logado.html" id="myform">
+                            <div class="row gtr-uniform">
+                                <div class="col-6 col-12-xsmall">
+                                    <label for="your_nome_completo">Código da Vaga*</label>
+                                    <input minlength="3" type="text" name="name" id="name" value=""
+                                        placeholder="Código..." required />
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Submit" class="primary" /></li>
+                                        <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                                value="Fechar" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Fim modal devolver -->
+
+    <!-- Modal procurar -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalProcurar" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Selecione qual bicicletário que deseja procurar</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Break -->
+                        <div class="col-12">
+                            <select name="category" id="category" onchange="trazMapa(this);"
+                                onfocus="this.selectedIndex = -1;">
+                                <option value="-1">- Select -</option>
+                                <option value="gragoata">Bicicletário Gragoatá</option>
+                                <option value="vermelha">Bicicletário Praia Vermelha</option>
+                                <option value="valonguinho">Bicicletário Valonguinho</option>
+                                <option value="veterinaria">Bicicletário Veterinária</option>
+                            </select>
+                        </div>
+                        <div hidden id="gragoata">
+                            <br></br>
+                            <!-- <p> <h5>O bicicletário do Gragoatá fica perto do prédio D.</h5></p> -->
+                            <center>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1437.6682272100813!2d-43.13207867640707!3d-22.89896725270268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9983d46df2962d%3A0x6e42a99b746dd5a0!2sUniversidade%20Federal%20Fluminense%20-%20Campus%20Gragoat%C3%A1!5e0!3m2!1spt-BR!2sbr!4v1618532146309!5m2!1spt-BR!2sbr"
+                                    width="500" height="350" style="border:10;" allowfullscreen=""
+                                    loading="lazy"></iframe>
+                            </center>
+                        </div>
+                        <div hidden id="vermelha">
+                            <br></br>
+                            <center>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.2306364049095!2d-43.13385538590951!3d-22.904862485012746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x99817dce2f93eb%3A0x9e97773b91b93bba!2sUniversidade%20Federal%20Fluminense%20-%20Campus%20Praia%20Vermelha!5e0!3m2!1spt-BR!2sbr!4v1618532349029!5m2!1spt-BR!2sbr"
+                                    width="500" height="350" style="border:10;" allowfullscreen=""
+                                    loading="lazy"></iframe>
+                            </center>
+                        </div>
+                        <div hidden id="valonguinho">
+                            <br></br>
+                            <center>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.43280445417!2d-43.127145985909586!3d-22.89740188501658!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9983da8f8ec235%3A0x410efa02ccd4ae8!2sUniversidade%20Federal%20Fluminense%20-%20Campus%20Valonguinho!5e0!3m2!1spt-BR!2sbr!4v1618532419473!5m2!1spt-BR!2sbr"
+                                    width="500" height="350" style="border:10;" allowfullscreen=""
+                                    loading="lazy"></iframe>
+                            </center>
+                        </div>
+                        <div hidden id="veterinaria">
+                            <br></br>
+                            <center>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5349.795487960793!2d-43.100804214030724!3d-22.906529265733386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9983f8150e9da5%3A0x18ccb7bf8c0ed718!2sUFF%20-%20Faculdade%20de%20Veterin%C3%A1ria!5e0!3m2!1spt-BR!2sbr!4v1618532486498!5m2!1spt-BR!2sbr"
+                                    width="500" height="350" style="border:10;" allowfullscreen=""
+                                    loading="lazy"></iframe>
+                            </center>
+                        </div>
+                        <!-- Break -->
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Fim modal procurar -->
+
+    <!-- Highlights -->
+    <section class="wrapper">
+        <div class="inner">
+            <header class="special">
+                <h2>O que você deseja fazer?</h2>
+            </header>
+            <div class="highlights">
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fa-paper-plane-o" data-toggle="modal"
+                                data-target="#myModalAlugar"><span class="label">Icon</span></a>
+                            <h3>Alugar</h3>
+                        </header>
+                        <p>Insira o código de uma bicicleta para alugá-la.</p>
+                    </div>
+                </section>
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fa-qrcode" data-toggle="modal" data-target="#myModalDevolver"><span
+                                    class="label">Icon</span></a>
+                            <h3>Devolver</h3>
+                        </header>
+                        <p>Insira o código da vaga para devolver a bicicletaa.</p>
+                    </div>
+                </section>
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fa-map-marker" data-toggle="modal"
+                                data-target="#myModalProcurar"><span class="label">Procurar</span></a>
+                            <h3>Procurar</h3>
+                        </header>
+                        <p>Procure um bicicletário.</p>
+                    </div>
+                </section>
+                <section></section>
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="../index.html" class="icon fa-vcard-o"><span class="label">Icon</span></a>
+                            <h3>Logout</h3>
+                        </header>
+                        <p>Deslogue para não deixar registros.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+
+
+
+    </div>
+    </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
+            <div class="content">
+                <section>
+                    <h3>Git do projeto</h3>
+                    <ul class="plain">
+                        <li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Grupo</h3>
+                    <p>Catherine Costa</p>
+                    <p>Davi Chalita</p>
+                    <p>Isaac Klein</p>
+                    <p>Sophia Duboc</p>
+                </section>
+            </div>
+            <div class="copyright">
+                &copy; PedalaUFF
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/browser.min.js"></script>
+    <script src="../assets/js/breakpoints.min.js"></script>
+    <script src="../assets/js/util.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/form_json.js"></script>
+    <script src="../assets/js/map.js"></script>
+
+
+</body>
+
+</html>

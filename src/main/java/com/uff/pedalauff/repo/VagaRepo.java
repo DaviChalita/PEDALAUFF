@@ -11,4 +11,7 @@ public interface VagaRepo extends CrudRepository<Vaga, Integer> {
             "where posto.idPosto = ?1 and disponibilidade = true")
     Integer qtdVagasDisp(Integer idPosto);
 
+    @Query("select idVaga from vaga " +
+            "where bicicleta.idBicicleta = ?1")
+    Vaga findByBicicleta(Integer idBicicleta);
 }
