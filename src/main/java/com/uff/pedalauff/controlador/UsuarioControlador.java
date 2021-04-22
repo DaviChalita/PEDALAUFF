@@ -35,22 +35,15 @@ public class UsuarioControlador {
 
     //todo fazer verificacao via query
     @PostMapping(path = "/usuario/logar")
-    public ResponseEntity login(@RequestBody Map<String, String> json) {
-        Integer idUsuarioEmail = -1;
-        Integer idUsuarioSenha = -1;
-        try {
-            idUsuarioEmail = repo.findByEmail(json.get("email")).getIdUsuario();
-            idUsuarioSenha = repo.findBySenha(json.get("senha")).getIdUsuario();
-        } catch (NullPointerException e) {
-            System.out.println("Não achou usuário relacionado ao email e/ou a senha");
-        }
-        Integer idUsuario = -1;
-        if (idUsuarioEmail.equals(idUsuarioSenha))
-            idUsuario = idUsuarioEmail;
+    public String login(@RequestBody Map<String, String> json) {
 
-        return repo.findById(idUsuario)
-                .map(record -> ResponseEntity.ok().body("Usuario " + record.getNome() + " logado"))
-                .orElse(ResponseEntity.notFound().build());
+        try {
+            Integer idUsuario = repo.findByEmailAndSenha(json.get("email"), json.get("senha"));
+            Usuario usuario = repo.findById(idUsuario).get();
+            return "Usuário: " + usuario.getNome() + " logado com sucesso";
+        } catch (NullPointerException e) {
+            return "Email e/ou senha inválidos";
+        }
 
     }
 

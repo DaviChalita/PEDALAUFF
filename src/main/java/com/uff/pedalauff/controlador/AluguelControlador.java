@@ -40,18 +40,20 @@ public class AluguelControlador {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    //todo criar alugar (sem data de devolucao) e criar devolucao
     @PostMapping(path = "/aluguel/alugar")
-    public String alugar(@RequestBody Map<String, Integer> json) {
+    public String alugar(@RequestBody Map<String, String> json) {
         Aluguel aluguel = new Aluguel();
         aluguel.setDthrAluguel(new Date(System.currentTimeMillis()));
-        aluguel.setDthrDevolucao(new Date(System.currentTimeMillis()));
 
         Bicicleta bicicleta;
         try {
-            bicicleta = bicicletaRepo.findById(json.get("idBicicleta")).get();
-        } catch (NullPointerException e) {
-            return "Você está tentando encontrar uma bicicleta que não existe.";
+            bicicleta = bicicletaRepo.findById(Integer.valueOf(json.get("idBicicleta"))).get();
+        } catch (NullPointerException | NumberFormatException e) {
+            try {
+                bicicleta = bicicletaRepo.findByQrCode(json.get("qrCode"));
+            } catch (NullPointerException | NumberFormatException ex) {
+                return "Você está tentando encontrar uma bicicleta que não existe.";
+            }
         }
 
         if (bicicleta.getEstadoAtual() == EM_USO) {
@@ -60,19 +62,20 @@ public class AluguelControlador {
 
         Vaga vaga;
         try {
-            vaga = vagaRepo.findByBicicleta(bicicleta.getIdBicicleta());
+            Integer idVaga = vagaRepo.findByBicicleta(bicicleta.getIdBicicleta());
+            vaga = vagaRepo.findById(idVaga).get();
         } catch (NullPointerException e) {
             return "Você está tentando encontrar uma vaga que não existe.";
         }
 
         vaga.alteraDisponibilidadeVaga(vaga);
+        vaga.setBicicleta(null);
         bicicleta.setEstadoAtual(EM_USO);
 
         Usuario usuario;
         try {
-            usuario = usuarioRepo.findById(json.get("idUsuario")).get();
-        }
-        catch (NullPointerException e) {
+            usuario = usuarioRepo.findById(Integer.valueOf(json.get("idUsuario"))).get();
+        } catch (NullPointerException e) {
             return "Você está tentando encontrar um usuário que não existe.";
         }
 
@@ -84,7 +87,60 @@ public class AluguelControlador {
         return "Bicicleta: " + bicicleta.getIdBicicleta() + " alugada com sucesso";
     }
 
-    @GetMapping(path = "/aluguel/altstatbike/{idBicicleta}")
+    @PostMapping(path = "/aluguel/devolver")
+    public String devolver(@RequestBody Map<String, String> json) {
+        Aluguel aluguel = new Aluguel();
+        Bicicleta bicicleta;
+
+        try {
+            bicicleta = bicicletaRepo.findById(Integer.valueOf(json.get("idBicicleta"))).get();
+
+            if (bicicleta.getEstadoAtual() == NA_VAGA) {
+                return "Você está tentando devolver uma bicicleta que já está na vaga," +
+                        " favor devolver a bicicleta que você está usando";
+            }
+
+            bicicleta.setEstadoAtual(NA_VAGA);
+        } catch (NullPointerException | NumberFormatException e) {
+            return "Você está tentando encontrar uma bicicleta que não existe.";
+        }
+
+
+        try {
+            Integer idAluguel = aluguelRepo.findByIdUsuarioAndIdBicicleta(Integer.parseInt(json.get("idUsuario")),
+                    Integer.parseInt(json.get("idBicicleta")));
+            aluguel = aluguelRepo.findById(idAluguel).get();
+        } catch (NullPointerException | NumberFormatException e) {
+            return "Não conseguiu achar o aluguel";
+        }
+
+        aluguel.setDthrDevolucao(new Date(System.currentTimeMillis()));
+
+        Vaga vaga;
+        try {
+            vaga = vagaRepo.findById(Integer.valueOf(json.get("idVaga"))).get();
+            vaga.alteraDisponibilidadeVaga(vaga);
+            vagaRepo.save(vaga);
+        } catch (NullPointerException | NumberFormatException e) {
+            try {
+                vaga = vagaRepo.findByQrCode(json.get("qrCode"));
+                vaga.alteraDisponibilidadeVaga(vaga);
+                vagaRepo.save(vaga);
+            } catch (NullPointerException | NumberFormatException ex) {
+                return "Você está tentando encontrar uma vaga que não existe.";
+            }
+        }
+
+
+        bicicletaRepo.save(bicicleta);
+        aluguelRepo.save(aluguel);
+        return "Bicicleta: " + bicicleta.getIdBicicleta() + " devolvida com sucesso";
+
+    }
+
+
+
+   /* @GetMapping(path = "/aluguel/altstatbike/{idBicicleta}")
     public String alteraEstadoBicicleta(@PathVariable("idBicicleta") Integer idBicicleta) {
         Bicicleta bicicleta = bicicletaRepo.findById(idBicicleta).get();
         if (bicicleta.getEstadoAtual().equals(NA_VAGA)) {
@@ -94,5 +150,5 @@ public class AluguelControlador {
         }
         bicicletaRepo.save(bicicleta);
         return "Estado da Bicicleta: " + bicicleta.getIdBicicleta() + " atualizado para: " + bicicleta.getEstadoAtual();
-    }
+    }*/
 }

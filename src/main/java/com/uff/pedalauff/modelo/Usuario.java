@@ -1,6 +1,6 @@
 package com.uff.pedalauff.modelo;
 
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,11 +10,11 @@ import java.io.Serializable;
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUsuario;
-    @Column(nullable = false, length = 58)
-    private Integer matricula;
     @Column(nullable = false, unique = true, length = 58)
+    private Integer matricula;
+    @Column(nullable = false, length = 58)
     private String nome;
     @Column(nullable = false, unique = true, length = 58)
     private String email;

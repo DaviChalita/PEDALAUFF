@@ -14,7 +14,7 @@ public class Bicicleta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idBicicleta;
-    @Column(nullable = false, length = 58)
+    @Column(nullable = false, unique = true, length = 58)
     private String qrCode;
     @Enumerated
     private EstadoBicicleta estadoAtual;

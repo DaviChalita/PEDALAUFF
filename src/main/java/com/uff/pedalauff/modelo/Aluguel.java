@@ -18,10 +18,10 @@ public class Aluguel implements Serializable {
     @Column(length = 58)
     private Date dthrDevolucao;
     @OneToOne
-    @JoinColumn(nullable = false, unique = true)
+    @JoinColumn(nullable = false)
     private Bicicleta bicicletaAlugada;
     @OneToOne
-    @JoinColumn(nullable = false, unique = true)
+    @JoinColumn(nullable = false)
     private Usuario usuarioAlugado;
 
 }

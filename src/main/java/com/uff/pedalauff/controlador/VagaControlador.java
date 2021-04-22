@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import static com.uff.pedalauff.enums.EstadoBicicleta.NA_VAGA;
+
 @RestController
 public class VagaControlador {
 
@@ -36,7 +38,7 @@ public class VagaControlador {
     public String salvar(@RequestBody Map<String, String> json) {
         Vaga vaga = new Vaga();
         try {
-            vaga.setQrCode(json.get("qrCode"));
+            vaga.setQrCode(geraQrCodeAleatorio());
             vaga.setDisponibilidade(true);
         } catch (NullPointerException e) {
             return "Vaga está sendo criada sem Qr Code";
@@ -53,8 +55,10 @@ public class VagaControlador {
         try {
             Bicicleta bicicleta = bicicletaRepo.findById(
                     Integer.parseInt(json.get("idBicicleta"))).get();
+            bicicleta.setEstadoAtual(NA_VAGA);
             vaga.setBicicleta(bicicleta);
             vaga.setDisponibilidade(false);
+            bicicletaRepo.save(bicicleta);
         } catch (NullPointerException e) {
             System.out.println("Vaga sendo criada sem uma bicicleta vinculada");
         }
@@ -89,7 +93,7 @@ public class VagaControlador {
         } else {
             try {
                 bicicleta = bicicletaRepo.findById(json.get("idBicicleta")).get();
-                bicicleta.setEstadoAtual(EstadoBicicleta.NA_VAGA);
+                bicicleta.setEstadoAtual(NA_VAGA);
                 vaga.setBicicleta(bicicleta);
             } catch (NullPointerException e) {
                 return "Você está tentando inserir uma bicicleta na vaga, especifique o Id da Bicicleta";
@@ -100,11 +104,19 @@ public class VagaControlador {
         return "Disponibilidade da Vaga está: " + vaga.isDisponibilidade();
     }
 
-    @GetMapping(path = "/vaga/disp/{idPosto}")
-    public String dispVagas(@PathVariable("idPosto") Integer idPosto) {
-        Integer vagasDisp = vagaRepo.qtdVagasDisp(idPosto);
-        System.out.println("Vagas Disps:" + vagasDisp);
+    private String geraQrCodeAleatorio() {
+        //https://www.geeksforgeeks.org/generate-random-string-of-given-size-in-java/
+        String ALPHA_NUMERIC_STRING = "0123456789abcdefghijklmnopqrstuvxyz";
+        int n = 4;
 
-        return "Numero de vagas disponiveis no posto: " + idPosto + " = " + vagasDisp;
+        StringBuilder sb = new StringBuilder(n);
+        for (int i = 0; i < n; i++) {
+
+            int index = (int) (ALPHA_NUMERIC_STRING.length() * Math.random());
+
+            sb.append(ALPHA_NUMERIC_STRING.charAt(index));
+        }
+        return sb.toString();
     }
+
 }
