@@ -33,15 +33,16 @@ public class UsuarioControlador {
         return "Usuário registrado com sucesso";
     }
 
-    //todo fazer verificacao via query
+    @CrossOrigin
     @PostMapping(path = "/usuario/logar")
     public String login(@RequestBody Map<String, String> json) {
-
         try {
             Integer idUsuario = repo.findByEmailAndSenha(json.get("email"), json.get("senha"));
             Usuario usuario = repo.findById(idUsuario).get();
-            return "Usuário: " + usuario.getNome() + " logado com sucesso";
+            System.out.println("Usuário: " + usuario.getNome() + " logado com sucesso");
+            return "true";
         } catch (NullPointerException e) {
+            System.out.println("Email e/ou senha inválidos");
             return "Email e/ou senha inválidos";
         }
 

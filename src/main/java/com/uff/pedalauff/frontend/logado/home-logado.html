@@ -41,11 +41,11 @@
                         <h4 class="modal-title">Alugar</h4>
                     </div>
                     <div class="modal-body">
-                        <form method="post" action="home-logado.html" id="myform">
+                        <form method="post" action="http://localhost:8080/aluguel/alugar" id="myform" class="some-class">
                             <div class="row gtr-uniform">
                                 <div class="col-6 col-12-xsmall">
-                                    <label for="your_nome_completo">Código da Bike*</label>
-                                    <input minlength="3" type="text" name="name" id="name" value=""
+                                    <label>Código da Bike*</label>
+                                    <input type="text" name="idBicicleta" id="name" value=""
                                         placeholder="Código..." required />
                                 </div>
                                 <div class="col-12">
@@ -81,11 +81,11 @@
                         <h4 class="modal-title">Devolver</h4>
                     </div>
                     <div class="modal-body">
-                        <form method="post" action="home-logado.html" id="myform">
+                        <form method="post" action="http://localhost:8080/aluguel/devolver" id="myform" class="some-class">
                             <div class="row gtr-uniform">
                                 <div class="col-6 col-12-xsmall">
-                                    <label for="your_nome_completo">Código da Vaga*</label>
-                                    <input minlength="3" type="text" name="name" id="name" value=""
+                                    <label>Código da Vaga*</label>
+                                    <input type="text" name="idVaga" id="name" value=""
                                         placeholder="Código..." required />
                                 </div>
                                 <div class="col-12">

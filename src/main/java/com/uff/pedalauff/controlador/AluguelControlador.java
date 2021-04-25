@@ -8,6 +8,7 @@ import com.uff.pedalauff.repo.AluguelRepo;
 import com.uff.pedalauff.repo.BicicletaRepo;
 import com.uff.pedalauff.repo.UsuarioRepo;
 import com.uff.pedalauff.repo.VagaRepo;
+import org.springframework.aop.AopInvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,7 @@ public class AluguelControlador {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @CrossOrigin
     @PostMapping(path = "/aluguel/alugar")
     public String alugar(@RequestBody Map<String, String> json) {
         Aluguel aluguel = new Aluguel();
@@ -75,6 +77,14 @@ public class AluguelControlador {
         Usuario usuario;
         try {
             usuario = usuarioRepo.findById(Integer.valueOf(json.get("idUsuario"))).get();
+            System.out.println("Usuario: " + usuario.getNome());
+            try {
+                int idAluguel = usuarioRepo.checkBicicletaNDevolvida(usuario.getIdUsuario());
+                return "Usuário precisa devolver uma bicicleta antes de alugar outra!";
+            } catch (NullPointerException | AopInvocationException e) {
+                System.out.println("Usuário não está alugando nenhuma bicicleta no momento");
+            }
+
         } catch (NullPointerException e) {
             return "Você está tentando encontrar um usuário que não existe.";
         }
@@ -87,9 +97,10 @@ public class AluguelControlador {
         return "Bicicleta: " + bicicleta.getIdBicicleta() + " alugada com sucesso";
     }
 
+    @CrossOrigin
     @PostMapping(path = "/aluguel/devolver")
     public String devolver(@RequestBody Map<String, String> json) {
-        Aluguel aluguel = new Aluguel();
+        Aluguel aluguel;
         Bicicleta bicicleta;
 
         try {
@@ -138,17 +149,4 @@ public class AluguelControlador {
 
     }
 
-
-
-   /* @GetMapping(path = "/aluguel/altstatbike/{idBicicleta}")
-    public String alteraEstadoBicicleta(@PathVariable("idBicicleta") Integer idBicicleta) {
-        Bicicleta bicicleta = bicicletaRepo.findById(idBicicleta).get();
-        if (bicicleta.getEstadoAtual().equals(NA_VAGA)) {
-            bicicleta.setEstadoAtual(EM_USO);
-        } else {
-            bicicleta.setEstadoAtual(NA_VAGA);
-        }
-        bicicletaRepo.save(bicicleta);
-        return "Estado da Bicicleta: " + bicicleta.getIdBicicleta() + " atualizado para: " + bicicleta.getEstadoAtual();
-    }*/
 }

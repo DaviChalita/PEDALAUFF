@@ -13,4 +13,6 @@ public interface UsuarioRepo extends CrudRepository<Usuario, Integer> {
     @Query("select idUsuario from usuario where email like ?1 and senha like ?2")
     Integer findByEmailAndSenha(String email, String senha);
 
+    @Query("select idAluguel from aluguel where usuarioAlugado.idUsuario = ?1 and dthrDevolucao is NULL")
+    int checkBicicletaNDevolvida(Integer idUsuario);
 }

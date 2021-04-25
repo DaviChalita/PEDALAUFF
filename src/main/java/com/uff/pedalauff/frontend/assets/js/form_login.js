@@ -2,7 +2,6 @@ function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const value = Object.fromEntries(data.entries());
-    console.log(event.target.action)
     let response = $.ajax({
         type: 'POST',
         url: event.target.action,
@@ -13,16 +12,13 @@ function handleSubmit(event) {
     }).responseText;
 
     if (response === "true") {
-        window.location.href = "http://localhost:63342/pedala-uff/com/uff/pedalauff/frontend/logado/home-logado.html";
+        window.location.href = "http://localhost:8080/logado/home-logado";
     }else{
+        console.log("Entrou no else");
         alert(response)
     }
 
 }
 
-/*const form = document.getElementsByName("myformregistro");
-form[0].addEventListener('submit', handleSubmit);*/
-
-document.querySelectorAll('.some-class').forEach(item => {
-    item.addEventListener('submit', handleSubmit);
-})
+const formLogin = document.getElementById("myformLogin");
+formLogin.addEventListener('submit', handleSubmit);
