@@ -21,10 +21,11 @@ public class BicicletaControlador {
     }
 
     @PostMapping(path = "/bicicleta/salvar")
-    public Bicicleta salvar(@RequestBody Bicicleta bicicleta) {
+    public String salvar(@RequestBody Bicicleta bicicleta) {
         bicicleta.setQrCode(geraQrCodeAleatorio());
         bicicleta.setEstadoAtual(EM_USO);
-        return repo.save(bicicleta);
+        repo.save(bicicleta);
+        return "O QR Code da bicicleta criada é igual a: " + bicicleta.getQrCode();
     }
 
     private String geraQrCodeAleatorio() {
