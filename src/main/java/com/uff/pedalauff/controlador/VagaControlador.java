@@ -1,6 +1,5 @@
 package com.uff.pedalauff.controlador;
 
-import com.uff.pedalauff.enums.EstadoBicicleta;
 import com.uff.pedalauff.modelo.Bicicleta;
 import com.uff.pedalauff.modelo.Posto;
 import com.uff.pedalauff.modelo.Vaga;
@@ -76,29 +75,27 @@ public class VagaControlador {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping(path = "vaga/alteradisp/")
-    public String alteraDispVaga(@RequestBody Map<String, Integer> json) {
+    @CrossOrigin
+    @PostMapping(path = "vaga/inserebike/")
+    public String insereBikeNaVaga(@RequestBody Map<String, Integer> json) {
         Vaga vaga;
         try {
             vaga = vagaRepo.findById(json.get("idVaga")).get();
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | NumberFormatException e) {
             return "Favor inserir o id da Vaga";
         }
+
         vaga.alteraDisponibilidadeVaga(vaga);
         Bicicleta bicicleta;
-        if (vaga.isDisponibilidade()) {
-            bicicleta = vaga.getBicicleta();
-            bicicleta.setEstadoAtual(EstadoBicicleta.EM_USO);
-            vaga.setBicicleta(null);
-        } else {
-            try {
-                bicicleta = bicicletaRepo.findById(json.get("idBicicleta")).get();
-                bicicleta.setEstadoAtual(NA_VAGA);
-                vaga.setBicicleta(bicicleta);
-            } catch (NullPointerException e) {
-                return "Você está tentando inserir uma bicicleta na vaga, especifique o Id da Bicicleta";
-            }
+
+        try {
+            bicicleta = bicicletaRepo.findById(json.get("idBicicleta")).get();
+            bicicleta.setEstadoAtual(NA_VAGA);
+            vaga.setBicicleta(bicicleta);
+        } catch (NullPointerException | NumberFormatException e) {
+            return "Você está tentando inserir uma bicicleta na vaga, especifique o Id da Bicicleta";
         }
+
         bicicletaRepo.save(bicicleta);
         vagaRepo.save(vaga);
         return "Disponibilidade da Vaga está: " + vaga.isDisponibilidade();
