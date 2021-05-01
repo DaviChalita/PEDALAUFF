@@ -8,7 +8,6 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="../assets/css/main.css" />
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -45,16 +44,13 @@
                             class="some-class">
                             <div class="row gtr-uniform">
                                 <div class="col-6 col-12-xsmall">
-                                    <label>QR Code da Bike*</label>
-                                    <input type="text" name="qrCode" id="name" value="" placeholder="QR code..."
-                                        required />
-                                    <input type="hidden" name="estadoAtual" id="name" value="NA_VAGA" />
+                                    Tem certeza que deseja cadastrar uma nova bicicleta?
                                 </div>
                                 <div class="col-12">
                                     <ul class="actions">
-                                        <li><input type="submit" value="Submit" class="primary" /></li>
+                                        <li><input type="submit" value="Sim" class="primary" /></li>
                                         <li><input type="button" class="btn btn-default" data-dismiss="modal"
-                                                value="Fechar" /></li>
+                                                value="Não" /></li>
                                     </ul>
                                 </div>
                             </div>
@@ -83,13 +79,14 @@
                         <h4 class="modal-title">Cadastrar Vaga</h4>
                     </div>
                     <div class="modal-body">
-                        <form method="post" action="http://localhost:8080/vaga/salvar" id="myform"
-                            class="some-class">
+                        <form method="post" action="http://localhost:8080/vaga/salvar" id="myform" class="some-class">
                             <div class="row gtr-uniform">
                                 <div class="col-6 col-12-xsmall">
                                     <label>Código da Posto que a vaga será inserida*</label>
                                     <input type="text" name="idPosto" id="name" value="" placeholder="Código..."
                                         required />
+                                    <label>Código da bicicleta que estará na vaga</label>
+                                    <input type="text" name="idBicicleta" id="name" value="" placeholder="Código..." />
                                 </div>
                                 <div class="col-12">
                                     <ul class="actions">
@@ -149,8 +146,51 @@
         </div>
 
     </div>
-
     <!-- Fim modal cadastro bicicletario -->
+
+    <!-- Modal inserir bike -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalInsereBike" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Inserir bicicleta na vaga</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="http://localhost:8080/vaga/inserebike" id="myform"
+                            class="some-class">
+                            <div class="row gtr-uniform">
+                                <div class="col-6 col-12-xsmall">
+                                    <label>Código da bicicleta*</label>
+                                    <input type="text" name="idBicicleta" id="name" value="" placeholder="Código..."
+                                        required />
+                                    <label>Código da vaga*</label>
+                                    <input type="text" name="idVaga" id="name" value="" placeholder="Código..."
+                                        required />
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Sim" class="primary" /></li>
+                                        <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                                value="Não" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Fim modal inserir bike -->
 
     <!-- Highlights -->
     <section class="wrapper">
@@ -189,7 +229,15 @@
                         <p>Cadastre um novo posto de bicicletário .</p>
                     </div>
                 </section>
-                <section></section>
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fa-vcard-o" data-toggle="modal" data-target="#myModalInsereBike"><span class="label">Icon</span></a>
+                            <h3>Inserir bicicleta em vaga</h3>
+                        </header>
+                        <p>Insira um bicicleta existente em uma vaga existente.</p>
+                    </div>
+                </section>
                 <section>
                     <div class="content">
                         <header>
@@ -202,8 +250,6 @@
             </div>
         </div>
     </section>
-
-
 
     </div>
     </div>
