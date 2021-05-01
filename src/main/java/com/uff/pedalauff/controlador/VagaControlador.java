@@ -98,7 +98,7 @@ public class VagaControlador {
 
         bicicletaRepo.save(bicicleta);
         vagaRepo.save(vaga);
-        return "Disponibilidade da Vaga está: " + vaga.isDisponibilidade();
+        return "Bicicleta: " + bicicleta.getQrCode() + " inserida na vaga com sucesso";
     }
 
     private String geraQrCodeAleatorio() {
