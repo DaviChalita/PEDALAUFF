@@ -14,8 +14,9 @@ function handleSubmit(event) {
 
     if (response === "true") {
         window.location.href = "http://localhost:63342/pedala-uff/com/uff/pedalauff/frontend/logado/home-logado.html";
-    }else{
+    } else {
         alert(response)
+        window.location.href = "#";
     }
 
 }

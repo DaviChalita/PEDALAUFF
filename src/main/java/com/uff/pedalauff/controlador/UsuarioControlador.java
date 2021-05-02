@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import static com.uff.pedalauff.enums.TipoUsuario.NORMAL;
+
 @RestController
 public class UsuarioControlador {
 
@@ -25,6 +27,7 @@ public class UsuarioControlador {
     @PostMapping(path = "/usuario/salvar")
     public String salvar(@RequestBody Usuario usuario) {
         try {
+            usuario.setTipoUsuario(NORMAL);
             repo.save(usuario);
         } catch (Exception e) {
             System.out.println("Exceção: " + e.getMessage());

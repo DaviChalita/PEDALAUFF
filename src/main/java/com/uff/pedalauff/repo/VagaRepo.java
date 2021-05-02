@@ -18,4 +18,7 @@ public interface VagaRepo extends CrudRepository<Vaga, Integer> {
     @Query("select idVaga from vaga " +
             "where bicicleta.idBicicleta = ?1")
     Integer findByBicicleta(Integer idBicicleta);
+    
+    @Query("select idVaga from vaga where bicicleta.qrCode = ?1")
+    Integer findByBicicletaQrCode(String qrCode);
 }

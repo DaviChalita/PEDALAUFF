@@ -23,11 +23,14 @@ public class PostoControlador {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @CrossOrigin
     @PostMapping(path = "/posto/salvar")
-    public Posto salvar(@RequestBody Posto posto) {
-        return postoRepo.save(posto);
+    public String salvar(@RequestBody Posto posto) {
+        postoRepo.save(posto);
+        return "Posto criado com sucesso.";
     }
 
+    @CrossOrigin
     @GetMapping(path = "/posto/dispVagas/{idPosto}")
     public String dispVagas(@PathVariable("idPosto") Integer idPosto) {
         Integer vagasDisp = vagaRepo.qtdVagasDisp(idPosto);

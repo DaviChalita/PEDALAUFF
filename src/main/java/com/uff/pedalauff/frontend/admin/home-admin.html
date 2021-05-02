@@ -62,7 +62,6 @@
         </div>
 
     </div>
-
     <!-- Fim modal cadastrar bike -->
 
     <!-- Modal cadastrar vaga -->
@@ -167,10 +166,10 @@
                             <div class="row gtr-uniform">
                                 <div class="col-6 col-12-xsmall">
                                     <label>Código da bicicleta*</label>
-                                    <input type="text" name="idBicicleta" id="name" value="" placeholder="Código..."
+                                    <input type="text" name="qrCodeBicicleta" id="name" value="" placeholder="Código..."
                                         required />
                                     <label>Código da vaga*</label>
-                                    <input type="text" name="idVaga" id="name" value="" placeholder="Código..."
+                                    <input type="text" name="qrCodeVaga" id="name" value="" placeholder="Código..."
                                         required />
                                 </div>
                                 <div class="col-12">
@@ -189,8 +188,47 @@
         </div>
 
     </div>
-
     <!-- Fim modal inserir bike -->
+
+    <!-- Modal status bike -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalStatusBike" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Alterar status da bicicleta</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="http://localhost:8080/bicicleta/manutencao" id="myform"
+                            class="some-class">
+                            <div class="row gtr-uniform">
+                                <div class="col-6 col-12-xsmall">
+                                    <label>Código da bicicleta*</label>
+                                    <input type="text" name="qrCodeBicicleta" id="name" value="" placeholder="Código..."
+                                        required />
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Sim" class="primary" /></li>
+                                        <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                                value="Não" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Fim modal status bike -->
 
     <!-- Highlights -->
     <section class="wrapper">
@@ -202,7 +240,7 @@
                 <section>
                     <div class="content">
                         <header>
-                            <a href="#" class="icon fa-paper-plane-o" data-toggle="modal"
+                            <a href="#" class="icon fa-bicycle" data-toggle="modal"
                                 data-target="#myModalCadBike"><span class="label">Icon</span></a>
                             <h3>Cadastrar bicicleta</h3>
                         </header>
@@ -232,10 +270,21 @@
                 <section>
                     <div class="content">
                         <header>
-                            <a href="#" class="icon fa-vcard-o" data-toggle="modal" data-target="#myModalInsereBike"><span class="label">Icon</span></a>
+                            <a href="#" class="icon fa-level-down" data-toggle="modal"
+                                data-target="#myModalInsereBike"><span class="label">Icon</span></a>
                             <h3>Inserir bicicleta em vaga</h3>
                         </header>
                         <p>Insira um bicicleta existente em uma vaga existente.</p>
+                    </div>
+                </section>
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fa-wrench" data-toggle="modal"
+                                data-target="#myModalStatusBike"><span class="label">Icon</span></a>
+                            <h3>Bicicleta em manutenção</h3>
+                        </header>
+                        <p>Edite o status da bicicleta para Em Manutenção.</p>
                     </div>
                 </section>
                 <section>

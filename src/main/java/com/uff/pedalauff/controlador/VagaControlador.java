@@ -33,6 +33,7 @@ public class VagaControlador {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @CrossOrigin
     @PostMapping(path = "/vaga/salvar")
     public String salvar(@RequestBody Map<String, String> json) {
         Vaga vaga = new Vaga();
@@ -47,22 +48,21 @@ public class VagaControlador {
             Posto posto = postoRepo.findById(
                     Integer.parseInt(json.get("idPosto"))).get();
             vaga.setPosto(posto);
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | NumberFormatException e) {
             return "Vaga não pode ser criada sem um posto vinculado, favor tentar novamente";
         }
 
         try {
-            Bicicleta bicicleta = bicicletaRepo.findById(
-                    Integer.parseInt(json.get("idBicicleta"))).get();
+            Bicicleta bicicleta = bicicletaRepo.findByQrCode(json.get("qrCodeBicicleta"));
             bicicleta.setEstadoAtual(NA_VAGA);
             vaga.setBicicleta(bicicleta);
             vaga.setDisponibilidade(false);
             bicicletaRepo.save(bicicleta);
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | NumberFormatException e) {
             System.out.println("Vaga sendo criada sem uma bicicleta vinculada");
         }
         vagaRepo.save(vaga);
-        return "Vaga criada com sucesso";
+        return "Vaga com o QRCode: " + vaga.getQrCode() + " criada com sucesso";
     }
 
 
@@ -76,30 +76,31 @@ public class VagaControlador {
     }
 
     @CrossOrigin
-    @PostMapping(path = "vaga/inserebike/")
-    public String insereBikeNaVaga(@RequestBody Map<String, Integer> json) {
+    @PostMapping(path = "vaga/inserebike")
+    public String insereBikeNaVaga(@RequestBody Map<String, String> json) {
         Vaga vaga;
         try {
-            vaga = vagaRepo.findById(json.get("idVaga")).get();
+            vaga = vagaRepo.findByQrCode(json.get("qrCodeVaga"));
+            vaga.alteraDisponibilidadeVaga(vaga);
         } catch (NullPointerException | NumberFormatException e) {
-            return "Favor inserir o id da Vaga";
+            return "Favor inserir o QRCode da vaga";
         }
 
-        vaga.alteraDisponibilidadeVaga(vaga);
         Bicicleta bicicleta;
 
         try {
-            bicicleta = bicicletaRepo.findById(json.get("idBicicleta")).get();
+            bicicleta = bicicletaRepo.findByQrCode(json.get("qrCodeBicicleta"));
             bicicleta.setEstadoAtual(NA_VAGA);
             vaga.setBicicleta(bicicleta);
         } catch (NullPointerException | NumberFormatException e) {
-            return "Você está tentando inserir uma bicicleta na vaga, especifique o Id da Bicicleta";
+            return "Você está tentando inserir uma bicicleta na vaga, especifique o QRCode da bicicleta";
         }
 
         bicicletaRepo.save(bicicleta);
         vagaRepo.save(vaga);
         return "Bicicleta: " + bicicleta.getQrCode() + " inserida na vaga com sucesso";
     }
+
 
     private String geraQrCodeAleatorio() {
         //https://www.geeksforgeeks.org/generate-random-string-of-given-size-in-java/

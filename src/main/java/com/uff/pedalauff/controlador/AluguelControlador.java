@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.Map;
 
 import static com.uff.pedalauff.enums.EstadoBicicleta.EM_USO;
-import static com.uff.pedalauff.enums.EstadoBicicleta.NA_VAGA;
 
 @RestController
 public class AluguelControlador {
@@ -52,7 +51,7 @@ public class AluguelControlador {
             bicicleta = bicicletaRepo.findById(Integer.valueOf(json.get("idBicicleta"))).get();
         } catch (NullPointerException | NumberFormatException e) {
             try {
-                bicicleta = bicicletaRepo.findByQrCode(json.get("qrCode"));
+                bicicleta = bicicletaRepo.findByQrCode(json.get("qrCodeBicicleta"));
             } catch (NullPointerException | NumberFormatException ex) {
                 return "Você está tentando encontrar uma bicicleta que não existe.";
             }
@@ -102,24 +101,10 @@ public class AluguelControlador {
     public String devolver(@RequestBody Map<String, String> json) {
         Aluguel aluguel;
         Bicicleta bicicleta;
+        Integer idAluguel;
 
         try {
-            bicicleta = bicicletaRepo.findById(Integer.valueOf(json.get("idBicicleta"))).get();
-
-            if (bicicleta.getEstadoAtual() == NA_VAGA) {
-                return "Você está tentando devolver uma bicicleta que já está na vaga," +
-                        " favor devolver a bicicleta que você está usando";
-            }
-
-            bicicleta.setEstadoAtual(NA_VAGA);
-        } catch (NullPointerException | NumberFormatException e) {
-            return "Você está tentando encontrar uma bicicleta que não existe.";
-        }
-
-
-        try {
-            Integer idAluguel = aluguelRepo.findByIdUsuarioAndIdBicicleta(Integer.parseInt(json.get("idUsuario")),
-                    Integer.parseInt(json.get("idBicicleta")));
+            idAluguel = aluguelRepo.findByIdUsuarioAndBikeNDevolvida(Integer.parseInt(json.get("idUsuario")));
             aluguel = aluguelRepo.findById(idAluguel).get();
         } catch (NullPointerException | NumberFormatException e) {
             return "Não conseguiu achar o aluguel";
@@ -134,7 +119,7 @@ public class AluguelControlador {
             vagaRepo.save(vaga);
         } catch (NullPointerException | NumberFormatException e) {
             try {
-                vaga = vagaRepo.findByQrCode(json.get("qrCode"));
+                vaga = vagaRepo.findByQrCode(json.get("qrCodeVaga"));
                 vaga.alteraDisponibilidadeVaga(vaga);
                 vagaRepo.save(vaga);
             } catch (NullPointerException | NumberFormatException ex) {
@@ -142,6 +127,7 @@ public class AluguelControlador {
             }
         }
 
+        bicicleta = bicicletaRepo.findById(aluguelRepo.findIdBikeByIdAluguel(idAluguel)).get();
 
         bicicletaRepo.save(bicicleta);
         aluguelRepo.save(aluguel);

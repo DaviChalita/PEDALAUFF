@@ -1,5 +1,6 @@
 package com.uff.pedalauff.modelo;
 
+import com.uff.pedalauff.enums.TipoUsuario;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,4 +21,6 @@ public class Usuario implements Serializable {
     private String email;
     @Column(nullable = false, length = 58)
     private String senha;
+    @Enumerated
+    private TipoUsuario tipoUsuario;
 }
