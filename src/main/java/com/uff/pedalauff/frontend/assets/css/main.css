@@ -4263,3 +4263,16 @@ body.is-menu-visible #menu {
     box-shadow: 0 0 1.5rem 0 rgba(0, 0, 0, 0.2);
     visibility: visible;
 }
+
+#container {
+    margin: 0px auto;
+    width: 500px;
+    height: 375px;
+    border: 10px #333 solid;
+}
+
+#videoElement {
+    width: 500px;
+    height: 375px;
+    background-color: #666;
+}

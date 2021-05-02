@@ -1,6 +1,6 @@
 package com.uff.pedalauff.modelo;
 
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import java.util.Date;
 public class Aluguel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idAluguel;
     @Column(length = 58)
     private Date dthrAluguel;

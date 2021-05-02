@@ -3,10 +3,15 @@ package com.uff.pedalauff.controlador;
 import com.uff.pedalauff.modelo.Usuario;
 import com.uff.pedalauff.repo.UsuarioRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+
+import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
+import static com.uff.pedalauff.enums.TipoUsuario.NORMAL;
 
 @RestController
 public class UsuarioControlador {
@@ -14,43 +19,62 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioRepo repo;
 
-    @GetMapping(path = "/usuario/{idUsuario}")
-    public ResponseEntity consultar(@PathVariable("idUsuario") Integer idUsuario) {
-        return repo.findById(idUsuario)
-                .map(record -> ResponseEntity.ok().body(record))
-                .orElse(ResponseEntity.notFound().build());
-    }
+    public static String userIdent;
 
-    @PostMapping(path = "/usuario/salvar")
-    public Usuario salvar(@RequestBody Usuario usuario) {
-        return repo.save(usuario);
-    }
-
-    @PostMapping(path = "/usuario/logar")
-    public ResponseEntity login(@RequestBody Map<String, String> json) {
-        Integer idUsuarioEmail = -1;
-        Integer idUsuarioSenha = -1;
-        try {
-            idUsuarioEmail = repo.findByEmail(json.get("email")).getIdUsuario();
-            idUsuarioSenha = repo.findBySenha(json.get("senha")).getIdUsuario();
-        } catch (NullPointerException e) {
-            System.out.println("Não achou usuário relacionado ao email e/ou a senha");
+    @CrossOrigin
+    @PostMapping(path = "/usuario/seusdados")
+    public String consultar() {
+        if (userIdent != null) {
+            try {
+                Usuario usuario = repo.findById(Integer.parseInt(userIdent)).get();
+                return "Dados do usuário logado: " +
+                        "\nNome: " + usuario.getNome() +
+                        "\nMatrícula: " + usuario.getMatricula() +
+                        "\nEmail: " + usuario.getEmail();
+            } catch (NullPointerException | NumberFormatException e) {
+                return "Usuário buscado não existe";
+            }
         }
-        Integer idUsuario = -1;
-        if (idUsuarioEmail.equals(idUsuarioSenha))
-            idUsuario = idUsuarioEmail;
-
-        return repo.findById(idUsuario)
-                .map(record -> ResponseEntity.ok().body("Usuario " + record.getNome() + " logado"))
-                .orElse(ResponseEntity.notFound().build());
-
+        return LOGAR_NO_SITE;
     }
 
-    @GetMapping(path = "/usuario/deslogar/{idUsuario}")
-    public ResponseEntity logout(@PathVariable("idUsuario") Integer idUsuario) {
-        return repo.findById(idUsuario)
-                .map(record -> ResponseEntity.ok().body("Usuario " + record.getNome() + " deslogado"))
-                .orElse(ResponseEntity.notFound().build());
+    @CrossOrigin
+    @PostMapping(path = "/usuario/salvar")
+    public String salvar(@RequestBody Usuario usuario) {
+        try {
+            usuario.setTipoUsuario(NORMAL);
+            repo.save(usuario);
+        } catch (Exception e) {
+            System.out.println("Exceção: " + e.getMessage());
+            return "Já existe usuário cadastrado com esse email e/ou matrícula";
+        }
+        return "Usuário registrado com sucesso";
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/usuario/logar")
+    public String login(@RequestBody Map<String, String> json) {
+
+        Integer idUsuario = repo.findByEmailAndSenha(json.get("email"), json.get("senha"));
+        System.out.println("Id Usuario: " + idUsuario);
+        if (idUsuario != null) {
+            userIdent = String.valueOf(idUsuario);
+            Usuario usuario = repo.findById(idUsuario).get();
+            System.out.println("Usuário: " + usuario.getNome() + " logado com sucesso");
+            return "true";
+        }
+
+        return "Email e/ou senha inválidos";
+    }
+
+    @PostMapping(path = "/usuario/deslogar")
+    public String logout() {
+        if (userIdent != null) {
+            userIdent = "";
+            System.out.println(userIdent);
+            return "Usuário deslogado com sucesso";
+        }
+        return "Você não está logado";
     }
 
 }

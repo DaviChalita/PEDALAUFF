@@ -41,12 +41,16 @@
                         <h4 class="modal-title">Alugar</h4>
                     </div>
                     <div class="modal-body">
-                        <form method="post" action="home-logado.html">
+                        <form method="post" action="http://localhost:8080/aluguel/alugar" id="myform"
+                            class="some-class">
                             <div class="row gtr-uniform">
                                 <div class="col-6 col-12-xsmall">
-                                    <label for="your_nome_completo">Código da Bike*</label>
-                                    <input minlength="3" type="text" name="name" id="name" value=""
-                                        placeholder="Código..." required pattern="\D+\w+" />
+                                    <label>Código da Bike*</label>
+                                    <input type="text" name="qrCodeBicicleta" id="name" value="" placeholder="Código..."
+                                        required />
+                                    <!--<label>Id do Usuário*</label>
+                                    <input type="text" name="idUsuario" id="name" value="" placeholder="idUsuario..."
+                                        required />-->
                                 </div>
                                 <div class="col-12">
                                     <ul class="actions">
@@ -64,7 +68,6 @@
         </div>
 
     </div>
-
     <!-- Fim modal alugar -->
 
     <!-- Modal devolver -->
@@ -81,12 +84,16 @@
                         <h4 class="modal-title">Devolver</h4>
                     </div>
                     <div class="modal-body">
-                        <form method="post" action="home-logado.html">
+                        <form method="post" action="http://localhost:8080/aluguel/devolver" id="myform"
+                            class="some-class">
                             <div class="row gtr-uniform">
                                 <div class="col-6 col-12-xsmall">
-                                    <label for="your_nome_completo">Código da Vaga*</label>
-                                    <input minlength="3" type="text" name="name" id="name" value=""
-                                        placeholder="Código..." required pattern="\D+\w+" />
+                                    <label>Código da Vaga*</label>
+                                    <input type="text" name="qrCodeVaga" id="name" value="" placeholder="Código..."
+                                        required />
+                                    <!--<label>Id do Usuário*</label>
+                                    <input type="text" name="idUsuario" id="name" value="" placeholder="idUsuario..."
+                                        required />-->
                                 </div>
                                 <div class="col-12">
                                     <ul class="actions">
@@ -104,7 +111,6 @@
         </div>
 
     </div>
-
     <!-- Fim modal devolver -->
 
     <!-- Modal procurar -->
@@ -118,7 +124,7 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Selecione qual bicicletário você quer ver</h4>
+                        <h4 class="modal-title">Selecione qual posto que deseja procurar</h4>
                     </div>
                     <div class="modal-body">
                         <!-- Break -->
@@ -126,27 +132,48 @@
                             <select name="category" id="category" onchange="trazMapa(this);"
                                 onfocus="this.selectedIndex = -1;">
                                 <option value="-1">- Select -</option>
-                                <option value="gragoata">Bicicletário Gragoatá</option>
-                                <option value="vermelha">Bicicletário Praia Vermelha</option>
-                                <option value="valonguinho">Bicicletário Valonguinho</option>
-                                <option value="veterinaria">Bicicletário Veterinária</option>
+                                <option value="gragoata">posto Gragoatá</option>
+                                <option value="vermelha">posto Praia Vermelha</option>
+                                <option value="valonguinho">posto Valonguinho</option>
+                                <option value="veterinaria">posto Veterinária</option>
                             </select>
                         </div>
                         <div hidden id="gragoata">
                             <br></br>
+                            <!-- <p> <h5>O posto do Gragoatá fica perto do prédio D.</h5></p> -->
                             <center>
-                                <iframe src="https://www.google.com/maps/d/embed?mid=1z2eijbEoCY69AnyFRrf_-O0vaTR5UwK9"
-                                    width="500" height="500"></iframe>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1437.6682272100813!2d-43.13207867640707!3d-22.89896725270268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9983d46df2962d%3A0x6e42a99b746dd5a0!2sUniversidade%20Federal%20Fluminense%20-%20Campus%20Gragoat%C3%A1!5e0!3m2!1spt-BR!2sbr!4v1618532146309!5m2!1spt-BR!2sbr"
+                                    width="500" height="350" style="border:10;" allowfullscreen=""
+                                    loading="lazy"></iframe>
                             </center>
                         </div>
                         <div hidden id="vermelha">
-                            vermelha
+                            <br></br>
+                            <center>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.2306364049095!2d-43.13385538590951!3d-22.904862485012746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x99817dce2f93eb%3A0x9e97773b91b93bba!2sUniversidade%20Federal%20Fluminense%20-%20Campus%20Praia%20Vermelha!5e0!3m2!1spt-BR!2sbr!4v1618532349029!5m2!1spt-BR!2sbr"
+                                    width="500" height="350" style="border:10;" allowfullscreen=""
+                                    loading="lazy"></iframe>
+                            </center>
                         </div>
                         <div hidden id="valonguinho">
-                            valonguinho
+                            <br></br>
+                            <center>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.43280445417!2d-43.127145985909586!3d-22.89740188501658!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9983da8f8ec235%3A0x410efa02ccd4ae8!2sUniversidade%20Federal%20Fluminense%20-%20Campus%20Valonguinho!5e0!3m2!1spt-BR!2sbr!4v1618532419473!5m2!1spt-BR!2sbr"
+                                    width="500" height="350" style="border:10;" allowfullscreen=""
+                                    loading="lazy"></iframe>
+                            </center>
                         </div>
                         <div hidden id="veterinaria">
-                            veterinaria
+                            <br></br>
+                            <center>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5349.795487960793!2d-43.100804214030724!3d-22.906529265733386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9983f8150e9da5%3A0x18ccb7bf8c0ed718!2sUFF%20-%20Faculdade%20de%20Veterin%C3%A1ria!5e0!3m2!1spt-BR!2sbr!4v1618532486498!5m2!1spt-BR!2sbr"
+                                    width="500" height="350" style="border:10;" allowfullscreen=""
+                                    loading="lazy"></iframe>
+                            </center>
                         </div>
                         <!-- Break -->
 
@@ -159,6 +186,87 @@
 
     </div>
     <!-- Fim modal procurar -->
+
+    <!-- Modal dados usuario -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalUsuario" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Ver dados do usuário</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="http://localhost:8080/usuario/seusdados" id="myform"
+                              class="some-class">
+                            <div class="row gtr-uniform">
+                                <!--<div class="col-6 col-12-xsmall">
+                                    <label>Id do Usuário*</label>
+                                    <input type="text" name="idUsuario" id="name" value="" placeholder="idUsuario..."
+                                           required />
+                                </div>-->
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Submit" class="primary" /></li>
+                                        <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                                   value="Fechar" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Fim modal dados usuario -->
+
+    <!-- Modal ver posto -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalConsultarPosto" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Buscar posto</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="http://localhost:8080/posto/consultar" id="myform"
+                              class="some-class">
+                            <div class="row gtr-uniform">
+                                <div class="col-6 col-12-xsmall">
+                                    <label>Id do Posto*</label>
+                                    <input type="text" name="idPosto" id="name" value="" placeholder="Código..."
+                                           required />
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Submit" class="primary" /></li>
+                                        <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                                   value="Fechar" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Fim modal ver posto -->
+
 
     <!-- Highlights -->
     <section class="wrapper">
@@ -184,7 +292,7 @@
                                     class="label">Icon</span></a>
                             <h3>Devolver</h3>
                         </header>
-                        <p>Insira o código da vaga para devolver a bicicletaa.</p>
+                        <p>Insira o código da vaga para devolver a bicicleta.</p>
                     </div>
                 </section>
                 <section>
@@ -194,19 +302,43 @@
                                 data-target="#myModalProcurar"><span class="label">Procurar</span></a>
                             <h3>Procurar</h3>
                         </header>
-                        <p>Procure um bicicletário.</p>
+                        <p>Procure um posto no mapa.</p>
                     </div>
                 </section>
-                <section></section>
+
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fas fa-user" data-toggle="modal"
+                               data-target="#myModalUsuario"><span class="label">Icon</span></a>
+                            <h3>Seus dados</h3>
+                        </header>
+                        <p>Clique para ver seus dados</p>
+                    </div>
+                </section>
+
+
+
                 <section>
                     <div class="content">
                         <header>
                             <a href="../index.html" class="icon fa-vcard-o"><span class="label">Icon</span></a>
                             <h3>Logout</h3>
                         </header>
-                        <p>Deslogue para não deixar registros.</p>
                     </div>
                 </section>
+
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fa-map-marker" data-toggle="modal"
+                               data-target="#myModalConsultarPosto"><span class="label">Procurar</span></a>
+                            <h3>Infos posto</h3>
+                        </header>
+                        <p>Veja as informações de um posto.</p>
+                    </div>
+                </section>
+
             </div>
         </div>
     </section>
@@ -229,7 +361,7 @@
                 </section>
                 <section>
                     <h3>Grupo</h3>
-                    <p>Catherine</p>
+                    <p>Catherine Costa</p>
                     <p>Davi Chalita</p>
                     <p>Isaac Klein</p>
                     <p>Sophia Duboc</p>
@@ -247,25 +379,8 @@
     <script src="../assets/js/breakpoints.min.js"></script>
     <script src="../assets/js/util.js"></script>
     <script src="../assets/js/main.js"></script>
-    <script>
-        function trazMapa(obj) {
-
-            for (var j = 1; j < obj.options.length; j++) {
-                var btnValue = obj.options[j].value;
-                document.getElementById(btnValue).hidden = true;
-            }
-
-            var btnValue = obj.options[obj.selectedIndex].value;
-            document.getElementById(btnValue).hidden = false;
-
-            return;
-
-            // Do your thing here
-
-            // reset 
-            obj.selectedIndex = 0;
-        }
-    </script>
+    <script src="../assets/js/form_json.js"></script>
+    <script src="../assets/js/map.js"></script>
 
 
 </body>

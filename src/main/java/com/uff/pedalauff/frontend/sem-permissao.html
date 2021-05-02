@@ -25,6 +25,7 @@
 		<a class="logo" href="index.html">PedalaUFF</a>
 	</header>
 
+	<!-- Modal Login -->
 	<div class="modal fade" id="myModal" role="dialog">
 		<div class="modal-dialog">
 
@@ -34,36 +35,92 @@
 					<h4 class="modal-title">Login</h4>
 				</div>
 				<div class="modal-body">
-					<form method="post" action="home-logado.html">
-                    <div class="row gtr-uniform">
-                        <div class="col-6 col-12-xsmall">
-                            <label for="your_nome_completo">Nome*</label>
-                            <input minlength="3" type="text" name="name" id="name" value="" placeholder="Name..." required pattern="\D+\w+" />
-                        </div>
-                        <div class="col-6 col-12-xsmall">
-                            <label for="your_email">Email*</label>
-                            <input type="email" name="email" id="email" value="" placeholder="Email..." required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" />
-                        </div>
-                        <div class="col-6 col-12-xsmall">
-                            <label for="your_cpf">CPF*</label>
-                            <input type="text" name="cpf" id="cpf" value="" placeholder="CPF..." maxlength="14" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" />
-                        </div>
-                        <div class="col-6 col-12-xsmall">
-                            <label for="your_celular">Celular</label>
-                            <input type="text" name="celular" id="tel" value="" placeholder="Celular..." pattern="\(\d{2}\)(\d{1}) (\d{4})-(\d{4})" />
-                        </div>
-                        <div class="col-12">
-                            <ul class="actions">
-                                <li><input type="submit" value="Submit" class="primary"/></li>
-                                <li><input type="button" class="btn btn-default"  data-dismiss="modal" value="Fechar" /></li>
-                            </ul>
-                        </div>
-                    </div>
-                </form>
+					<form id="myform" method="post" action="logado/home-logado.html">
+						<div class="row gtr-uniform">
+							<div class="col-6 col-12-xsmall">
+								<label>Matrícula*</label>
+								<input type="text" name="matricula" id="matricula" value=""
+									placeholder="Número de matrícula da UFF" pattern="\d{9}" required />
+							</div>
+							<div class="col-6 col-12-xsmall">
+								<label>Senha</label>
+								<input type="password" name="senha" id="password" value="" minlength="6" maxlength="14"
+									placeholder="Senha" required />
+							</div>
+							<div class="col-12">
+								<ul class="actions">
+									<li><input type="submit" value="Submit" class="primary" /></li>
+									<li><input type="button" class="btn btn-default" data-dismiss="modal"
+											value="Fechar" /></li>
+								</ul>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
+
 		</div>
 	</div>
+
+	</div>
+
+	<!-- Fim modal login -->
+	<!-- Modal Registre-se -->
+	<div class="modal fade" id="myModalRegistro" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Registre-se</h4>
+				</div>
+				<div class="modal-body">
+					<form method="post" action="logado/home-logado.html" id="myform">
+						<div class="row gtr-uniform">
+							<div class="col-6 col-12-xsmall">
+								<label for="your_nome_completo">Nome*</label>
+								<input minlength="3" type="text" name="nome" id="name" value="" placeholder="Nome"
+									required pattern="\D+\w+" />
+							</div>
+							<div class="col-6 col-12-xsmall">
+								<label for="your_email">Email*</label>
+								<input type="email" name="email" id="email" value="" placeholder="Email do iduff"
+									required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" />
+							</div>
+							<div class="col-6 col-12-xsmall">
+								<label>Matrícula*</label>
+								<input type="text" name="matricula" id="matricula" value=""
+									placeholder="Número de matrícula da UFF" maxlength="14" required pattern="\d{9}" />
+							</div>
+
+							<div class="col-6 col-12-xsmall">
+								<label for="password">Senha*</label>
+								<input type="password" name="password" id="password" value="" placeholder="Senha"
+									minlength="6" required />
+							</div>
+							<div class="col-6 col-12-xsmall">
+								<label for="comfirm_password">Confirme a senha*</label>
+								<input type="password" name="comfirm_password" id="confirm_password" value=""
+									placeholder="Confirme a senha" minlength="6" required />
+							</div>
+							<div class="col-12">
+								<ul class="actions">
+									<li><input type="submit" value="Submit" class="primary" /></li>
+									<li><input type="button" class="btn btn-default" data-dismiss="modal"
+											value="Fechar" /></li>
+								</ul>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	</div>
+
+	<!-- Fim modal registre-se -->
 
 	<!-- Heading -->
 	<div id="heading">
@@ -77,17 +134,9 @@
 				<header>
 					<h2>Usuário deslogado</h2>
 				</header>
-				<p>Você ainda não realizou o login. Faça login para acessar as funções desse site. </p>
-
-				<!-- teste -->
-				<div class="container">
-					<!-- Trigger the modal with a button -->
-					<button type="button" data-toggle="modal" data-target="#myModal">Faça Login</button>
-					<!-- Modal -->
-
-				</div>
-
-				<!-- teste -->
+				<p>Você ainda não realizou o login. Faça <a data-toggle="modal" data-target="#myModal">login</a> para
+					acessar as funções desse site, ou <a data-toggle="modal" data-target="#myModalRegistro">
+						Registre-se</a></p>
 
 			</div>
 
@@ -106,7 +155,7 @@
 				</section>
 				<section>
 					<h3>Grupo</h3>
-					<p>Catherine</p>
+					<p>Catherine Costa</p>
 					<p>Davi Chalita</p>
 					<p>Isaac Klein</p>
 					<p>Sophia Duboc</p>
@@ -124,22 +173,8 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
-    <script src="assets/js/form.js"></script>
-    <script src="assets/js/mask.js"></script>
-	 <script>
-        $(document).ready(function () {
-            var $campoCpf = $("#cpf").mask('000.000.000-00', {
-                reverse: true
-            });
-            var $campoCelular = $("#tel").mask('(00)0 0000-0000', {
-                reverse: true
-            });
-            var $campoMoney = $("#money").mask("#.##0,00", {
-                reverse: true
-            });
-        });
-    </script>
-
+	<script src="assets/js/confirm_senha.js"></script>
+	<script src="assets/js/form_json.js"></script>
 </body>
 
 </html>

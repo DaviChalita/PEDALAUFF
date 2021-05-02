@@ -12,14 +12,10 @@ import java.io.Serializable;
 public class Bicicleta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idBicicleta;
-    @Column(nullable = false, length = 58)
+    @Column(nullable = false, unique = true, length = 58)
     private String qrCode;
     @Enumerated
     private EstadoBicicleta estadoAtual;
-
-    public static void alteraEstadoBicicleta(Bicicleta bicicleta, EstadoBicicleta estado) {
-        bicicleta.setEstadoAtual(estado);
-    }
 }
