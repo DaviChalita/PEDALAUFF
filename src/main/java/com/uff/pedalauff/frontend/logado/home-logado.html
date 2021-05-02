@@ -48,9 +48,9 @@
                                     <label>Código da Bike*</label>
                                     <input type="text" name="qrCodeBicicleta" id="name" value="" placeholder="Código..."
                                         required />
-                                    <label>Id do Usuário*</label>
+                                    <!--<label>Id do Usuário*</label>
                                     <input type="text" name="idUsuario" id="name" value="" placeholder="idUsuario..."
-                                        required />
+                                        required />-->
                                 </div>
                                 <div class="col-12">
                                     <ul class="actions">
@@ -91,9 +91,9 @@
                                     <label>Código da Vaga*</label>
                                     <input type="text" name="qrCodeVaga" id="name" value="" placeholder="Código..."
                                         required />
-                                    <label>Id do Usuário*</label>
+                                    <!--<label>Id do Usuário*</label>
                                     <input type="text" name="idUsuario" id="name" value="" placeholder="idUsuario..."
-                                        required />
+                                        required />-->
                                 </div>
                                 <div class="col-12">
                                     <ul class="actions">
@@ -124,7 +124,7 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Selecione qual bicicletário que deseja procurar</h4>
+                        <h4 class="modal-title">Selecione qual posto que deseja procurar</h4>
                     </div>
                     <div class="modal-body">
                         <!-- Break -->
@@ -132,15 +132,15 @@
                             <select name="category" id="category" onchange="trazMapa(this);"
                                 onfocus="this.selectedIndex = -1;">
                                 <option value="-1">- Select -</option>
-                                <option value="gragoata">Bicicletário Gragoatá</option>
-                                <option value="vermelha">Bicicletário Praia Vermelha</option>
-                                <option value="valonguinho">Bicicletário Valonguinho</option>
-                                <option value="veterinaria">Bicicletário Veterinária</option>
+                                <option value="gragoata">posto Gragoatá</option>
+                                <option value="vermelha">posto Praia Vermelha</option>
+                                <option value="valonguinho">posto Valonguinho</option>
+                                <option value="veterinaria">posto Veterinária</option>
                             </select>
                         </div>
                         <div hidden id="gragoata">
                             <br></br>
-                            <!-- <p> <h5>O bicicletário do Gragoatá fica perto do prédio D.</h5></p> -->
+                            <!-- <p> <h5>O posto do Gragoatá fica perto do prédio D.</h5></p> -->
                             <center>
                                 <iframe
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1437.6682272100813!2d-43.13207867640707!3d-22.89896725270268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9983d46df2962d%3A0x6e42a99b746dd5a0!2sUniversidade%20Federal%20Fluminense%20-%20Campus%20Gragoat%C3%A1!5e0!3m2!1spt-BR!2sbr!4v1618532146309!5m2!1spt-BR!2sbr"
@@ -187,6 +187,87 @@
     </div>
     <!-- Fim modal procurar -->
 
+    <!-- Modal dados usuario -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalUsuario" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Ver dados do usuário</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="http://localhost:8080/usuario/seusdados" id="myform"
+                              class="some-class">
+                            <div class="row gtr-uniform">
+                                <!--<div class="col-6 col-12-xsmall">
+                                    <label>Id do Usuário*</label>
+                                    <input type="text" name="idUsuario" id="name" value="" placeholder="idUsuario..."
+                                           required />
+                                </div>-->
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Submit" class="primary" /></li>
+                                        <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                                   value="Fechar" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Fim modal dados usuario -->
+
+    <!-- Modal ver posto -->
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalConsultarPosto" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Buscar posto</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="http://localhost:8080/posto/consultar" id="myform"
+                              class="some-class">
+                            <div class="row gtr-uniform">
+                                <div class="col-6 col-12-xsmall">
+                                    <label>Id do Posto*</label>
+                                    <input type="text" name="idPosto" id="name" value="" placeholder="Código..."
+                                           required />
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions">
+                                        <li><input type="submit" value="Submit" class="primary" /></li>
+                                        <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                                   value="Fechar" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Fim modal ver posto -->
+
+
     <!-- Highlights -->
     <section class="wrapper">
         <div class="inner">
@@ -211,7 +292,7 @@
                                     class="label">Icon</span></a>
                             <h3>Devolver</h3>
                         </header>
-                        <p>Insira o código da vaga para devolver a bicicletaa.</p>
+                        <p>Insira o código da vaga para devolver a bicicleta.</p>
                     </div>
                 </section>
                 <section>
@@ -221,19 +302,43 @@
                                 data-target="#myModalProcurar"><span class="label">Procurar</span></a>
                             <h3>Procurar</h3>
                         </header>
-                        <p>Procure um bicicletário.</p>
+                        <p>Procure um posto no mapa.</p>
                     </div>
                 </section>
-                <section></section>
+
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fas fa-user" data-toggle="modal"
+                               data-target="#myModalUsuario"><span class="label">Icon</span></a>
+                            <h3>Seus dados</h3>
+                        </header>
+                        <p>Clique para ver seus dados</p>
+                    </div>
+                </section>
+
+
+
                 <section>
                     <div class="content">
                         <header>
                             <a href="../index.html" class="icon fa-vcard-o"><span class="label">Icon</span></a>
                             <h3>Logout</h3>
                         </header>
-                        <p>Deslogue para não deixar registros.</p>
                     </div>
                 </section>
+
+                <section>
+                    <div class="content">
+                        <header>
+                            <a href="#" class="icon fa-map-marker" data-toggle="modal"
+                               data-target="#myModalConsultarPosto"><span class="label">Procurar</span></a>
+                            <h3>Infos posto</h3>
+                        </header>
+                        <p>Veja as informações de um posto.</p>
+                    </div>
+                </section>
+
             </div>
         </div>
     </section>

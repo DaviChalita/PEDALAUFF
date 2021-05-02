@@ -5,6 +5,4 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface BicicletaRepo extends CrudRepository<Bicicleta, Integer> {
     Bicicleta findByQrCode(String qrCode);
-
-
 }

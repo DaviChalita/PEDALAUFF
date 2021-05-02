@@ -21,9 +21,6 @@ function handleSubmit(event) {
 
 }
 
-/*const form = document.getElementsByName("myformregistro");
-form[0].addEventListener('submit', handleSubmit);*/
-
 document.querySelectorAll('.some-class').forEach(item => {
     item.addEventListener('submit', handleSubmit);
 })

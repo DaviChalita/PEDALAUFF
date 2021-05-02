@@ -4,8 +4,16 @@ import com.uff.pedalauff.modelo.Posto;
 import com.uff.pedalauff.repo.PostoRepo;
 import com.uff.pedalauff.repo.VagaRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+import java.util.NoSuchElementException;
+
+import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
+import static com.uff.pedalauff.controlador.UsuarioControlador.userIdent;
 
 @RestController
 public class PostoControlador {
@@ -16,35 +24,40 @@ public class PostoControlador {
     @Autowired
     private VagaRepo vagaRepo;
 
-    @GetMapping(path = "/posto/{idPosto}")
-    public ResponseEntity consultar(@PathVariable("idPosto") Integer idPosto) {
-        return postoRepo.findById(idPosto)
-                .map(record -> ResponseEntity.ok().body(record))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
     @CrossOrigin
     @PostMapping(path = "/posto/salvar")
     public String salvar(@RequestBody Posto posto) {
-        postoRepo.save(posto);
-        return "Posto criado com sucesso.";
+        if (userIdent != null) {
+            postoRepo.save(posto);
+            return "Posto criado com sucesso.";
+        }
+        return LOGAR_NO_SITE;
     }
 
     @CrossOrigin
-    @GetMapping(path = "/posto/dispVagas/{idPosto}")
-    public String dispVagas(@PathVariable("idPosto") Integer idPosto) {
-        Integer vagasDisp = vagaRepo.qtdVagasDisp(idPosto);
-        System.out.println("Vagas Disps:" + vagasDisp);
+    @PostMapping(path = "/posto/consultar")
+    public String consultar(@RequestBody Map<String, String> json) {
+        if (userIdent != null) {
+            Integer idPosto;
+            Posto posto;
+            try {
+                idPosto = Integer.parseInt(json.get("idPosto"));
+                System.out.println("idPosto: " + idPosto);
+                posto = postoRepo.findById(idPosto).get();
+            } catch (NullPointerException | NumberFormatException | NoSuchElementException e) {
+                System.out.println("Erro ao pegar o id do posto: " + e);
+                return "Posto buscado não existe";
+            }
 
-        return "Numero de vagas disponiveis no posto: " + idPosto + " = " + vagasDisp;
-    }
+            Integer bicicletasDisp = vagaRepo.qtdBicicletasDisp(posto.getIdPosto());
+            Integer vagasDisp = vagaRepo.qtdVagasDisp(posto.getIdPosto());
+            System.out.println("Vagas Disps:" + bicicletasDisp);
 
-    @GetMapping(path = "/posto/dispBicicletas/{idPosto}")
-    public String dispBicicletas(@PathVariable("idPosto") Integer idPosto) {
-        Integer bicicletasDisp = vagaRepo.qtdBicicletasDisp(idPosto);
-        System.out.println("Vagas Disps:" + bicicletasDisp);
+            return "Posto: " + idPosto + " tem " + bicicletasDisp + " bicicleta(s) disponivel(is) para aluguel" +
+                    " e " + vagasDisp + " vaga(s) disponível(is).";
 
-        return "Numero de bicicletas disponiveis no posto: " + idPosto + " = " + bicicletasDisp;
+        }
+        return LOGAR_NO_SITE;
     }
 
 }
