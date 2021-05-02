@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.Map;
 
 import static com.uff.pedalauff.enums.EstadoBicicleta.EM_USO;
+import static com.uff.pedalauff.enums.EstadoBicicleta.NA_VAGA;
 
 @RestController
 public class AluguelControlador {
@@ -110,6 +111,9 @@ public class AluguelControlador {
             return "Não conseguiu achar o aluguel";
         }
 
+        bicicleta = bicicletaRepo.findById(aluguelRepo.findIdBikeByIdAluguel(idAluguel)).get();
+        bicicleta.setEstadoAtual(NA_VAGA);
+
         aluguel.setDthrDevolucao(new Date(System.currentTimeMillis()));
 
         Vaga vaga;
@@ -121,13 +125,13 @@ public class AluguelControlador {
             try {
                 vaga = vagaRepo.findByQrCode(json.get("qrCodeVaga"));
                 vaga.alteraDisponibilidadeVaga(vaga);
+                vaga.setBicicleta(bicicleta);
                 vagaRepo.save(vaga);
             } catch (NullPointerException | NumberFormatException ex) {
                 return "Você está tentando encontrar uma vaga que não existe.";
             }
         }
 
-        bicicleta = bicicletaRepo.findById(aluguelRepo.findIdBikeByIdAluguel(idAluguel)).get();
 
         bicicletaRepo.save(bicicleta);
         aluguelRepo.save(aluguel);
