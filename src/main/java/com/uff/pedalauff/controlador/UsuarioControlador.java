@@ -20,6 +20,7 @@ public class UsuarioControlador {
     private UsuarioRepo repo;
 
     public static String userIdent;
+    public static String userLvl;
 
     @CrossOrigin
     @PostMapping(path = "/usuario/seusdados")
@@ -60,6 +61,8 @@ public class UsuarioControlador {
         if (idUsuario != null) {
             userIdent = String.valueOf(idUsuario);
             Usuario usuario = repo.findById(idUsuario).get();
+            userLvl = String.valueOf(usuario.getTipoUsuario());
+            System.out.println("Nivel usuario: " + userLvl);
             System.out.println("Usuário: " + usuario.getNome() + " logado com sucesso");
             return "true";
         }

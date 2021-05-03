@@ -116,12 +116,7 @@ public class AluguelControlador {
             bicicleta.setEstadoAtual(NA_VAGA);
 
             Vaga vaga;
-            try {
 
-                vaga = vagaRepo.findById(Integer.valueOf(json.get("idVaga"))).get();
-                vaga.alteraDisponibilidadeVaga(vaga);
-                vagaRepo.save(vaga);
-            } catch (NullPointerException | NumberFormatException e) {
                 try {
                     vaga = vagaRepo.findByQrCode(json.get("qrCodeVaga"));
                     vaga.alteraDisponibilidadeVaga(vaga);
@@ -129,7 +124,7 @@ public class AluguelControlador {
                     vagaRepo.save(vaga);
                 } catch (NullPointerException | NumberFormatException ex) {
                     return "Você está tentando encontrar uma vaga que não existe.";
-                }
+
             }
 
 

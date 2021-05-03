@@ -14,6 +14,7 @@ import java.util.NoSuchElementException;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
 import static com.uff.pedalauff.controlador.UsuarioControlador.userIdent;
+import static com.uff.pedalauff.controlador.UsuarioControlador.userLvl;
 
 @RestController
 public class PostoControlador {
@@ -27,7 +28,7 @@ public class PostoControlador {
     @CrossOrigin
     @PostMapping(path = "/posto/salvar")
     public String salvar(@RequestBody Posto posto) {
-        if (userIdent != null) {
+        if (userIdent != null && userLvl.equals("ADMIN")) {
             postoRepo.save(posto);
             return "Posto criado com sucesso.";
         }

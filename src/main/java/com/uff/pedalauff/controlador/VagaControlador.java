@@ -17,6 +17,7 @@ import java.util.NoSuchElementException;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
 import static com.uff.pedalauff.controlador.UsuarioControlador.userIdent;
+import static com.uff.pedalauff.controlador.UsuarioControlador.userLvl;
 import static com.uff.pedalauff.enums.EstadoBicicleta.NA_VAGA;
 
 @RestController
@@ -34,7 +35,7 @@ public class VagaControlador {
     @CrossOrigin
     @PostMapping(path = "/vaga/ver-todas")
     public String verTodasVagas() {
-        if (userIdent != null) {
+        if (userIdent != null && userLvl.equals("ADMIN")) {
             Iterable<Vaga> vagas = vagaRepo.findAll();
             String listaVagasStr = "Lista de Vagas:\n";
 
@@ -108,7 +109,7 @@ public class VagaControlador {
     @CrossOrigin
     @PostMapping(path = "vaga/inserebike")
     public String insereBikeNaVaga(@RequestBody Map<String, String> json) {
-        if (userIdent != null) {
+        if (userIdent != null && userLvl.equals("ADMIN")) {
             Vaga vaga;
             try {
                 vaga = vagaRepo.findByQrCode(json.get("qrCodeVaga"));
