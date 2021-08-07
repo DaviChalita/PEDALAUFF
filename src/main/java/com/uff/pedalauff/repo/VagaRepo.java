@@ -4,16 +4,18 @@ import com.uff.pedalauff.modelo.Vaga;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 public interface VagaRepo extends CrudRepository<Vaga, Integer> {
     Vaga findByQrCode(String qrCode);
 
-    @Query("select count(disponibilidade) from vaga " +
+    @Query("select disponibilidade from vaga " +
             "where posto.idPosto = ?1 and disponibilidade = true")
-    Integer qtdVagasDisp(Integer idPosto);
+    List<Boolean> qtdVagasDisp(Integer idPosto);
 
-    @Query("select count(disponibilidade) from vaga " +
+    @Query("select disponibilidade from vaga " +
             "where posto.idPosto = ?1 and disponibilidade = false")
-    Integer qtdBicicletasDisp(Integer idPosto);
+    List<Boolean> qtdBicicletasDisp(Integer idPosto);
 
     @Query("select idVaga from vaga " +
             "where bicicleta.idBicicleta = ?1")

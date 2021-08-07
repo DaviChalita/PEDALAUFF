@@ -70,6 +70,25 @@ public class UsuarioControlador {
         return "Email e/ou senha inválidos";
     }
 
+    @CrossOrigin
+    @PostMapping(path = "/usuario/ver-usuarios")
+    public String verTodosUsuarios() {
+        if (userIdent != null && userLvl.equals("ADMIN")) {
+            Iterable<Usuario> usuarios = repo.findAll();
+            String listaUsuariosStr = "Lista de Usuários:\n";
+            for (Usuario usuario : usuarios) {
+                listaUsuariosStr += "Usuario: " + usuario.getIdUsuario() + "\n"
+                        + "Nome do usuario: " + usuario.getNome() + "\n"
+                        + "Nível de acesso: " + usuario.getTipoUsuario() + "\n"
+                        + "Email do usuário: " + usuario.getEmail() + "\n"
+                        + "Matrícula do usuário: " + usuario.getMatricula() + "\n";
+            }
+            System.out.println(listaUsuariosStr);
+            return listaUsuariosStr;
+        }
+        return LOGAR_NO_SITE;
+    }
+
     @PostMapping(path = "/usuario/deslogar")
     public String logout() {
         if (userIdent != null) {

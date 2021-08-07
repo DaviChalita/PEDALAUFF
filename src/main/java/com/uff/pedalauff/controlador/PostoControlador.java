@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -50,12 +52,24 @@ public class PostoControlador {
                 return "Posto buscado não existe";
             }
 
-            Integer bicicletasDisp = vagaRepo.qtdBicicletasDisp(posto.getIdPosto());
-            Integer vagasDisp = vagaRepo.qtdVagasDisp(posto.getIdPosto());
-            System.out.println("Vagas Disps:" + bicicletasDisp);
+            List<Boolean> bicicletasDisp = new ArrayList<>(vagaRepo.qtdBicicletasDisp(posto.getIdPosto()));
+            Integer qtdBicicletasDisp = 0;
+            for (Boolean bicicleta : bicicletasDisp) {
+                if (bicicleta)
+                    qtdBicicletasDisp++;
+            }
 
-            return "Posto: " + idPosto + " tem " + bicicletasDisp + " bicicleta(s) disponivel(is) para aluguel" +
-                    " e " + vagasDisp + " vaga(s) disponível(is).";
+            List<Boolean> vagasDisp = new ArrayList<>(vagaRepo.qtdVagasDisp(posto.getIdPosto()));
+            Integer qtdVagasDisp = 0;
+            for (Boolean vaga : vagasDisp) {
+                if (vaga)
+                    qtdVagasDisp++;
+            }
+
+            System.out.println("Vagas Disps:" + qtdVagasDisp);
+
+            return "Posto: " + idPosto + " tem " + qtdBicicletasDisp + " bicicleta(s) disponivel(is) para aluguel" +
+                    " e " + qtdVagasDisp + " vaga(s) disponível(is).";
 
         }
         return LOGAR_NO_SITE;

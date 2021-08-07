@@ -394,6 +394,16 @@
                     </header>
                 </div>
             </section>
+            <section>
+                <div class="content">
+                    <header>
+                        <a href="#" class="icon fa-user-circle-o" data-toggle="modal"
+                           data-target="#myModalVerUsuarios"><span class="label">Icon</span></a>
+                        <h3>Ver os usuários</h3>
+                    </header>
+                    <p>Visualize todos os usuários do Pedala UFF</p>
+                </div>
+            </section>
         </div>
     </div>
 </section>
@@ -401,6 +411,40 @@
 </div>
 </div>
 </section>
+
+
+<div class="container">
+    <!-- Trigger the modal with a button -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalVerUsuarios" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ver usuários</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="http://localhost:8080/usuario/ver-usuarios" id="myform"
+                          class="some-class">
+                        <div class="row gtr-uniform">
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" value="Sim" class="primary"/></li>
+                                    <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                               value="Não"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
 
 <!-- Footer -->
 <footer id="footer">
