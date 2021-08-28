@@ -13,7 +13,7 @@ function handleSubmit(event) {
     }).responseText;
 
     if (response === "true") {
-        window.location.href = "http://localhost:63342/pedala-uff/com/uff/pedalauff/frontend/logado/home-logado.html";
+        window.location.href = "http://localhost:63342/PEDALAUFF/pedala-uff/com/uff/pedalauff/frontend/logado/home-logado.html";
     } else {
         alert(response)
         window.location.href = "#";
