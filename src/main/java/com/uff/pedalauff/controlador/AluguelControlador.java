@@ -69,9 +69,7 @@ public class AluguelControlador {
 
             Usuario usuario;
             try {
-                System.out.println("User ident: " + userIdent);
                 usuario = usuarioRepo.findById(Integer.valueOf(userIdent)).get();
-                System.out.println("Usuario: " + usuario.getNome());
                 try {
                     int idAluguel = usuarioRepo.checkBicicletaNDevolvida(usuario.getIdUsuario());
                     return "Usuário precisa devolver uma bicicleta antes de alugar outra!";

@@ -57,13 +57,10 @@ public class UsuarioControlador {
     public String login(@RequestBody Map<String, String> json) {
 
         Integer idUsuario = repo.findByEmailAndSenha(json.get("email"), json.get("senha"));
-        System.out.println("Id Usuario: " + idUsuario);
         if (idUsuario != null) {
             userIdent = String.valueOf(idUsuario);
             Usuario usuario = repo.findById(idUsuario).get();
             userLvl = String.valueOf(usuario.getTipoUsuario());
-            System.out.println("Nivel usuario: " + userLvl);
-            System.out.println("Usuário: " + usuario.getNome() + " logado com sucesso");
             return "true";
         }
 
@@ -93,7 +90,6 @@ public class UsuarioControlador {
     public String logout() {
         if (userIdent != null) {
             userIdent = "";
-            System.out.println(userIdent);
             return "Usuário deslogado com sucesso";
         }
         return "Você não está logado";
