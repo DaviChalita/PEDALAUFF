@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
 import static com.uff.pedalauff.controlador.UsuarioControlador.userIdent;
@@ -25,6 +26,8 @@ import static com.uff.pedalauff.enums.EstadoBicicleta.NA_VAGA;
 
 @RestController
 public class AluguelControlador {
+
+    private Logger log;
 
     @Autowired
     private AluguelRepo aluguelRepo;
@@ -74,7 +77,7 @@ public class AluguelControlador {
                     int idAluguel = usuarioRepo.checkBicicletaNDevolvida(usuario.getIdUsuario());
                     return "Usuário precisa devolver uma bicicleta antes de alugar outra!";
                 } catch (NullPointerException | AopInvocationException e) {
-                    System.out.println("Usuário não está alugando nenhuma bicicleta no momento");
+                    log.fine("Usuário não está alugando nenhuma bicicleta no momento");
                 }
 
             } catch (NullPointerException e) {
@@ -101,7 +104,7 @@ public class AluguelControlador {
 
             try {
                 idAluguel = aluguelRepo.findByIdUsuarioAndBikeNDevolvida(Integer.parseInt(userIdent));
-                if(idAluguel == null){
+                if (idAluguel == null) {
                     return "Não foi possível encontrar o aluguel atual do usuário logado";
                 }
                 aluguel = aluguelRepo.findById(idAluguel).get();
@@ -115,13 +118,13 @@ public class AluguelControlador {
 
             Vaga vaga;
 
-                try {
-                    vaga = vagaRepo.findByQrCode(json.get("qrCodeVaga"));
-                    vaga.alteraDisponibilidadeVaga(vaga);
-                    vaga.setBicicleta(bicicleta);
-                    vagaRepo.save(vaga);
-                } catch (NullPointerException | NumberFormatException ex) {
-                    return "Você está tentando encontrar uma vaga que não existe.";
+            try {
+                vaga = vagaRepo.findByQrCode(json.get("qrCodeVaga"));
+                vaga.alteraDisponibilidadeVaga(vaga);
+                vaga.setBicicleta(bicicleta);
+                vagaRepo.save(vaga);
+            } catch (NullPointerException | NumberFormatException ex) {
+                return "Você está tentando encontrar uma vaga que não existe.";
 
             }
 
