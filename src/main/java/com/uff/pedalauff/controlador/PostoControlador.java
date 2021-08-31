@@ -1,5 +1,6 @@
 package com.uff.pedalauff.controlador;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.uff.pedalauff.modelo.Posto;
 import com.uff.pedalauff.repo.PostoRepo;
 import com.uff.pedalauff.repo.VagaRepo;
@@ -54,14 +55,14 @@ public class PostoControlador {
             List<Boolean> bicicletasDisp = new ArrayList<>(vagaRepo.qtdBicicletasDisp(posto.getIdPosto()));
             Integer qtdBicicletasDisp = 0;
             for (Boolean bicicleta : bicicletasDisp) {
-                if (bicicleta)
+                if (Boolean.TRUE.equals(bicicleta))
                     qtdBicicletasDisp++;
             }
 
             List<Boolean> vagasDisp = new ArrayList<>(vagaRepo.qtdVagasDisp(posto.getIdPosto()));
             Integer qtdVagasDisp = 0;
             for (Boolean vaga : vagasDisp) {
-                if (vaga)
+                if (Boolean.TRUE.equals(vaga))
                     qtdVagasDisp++;
             }
 
