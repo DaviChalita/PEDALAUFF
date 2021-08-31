@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
@@ -58,11 +59,12 @@ public class AluguelControlador {
                 return "Você está tentando encontrar uma bicicleta que não existe.";
             }
 
+            Integer idVaga = vagaRepo.findByBicicleta(bicicleta.getIdBicicleta());
+            Optional<Vaga> vagaOpt = vagaRepo.findById(idVaga);
             Vaga vaga;
-            try {
-                Integer idVaga = vagaRepo.findByBicicleta(bicicleta.getIdBicicleta());
-                vaga = vagaRepo.findById(idVaga).get();
-            } catch (NullPointerException e) {
+            if (vagaOpt.isPresent()) {
+                vaga = vagaOpt.get();
+            } else {
                 return "Você está tentando encontrar uma vaga que não existe.";
             }
 
@@ -70,18 +72,19 @@ public class AluguelControlador {
             vaga.setBicicleta(null);
             bicicleta.setEstadoAtual(EM_USO);
 
+            Optional<Usuario> usuarioOpt = this.usuarioRepo.findById(Integer.valueOf(userIdent));
             Usuario usuario;
-            try {
-                usuario = usuarioRepo.findById(Integer.valueOf(userIdent)).get();
-                try {
-                    int idAluguel = usuarioRepo.checkBicicletaNDevolvida(usuario.getIdUsuario());
-                    return "Usuário precisa devolver uma bicicleta antes de alugar outra!";
-                } catch (NullPointerException | AopInvocationException e) {
-                    log.fine("Usuário não está alugando nenhuma bicicleta no momento");
-                }
-
-            } catch (NullPointerException e) {
+            if (usuarioOpt.isPresent()) {
+                usuario = usuarioOpt.get();
+            } else {
                 return "Você está tentando encontrar um usuário que não existe.";
+            }
+
+            try {
+                usuarioRepo.checkBicicletaNDevolvida(usuario.getIdUsuario());
+                return "Usuário precisa devolver uma bicicleta antes de alugar outra!";
+            } catch (NullPointerException | AopInvocationException e) {
+                log.fine("Usuário não está alugando nenhuma bicicleta no momento");
             }
 
             aluguel.setUsuarioAlugado(usuario);
@@ -98,8 +101,7 @@ public class AluguelControlador {
     @PostMapping(path = "/aluguel/devolver")
     public String devolver(@RequestBody Map<String, String> json) {
         if (userIdent != null) {
-            Aluguel aluguel;
-            Bicicleta bicicleta;
+            Aluguel aluguel = null;
             Integer idAluguel;
 
             try {
@@ -107,14 +109,20 @@ public class AluguelControlador {
                 if (idAluguel == null) {
                     return "Não foi possível encontrar o aluguel atual do usuário logado";
                 }
-                aluguel = aluguelRepo.findById(idAluguel).get();
-                aluguel.setDthrDevolucao(new Date(System.currentTimeMillis()));
+                Optional<Aluguel> aluguelOpt = aluguelRepo.findById(idAluguel);
+                if (aluguelOpt.isPresent()) {
+                    aluguel = aluguelOpt.get();
+                    aluguel.setDthrDevolucao(new Date(System.currentTimeMillis()));
+                }
             } catch (NullPointerException | IllegalArgumentException e) {
                 return "Erro ao buscar o aluguel";
             }
-
-            bicicleta = bicicletaRepo.findById(aluguelRepo.findIdBikeByIdAluguel(idAluguel)).get();
-            bicicleta.setEstadoAtual(NA_VAGA);
+            Optional<Bicicleta> bicicletaOpt = this.bicicletaRepo.findById(aluguelRepo.findIdBikeByIdAluguel(idAluguel));
+            Bicicleta bicicleta = null;
+            if (bicicletaOpt.isPresent()) {
+                bicicleta = bicicletaOpt.get();
+                bicicleta.setEstadoAtual(NA_VAGA);
+            }
 
             Vaga vaga;
 
