@@ -1,6 +1,5 @@
 package com.uff.pedalauff.controlador;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.uff.pedalauff.modelo.Posto;
 import com.uff.pedalauff.repo.PostoRepo;
 import com.uff.pedalauff.repo.VagaRepo;
@@ -10,10 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.logging.Logger;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
 import static com.uff.pedalauff.controlador.UsuarioControlador.userIdent;
@@ -21,7 +18,7 @@ import static com.uff.pedalauff.controlador.UsuarioControlador.userLvl;
 
 @RestController
 public class PostoControlador {
-
+    private Logger log;
     @Autowired
     private PostoRepo postoRepo;
 
@@ -43,12 +40,15 @@ public class PostoControlador {
     public String consultar(@RequestBody Map<String, String> json) {
         if (userIdent != null) {
             Integer idPosto;
-            Posto posto;
+            Posto posto = null;
             try {
                 idPosto = Integer.parseInt(json.get("idPosto"));
-                posto = postoRepo.findById(idPosto).get();
+                Optional<Posto> postoOpt = postoRepo.findById(idPosto);
+                if(postoOpt.isPresent()){
+                    posto = postoOpt.get();
+                }
             } catch (NullPointerException | NumberFormatException | NoSuchElementException e) {
-                System.out.println("Erro ao pegar o id do posto: " + e);
+                log.warning("Erro ao pegar o id do posto: " + e);
                 return "Posto buscado não existe";
             }
 
