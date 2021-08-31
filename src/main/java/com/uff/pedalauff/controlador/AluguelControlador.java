@@ -41,12 +41,15 @@ public class AluguelControlador {
     @CrossOrigin
     @PostMapping(path = "/aluguel/alugar")
     public String alugar(@RequestBody Map<String, String> json) {
+
+        System.out.println(userIdent);
         if (userIdent != null) {
             Aluguel aluguel = new Aluguel();
             aluguel.setDthrAluguel(new Date(System.currentTimeMillis()));
 
             Bicicleta bicicleta;
             try {
+
                 bicicleta = bicicletaRepo.findByQrCode(json.get("qrCodeBicicleta"));
                 if (bicicleta.getEstadoAtual() == EM_USO) {
                     return "Você está tentando alugar uma bicicleta que já está em uso, favor alugar uma bicicleta disponível";

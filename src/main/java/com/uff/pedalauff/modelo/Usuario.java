@@ -1,12 +1,18 @@
 package com.uff.pedalauff.modelo;
 
 import com.uff.pedalauff.enums.TipoUsuario;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity(name = "usuario")
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
