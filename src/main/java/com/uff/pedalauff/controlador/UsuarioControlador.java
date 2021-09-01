@@ -22,12 +22,18 @@ public class UsuarioControlador {
     public static String userIdent;
     public static String userLvl;
 
+    public String userId(){ return userIdent;}
+    public String userLvl(){ return userIdent;}
+
     @CrossOrigin
     @PostMapping(path = "/usuario/seusdados")
     public String consultar() {
+        userIdent = userId();
+
         if (userIdent != null) {
             try {
-                Usuario usuario = repo.findById(Integer.parseInt(userIdent)).get();
+                int test = Integer.parseInt(userIdent);
+                Usuario usuario = repo.findById(test).get();
                 return "Dados do usuário logado: " +
                         "\nNome: " + usuario.getNome() +
                         "\nMatrícula: " + usuario.getMatricula() +
@@ -55,7 +61,7 @@ public class UsuarioControlador {
     @CrossOrigin
     @PostMapping(path = "/usuario/logar")
     public String login(@RequestBody Map<String, String> json) {
-
+        System.out.println("json: " + json);
         Integer idUsuario = repo.findByEmailAndSenha(json.get("email"), json.get("senha"));
         System.out.println("Id Usuario: " + idUsuario);
         if (idUsuario != null) {
@@ -73,6 +79,8 @@ public class UsuarioControlador {
     @CrossOrigin
     @PostMapping(path = "/usuario/ver-usuarios")
     public String verTodosUsuarios() {
+        userIdent = userId();
+        userLvl = userLvl();
         if (userIdent != null && userLvl.equals("ADMIN")) {
             Iterable<Usuario> usuarios = repo.findAll();
             String listaUsuariosStr = "Lista de Usuários:\n";
