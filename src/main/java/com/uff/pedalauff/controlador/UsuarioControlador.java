@@ -30,13 +30,13 @@ public class UsuarioControlador {
         if (userIdent != null) {
             try {
                 Optional<Usuario> usuarioOpt = repo.findById(Integer.parseInt(userIdent));
-                if(usuarioOpt.isPresent()){
+                if (usuarioOpt.isPresent()) {
                     Usuario usuario = usuarioOpt.get();
                     return "Dados do usuário logado: " +
                             "\nNome: " + usuario.getNome() +
                             "\nMatrícula: " + usuario.getMatricula() +
                             "\nEmail: " + usuario.getEmail();
-                }else{
+                } else {
                     return "Usuário buscado não existe";
                 }
             } catch (NumberFormatException e) {
@@ -66,11 +66,14 @@ public class UsuarioControlador {
         Integer idUsuario = repo.findByEmailAndSenha(json.get("email"), json.get("senha"));
         if (idUsuario != null) {
             userIdent = String.valueOf(idUsuario);
-            Usuario usuario = repo.findById(idUsuario).get();
-            userLvl = String.valueOf(usuario.getTipoUsuario());
-            return "true";
+            Optional<Usuario> usuarioOpt = repo.findById(idUsuario);
+            Usuario usuario;
+            if (usuarioOpt.isPresent()) {
+                usuario = usuarioOpt.get();
+                userLvl = String.valueOf(usuario.getTipoUsuario());
+                return "true";
+            }
         }
-
         return "Email e/ou senha inválidos";
     }
 
