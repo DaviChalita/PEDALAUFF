@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE_BUILDER;
@@ -28,12 +29,17 @@ public class UsuarioControlador {
     public String consultar() {
         if (userIdent != null) {
             try {
-                Usuario usuario = repo.findById(Integer.parseInt(userIdent)).get();
-                return "Dados do usuário logado: " +
-                        "\nNome: " + usuario.getNome() +
-                        "\nMatrícula: " + usuario.getMatricula() +
-                        "\nEmail: " + usuario.getEmail();
-            } catch (NullPointerException | NumberFormatException e) {
+                Optional<Usuario> usuarioOpt = repo.findById(Integer.parseInt(userIdent));
+                if(usuarioOpt.isPresent()){
+                    Usuario usuario = usuarioOpt.get();
+                    return "Dados do usuário logado: " +
+                            "\nNome: " + usuario.getNome() +
+                            "\nMatrícula: " + usuario.getMatricula() +
+                            "\nEmail: " + usuario.getEmail();
+                }else{
+                    return "Usuário buscado não existe";
+                }
+            } catch (NumberFormatException e) {
                 return "Usuário buscado não existe";
             }
         }
