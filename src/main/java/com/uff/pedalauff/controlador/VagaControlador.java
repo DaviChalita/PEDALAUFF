@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
+import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE_BUILDER;
 import static com.uff.pedalauff.controlador.UsuarioControlador.userIdent;
 import static com.uff.pedalauff.controlador.UsuarioControlador.userLvl;
 import static com.uff.pedalauff.enums.EstadoBicicleta.NA_VAGA;
@@ -34,26 +35,29 @@ public class VagaControlador {
 
     @CrossOrigin
     @PostMapping(path = "/vaga/ver-todas")
-    public String verTodasVagas() {
+    public StringBuilder verTodasVagas() {
         if (userIdent != null && userLvl.equals("ADMIN")) {
             Iterable<Vaga> vagas = vagaRepo.findAll();
-            String listaVagasStr = "Lista de Vagas:\n";
+            StringBuilder listaVagasStr = new StringBuilder("Lista de Vagas:\n");
 
             for (Vaga vaga : vagas) {
-                listaVagasStr += "Vaga: " + vaga.getIdVaga() + "\n"
-                        + "QRCode da vaga: " + vaga.getQrCode() + "\n"
-                        + "Endereço e campus do posto aonde a vaga se localiza: \n"
-                        + vaga.getPosto().getEndereco() + ", " + vaga.getPosto().getCampus() + "\n";
+                listaVagasStr.append("Vaga: ")
+                        .append(vaga.getIdVaga())
+                        .append("\nQRCode da vaga: ")
+                        .append(vaga.getQrCode())
+                        .append("\nEndereço e campus do posto aonde a vaga se localiza: \n")
+                        .append(vaga.getPosto().getEndereco()).append(", ")
+                        .append(vaga.getPosto().getCampus()).append("\n");
                 if (vaga.getBicicleta() != null) {
-                    listaVagasStr += "QRCode da bicicleta nessa vaga: " + vaga.getBicicleta().getQrCode() + "\n";
+                    listaVagasStr.append("QRCode da bicicleta nessa vaga: ").append(vaga.getBicicleta().getQrCode()).append("\n");
                 } else {
-                    listaVagasStr += "Não há bicicleta nessa vaga\n";
+                    listaVagasStr.append("Não há bicicleta nessa vaga\n");
                 }
-                listaVagasStr += "\n";
+                listaVagasStr.append("\n");
             }
             return listaVagasStr;
         }
-        return LOGAR_NO_SITE;
+        return LOGAR_NO_SITE_BUILDER;
     }
 
     @CrossOrigin
@@ -80,7 +84,7 @@ public class VagaControlador {
 
             try {
                 String qrCode = json.get("qrCodeBicicleta");
-                if (qrCode != "") {
+                if (!qrCode.equals("")) {
                     Bicicleta bicicleta = bicicletaRepo.findByQrCode(qrCode);
                     if (bicicleta == null) {
                         return "QRCode da bicicleta inserido é inválido";
@@ -113,7 +117,7 @@ public class VagaControlador {
                 if (vaga == null) {
                     return "Favor inserir um QRCode de uma vaga válida";
                 }
-                if(!vaga.isDisponibilidade()){
+                if (!vaga.isDisponibilidade()) {
                     return "Vaga já possui uma bicicleta";
                 }
                 vaga.alteraDisponibilidadeVaga(vaga);
