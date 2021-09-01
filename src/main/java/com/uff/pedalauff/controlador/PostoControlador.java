@@ -44,7 +44,7 @@ public class PostoControlador {
             try {
                 idPosto = Integer.parseInt(json.get("idPosto"));
                 Optional<Posto> postoOpt = postoRepo.findById(idPosto);
-                if(postoOpt.isPresent()){
+                if (postoOpt.isPresent()) {
                     posto = postoOpt.get();
                 }
             } catch (NullPointerException | NumberFormatException | NoSuchElementException e) {

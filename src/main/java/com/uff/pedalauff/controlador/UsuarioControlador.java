@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
+import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE_BUILDER;
 import static com.uff.pedalauff.enums.TipoUsuario.NORMAL;
 
 @RestController
@@ -69,21 +70,25 @@ public class UsuarioControlador {
 
     @CrossOrigin
     @PostMapping(path = "/usuario/ver-usuarios")
-    public String verTodosUsuarios() {
+    public StringBuilder verTodosUsuarios() {
         if (userIdent != null && userLvl.equals("ADMIN")) {
             Iterable<Usuario> usuarios = repo.findAll();
-            String listaUsuariosStr = "Lista de Usuários:\n";
+            StringBuilder listaUsuariosStr = new StringBuilder("Lista de Usuários:\n");
             for (Usuario usuario : usuarios) {
-                listaUsuariosStr += "Usuario: " + usuario.getIdUsuario() + "\n"
-                        + "Nome do usuario: " + usuario.getNome() + "\n"
-                        + "Nível de acesso: " + usuario.getTipoUsuario() + "\n"
-                        + "Email do usuário: " + usuario.getEmail() + "\n"
-                        + "Matrícula do usuário: " + usuario.getMatricula() + "\n";
+                listaUsuariosStr.append("Usuario: ")
+                        .append(usuario.getIdUsuario())
+                        .append("\nNome do usuario: ")
+                        .append(usuario.getNome())
+                        .append("\nNível de acesso: ")
+                        .append(usuario.getTipoUsuario())
+                        .append("\nEmail do usuário: ")
+                        .append(usuario.getEmail())
+                        .append("\nMatrícula do usuário: ")
+                        .append(usuario.getMatricula()).append("\n");
             }
-            System.out.println(listaUsuariosStr);
             return listaUsuariosStr;
         }
-        return LOGAR_NO_SITE;
+        return LOGAR_NO_SITE_BUILDER;
     }
 
     @PostMapping(path = "/usuario/deslogar")
