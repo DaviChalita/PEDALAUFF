@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE_BUILDER;
@@ -23,6 +24,8 @@ public class UsuarioControlador {
 
     public static String userIdent;
     public static String userLvl;
+
+    private Logger log;
 
     @CrossOrigin
     @PostMapping(path = "/usuario/seusdados")
@@ -53,7 +56,7 @@ public class UsuarioControlador {
             usuario.setTipoUsuario(NORMAL);
             repo.save(usuario);
         } catch (Exception e) {
-            System.out.println("Exceção: " + e.getMessage());
+            log.warning("Exceção: " + e.getMessage());
             return "Já existe usuário cadastrado com esse email e/ou matrícula";
         }
         return "Usuário registrado com sucesso";
