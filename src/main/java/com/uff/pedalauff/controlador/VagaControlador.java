@@ -102,7 +102,7 @@ public class VagaControlador {
                     bicicletaRepo.save(bicicleta);
                 }
             } catch (NullPointerException | NumberFormatException e) {
-                log.info("Vaga sendo criada sem uma bicicleta vinculada");
+                log.warning("Vaga sendo criada sem uma bicicleta vinculada");
             } catch (NoSuchElementException e) {
                 return "Bicicleta inserida não existe";
             }
