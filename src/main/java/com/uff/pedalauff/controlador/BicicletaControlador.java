@@ -1,5 +1,6 @@
 package com.uff.pedalauff.controlador;
 
+import com.uff.pedalauff.comuns.Comuns;
 import com.uff.pedalauff.modelo.Bicicleta;
 import com.uff.pedalauff.modelo.Vaga;
 import com.uff.pedalauff.repo.BicicletaRepo;
@@ -57,8 +58,9 @@ public class BicicletaControlador {
     @CrossOrigin
     @PostMapping(path = "/bicicleta/salvar")
     public String salvar(@RequestBody Bicicleta bicicleta) {
+        Comuns comuns = new Comuns();
         if (userIdent != null && userLvl.equals("ADMIN")) {
-            bicicleta.setQrCode(geraQrCodeAleatorio());
+            bicicleta.setQrCode(comuns.geraQrCodeAleatorio());
             bicicleta.setEstadoAtual(CRIADA);
             bicicletaRepo.save(bicicleta);
             return "O QR Code da bicicleta criada é igual a: " + bicicleta.getQrCode();
@@ -95,22 +97,6 @@ public class BicicletaControlador {
             return "Status da bicicleta atualizado com sucesso.";
         }
         return LOGAR_NO_SITE;
-    }
-
-    private String geraQrCodeAleatorio() {
-        //https://www.geeksforgeeks.org/generate-random-string-of-given-size-in-java/
-        String ALPHA_NUMERIC_STRING = "0123456789abcdefghijklmnopqrstuvxyz";
-        int n = 4;
-
-        StringBuilder sb = new StringBuilder(n);
-        for (int i = 0; i < n; i++) {
-
-            int index = (int) (ALPHA_NUMERIC_STRING.length() * Math.random());
-
-            sb.append(ALPHA_NUMERIC_STRING.charAt(index));
-        }
-
-        return sb.toString();
     }
 
 }

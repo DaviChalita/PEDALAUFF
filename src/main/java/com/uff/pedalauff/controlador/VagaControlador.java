@@ -1,5 +1,6 @@
 package com.uff.pedalauff.controlador;
 
+import com.uff.pedalauff.comuns.Comuns;
 import com.uff.pedalauff.modelo.Bicicleta;
 import com.uff.pedalauff.modelo.Posto;
 import com.uff.pedalauff.modelo.Vaga;
@@ -63,10 +64,11 @@ public class VagaControlador {
     @CrossOrigin
     @PostMapping(path = "/vaga/salvar")
     public String salvar(@RequestBody Map<String, String> json) {
+        Comuns comuns = new Comuns();
         if (userIdent != null) {
             Vaga vaga = new Vaga();
             try {
-                vaga.setQrCode(geraQrCodeAleatorio());
+                vaga.setQrCode(comuns.geraQrCodeAleatorio());
                 vaga.setDisponibilidade(true);
             } catch (NullPointerException e) {
                 return "Vaga está sendo criada sem Qr Code";
@@ -148,19 +150,5 @@ public class VagaControlador {
         return LOGAR_NO_SITE;
     }
 
-    private String geraQrCodeAleatorio() {
-        //https://www.geeksforgeeks.org/generate-random-string-of-given-size-in-java/
-        String ALPHA_NUMERIC_STRING = "0123456789abcdefghijklmnopqrstuvxyz";
-        int n = 4;
-
-        StringBuilder sb = new StringBuilder(n);
-        for (int i = 0; i < n; i++) {
-
-            int index = (int) (ALPHA_NUMERIC_STRING.length() * Math.random());
-
-            sb.append(ALPHA_NUMERIC_STRING.charAt(index));
-        }
-        return sb.toString();
-    }
 
 }
