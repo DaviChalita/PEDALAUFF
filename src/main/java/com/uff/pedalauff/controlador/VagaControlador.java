@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE_BUILDER;
@@ -33,6 +35,7 @@ public class VagaControlador {
 
     @Autowired
     private BicicletaRepo bicicletaRepo;
+    private Logger log;
 
     @CrossOrigin
     @PostMapping(path = "/vaga/ver-todas")
@@ -75,13 +78,15 @@ public class VagaControlador {
             }
 
             try {
-                Posto posto = postoRepo.findById(
-                        Integer.parseInt(json.get("idPosto"))).get();
-                vaga.setPosto(posto);
-            } catch (NullPointerException | NumberFormatException e) {
+                Optional<Posto> postoOpt = postoRepo.findById(Integer.parseInt(json.get("idPosto")));
+                if (postoOpt.isPresent()) {
+                    Posto posto = postoOpt.get();
+                    vaga.setPosto(posto);
+                } else {
+                    return "Posto inserido não existe";
+                }
+            } catch (NumberFormatException e) {
                 return "Vaga não pode ser criada sem um posto vinculado, favor tentar novamente";
-            } catch (NoSuchElementException e) {
-                return "Posto inserido não existe";
             }
 
             try {
@@ -97,7 +102,7 @@ public class VagaControlador {
                     bicicletaRepo.save(bicicleta);
                 }
             } catch (NullPointerException | NumberFormatException e) {
-                System.out.println("Vaga sendo criada sem uma bicicleta vinculada");
+                log.info("Vaga sendo criada sem uma bicicleta vinculada");
             } catch (NoSuchElementException e) {
                 return "Bicicleta inserida não existe";
             }
