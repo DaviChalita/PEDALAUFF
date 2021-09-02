@@ -3,10 +3,8 @@ package com.uff.pedalauff.controlador;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uff.pedalauff.modelo.Usuario;
 import com.uff.pedalauff.repo.UsuarioRepo;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,8 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -37,10 +33,74 @@ public class UsuarioControladorTest {
     @Autowired
     ObjectMapper mapper;
 
+    @Mock
+    private UsuarioRepo repo;
+
+    @InjectMocks
+    @Spy
+    private UsuarioControlador controller;
+
     @MockBean
     UsuarioRepo usuarioRepo;
-    private UsuarioRepo UsuarioRepoSpy;
-    private UsuarioControlador usuarioControlador;
+
+    @Test
+    public void consultarUsuario_sucesso(){
+
+        Usuario usuario = Usuario.builder()
+                .idUsuario(3)
+                .nome("Admin")
+                .matricula(98456321)
+                .email("admin@gmail.com")
+                .senha("987456321")
+                .tipoUsuario(ADMIN)
+                .build();
+
+        Mockito.doReturn(java.util.Optional.ofNullable(usuario)).when(repo).findById(3);
+        Mockito.doReturn("3").when(controller).userId();
+        assertThat(controller.consultar())
+                .isEqualTo("Dados do usuário logado: \n" +
+                        "Nome: Admin\n" +
+                        "Matrícula: 98456321\n" +
+                        "Email: admin@gmail.com");
+    }
+
+    @Test
+    public void consultarUsuarioInexistente_falha() throws Exception {
+        UsuarioControlador usuarioControlador = new UsuarioControlador();
+        UsuarioControlador spyUsuario = Mockito.spy(usuarioControlador);
+
+        Usuario usuario = Usuario.builder()
+                .idUsuario(10)
+                .nome("joao")
+                .matricula(98400321)
+                .email("joao@gmail.com")
+                .senha("987456321")
+                .tipoUsuario(ADMIN)
+                .build();
+
+        Mockito.when(spyUsuario.userId()).thenReturn("10");
+        Mockito.when(usuarioRepo.findById(usuario.getIdUsuario())).thenReturn(Optional.ofNullable(usuario));
+        assertThat(spyUsuario.consultar()).isEqualTo("Usuário buscado não existe");
+    }
+
+    @Test
+    public void consultarUsuarioSemLogin_falha() throws Exception {
+        UsuarioControlador usuarioControlador = new UsuarioControlador();
+        UsuarioControlador spyUsuario = Mockito.spy(usuarioControlador);
+
+        Usuario usuario = Usuario.builder()
+                .idUsuario(3)
+                .nome("Admin")
+                .matricula(98456321)
+                .email("admin@gmail.com")
+                .senha("987456321")
+                .tipoUsuario(ADMIN)
+                .build();
+
+        Mockito.when(spyUsuario.userId()).thenReturn(null);
+        Mockito.when(usuarioRepo.findById(usuario.getIdUsuario())).thenReturn(Optional.ofNullable(usuario));
+        assertThat(spyUsuario.consultar()).isEqualTo("Você não possui acesso para realizar tal ação.");
+    }
 
     @Test
     public void salvarUsuario_sucesso() throws Exception {
@@ -156,9 +216,7 @@ public class UsuarioControladorTest {
     }
 
     @Test
-    public void consultarUsuarioSemLogin_falha() throws Exception {
-        UsuarioControlador usuarioControlador = new UsuarioControlador();
-        UsuarioControlador spyUsuario = Mockito.spy(usuarioControlador);
+    public void verTodosUsuarios_sucesso() throws Exception {
 
         Usuario usuario = Usuario.builder()
                 .idUsuario(3)
@@ -168,50 +226,44 @@ public class UsuarioControladorTest {
                 .senha("987456321")
                 .tipoUsuario(ADMIN)
                 .build();
-
-        Mockito.when(spyUsuario.userId()).thenReturn(null);
-        Mockito.when(usuarioRepo.findById(usuario.getIdUsuario())).thenReturn(Optional.ofNullable(usuario));
-        assertThat(spyUsuario.consultar()).isEqualTo("Você não possui acesso para realizar tal ação.");
-    }
-
-    @Test
-    public void consultarUsuarioInexistente_falha() throws Exception {
-        UsuarioControlador usuarioControlador = new UsuarioControlador();
-        UsuarioControlador spyUsuario = Mockito.spy(usuarioControlador);
-
-        Usuario usuario = Usuario.builder()
-                .idUsuario(10)
-                .nome("joao")
-                .matricula(98400321)
-                .email("joao@gmail.com")
+        Usuario usuario2 = Usuario.builder()
+                .idUsuario(3)
+                .nome("Joao")
+                .matricula(98456321)
+                .email("admin@gmail.com")
                 .senha("987456321")
                 .tipoUsuario(ADMIN)
                 .build();
-
-        Mockito.when(spyUsuario.userId()).thenReturn("10");
-        Mockito.when(usuarioRepo.findById(usuario.getIdUsuario())).thenReturn(Optional.ofNullable(usuario));
-        assertThat(spyUsuario.consultar()).isEqualTo("Usuário buscado não existe");
-    }
-
-    @Test
-    public void consultarUsuario_sucesso() throws Exception {
-        // Teste não mocka usuarioRepo.findById(3)
-        UsuarioControlador usuarioControlador = new UsuarioControlador();
-        UsuarioControlador spyUsuario = Mockito.spy(usuarioControlador);
-
-        Usuario usuario = Usuario.builder()
+        Usuario usuario3 = Usuario.builder()
                 .idUsuario(3)
-                .nome("Admin")
+                .nome("Maria")
                 .matricula(98456321)
                 .email("admin@gmail.com")
                 .senha("987456321")
                 .tipoUsuario(ADMIN)
                 .build();
 
-        Optional<Usuario> userOpt = Optional.of(usuario);
-        Mockito.when(spyUsuario.userId()).thenReturn("3");
-        Mockito.when(usuarioRepo.findById(3)).thenReturn(userOpt);
-        assertThat(spyUsuario.consultar()).isEqualTo("Usuário uscado não existe");
+        Iterable<Usuario> usuarios = Arrays.asList(usuario, usuario2, usuario3);
+
+        Mockito.doReturn(usuarios).when(repo).findAll();
+        Mockito.doReturn("3").when(controller).userId();
+        Mockito.doReturn("ADMIN").when(controller).userLvl();
+        assertThat(controller.verTodosUsuarios()).isEqualTo("Lista de Usuários:\n" +
+                "Usuario: 3\n" +
+                "Nome do usuario: Admin\n" +
+                "Nível de acesso: ADMIN\n" +
+                "Email do usuário: admin@gmail.com\n" +
+                "Matrícula do usuário: 98456321\n" +
+                "Usuario: 3\n" +
+                "Nome do usuario: Joao\n" +
+                "Nível de acesso: ADMIN\n" +
+                "Email do usuário: admin@gmail.com\n" +
+                "Matrícula do usuário: 98456321\n" +
+                "Usuario: 3\n" +
+                "Nome do usuario: Maria\n" +
+                "Nível de acesso: ADMIN\n" +
+                "Email do usuário: admin@gmail.com\n" +
+                "Matrícula do usuário: 98456321\n");
     }
 
     @Test
@@ -237,20 +289,8 @@ public class UsuarioControladorTest {
 
     }
 
-    @Before("")
-    public void init() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/jsp/");
-        resolver.setSuffix(".jsp");
-        this.mockMvc = MockMvcBuilders.standaloneSetup(usuarioControlador).setViewResolvers(resolver).build();
-    }
-
     @Test
-    public void verTodosUsuarios_sucesso() throws Exception {
-        UsuarioControlador usuarioControlador = new UsuarioControlador();
-        UsuarioControlador spyUsuario = Mockito.spy(usuarioControlador);
-        UsuarioRepo spyRepo = Mockito.spy(UsuarioRepo.class);
-
+    public void realizarLogout_sucesso(){
         Usuario usuario = Usuario.builder()
                 .idUsuario(3)
                 .nome("Admin")
@@ -260,14 +300,26 @@ public class UsuarioControladorTest {
                 .tipoUsuario(ADMIN)
                 .build();
 
-        Iterable<Usuario> usuarios = Arrays.asList(usuario);
-
-        Mockito.when(spyUsuario.userId()).thenReturn("1");
-        Mockito.when(spyUsuario.userLvl()).thenReturn("ADMIN");
-        Mockito.when(spyRepo.findAll()).thenReturn(usuarios);
-        assertThat(spyUsuario.verTodosUsuarios()).isEqualTo("Você possui acesso para realizar tal ação.");
-
+        Mockito.doReturn(java.util.Optional.ofNullable(usuario)).when(repo).findById(3);
+        Mockito.doReturn("3").when(controller).userId();
+        assertThat(controller.logout())
+                .isEqualTo("Usuário deslogado com sucesso");
     }
 
+    @Test
+    public void realizarLogout_falha(){
+        Usuario usuario = Usuario.builder()
+                .idUsuario(3)
+                .nome("Admin")
+                .matricula(98456321)
+                .email("admin@gmail.com")
+                .senha("987456321")
+                .tipoUsuario(ADMIN)
+                .build();
 
+        Mockito.doReturn(java.util.Optional.ofNullable(usuario)).when(repo).findById(3);
+        Mockito.doReturn(null).when(controller).userId();
+        assertThat(controller.logout())
+                .isEqualTo("Você não está logado");
+    }
 }

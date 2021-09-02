@@ -29,7 +29,6 @@ public class UsuarioControlador {
     @PostMapping(path = "/usuario/seusdados")
     public String consultar() {
         userIdent = userId();
-
         if (userIdent != null) {
             try {
                 int test = Integer.parseInt(userIdent);
@@ -99,6 +98,7 @@ public class UsuarioControlador {
 
     @PostMapping(path = "/usuario/deslogar")
     public String logout() {
+        userIdent = userId();
         if (userIdent != null) {
             userIdent = "";
             System.out.println(userIdent);
