@@ -1,11 +1,15 @@
 package com.uff.pedalauff.modelo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "posto")
 public class Posto implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -1,5 +1,6 @@
 package com.uff.pedalauff.controlador;
 
+import com.uff.pedalauff.dto.PostoDTO;
 import com.uff.pedalauff.modelo.Posto;
 import com.uff.pedalauff.repo.PostoRepo;
 import com.uff.pedalauff.repo.VagaRepo;
@@ -27,9 +28,9 @@ public class PostoControlador {
 
     @CrossOrigin
     @PostMapping(path = "/posto/salvar")
-    public String salvar(@RequestBody Posto posto) {
+    public String salvar(@RequestBody PostoDTO postoDTO) {
         if (userIdent != null && userLvl.equals("ADMIN")) {
-            postoRepo.save(posto);
+            postoRepo.save(postoDTO.transformaParaObjeto());
             return "Posto criado com sucesso.";
         }
         return LOGAR_NO_SITE;
