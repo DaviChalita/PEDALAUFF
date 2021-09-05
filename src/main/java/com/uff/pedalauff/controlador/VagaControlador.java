@@ -20,8 +20,6 @@ import java.util.logging.Logger;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE_BUILDER;
-import static com.uff.pedalauff.controlador.UsuarioControlador.userIdent;
-import static com.uff.pedalauff.controlador.UsuarioControlador.userLvl;
 import static com.uff.pedalauff.enums.EstadoBicicleta.NA_VAGA;
 
 @RestController
@@ -37,10 +35,12 @@ public class VagaControlador {
     private BicicletaRepo bicicletaRepo;
     private Logger log;
 
+    UsuarioControlador usuarioControlador = new UsuarioControlador();
+
     @CrossOrigin
     @PostMapping(path = "/vaga/ver-todas")
     public StringBuilder verTodasVagas() {
-        if (userIdent != null && userLvl.equals("ADMIN")) {
+        if (usuarioControlador.getUserIdent() != null && usuarioControlador.getUserLvl().equals("ADMIN")) {
             Iterable<Vaga> vagas = vagaRepo.findAll();
             StringBuilder listaVagasStr = new StringBuilder("Lista de Vagas:\n");
 
@@ -68,7 +68,7 @@ public class VagaControlador {
     @PostMapping(path = "/vaga/salvar")
     public String salvar(@RequestBody Map<String, String> json) {
         Comuns comuns = new Comuns();
-        if (userIdent != null) {
+        if (usuarioControlador.getUserIdent() != null) {
             Vaga vaga = new Vaga();
             try {
                 vaga.setQrCode(comuns.geraQrCodeAleatorio());
@@ -117,7 +117,7 @@ public class VagaControlador {
     @CrossOrigin
     @PostMapping(path = "vaga/inserebike")
     public String insereBikeNaVaga(@RequestBody Map<String, String> json) {
-        if (userIdent != null && userLvl.equals("ADMIN")) {
+        if (usuarioControlador.getUserIdent() != null && usuarioControlador.getUserLvl().equals("ADMIN")) {
             Vaga vaga;
             try {
                 vaga = vagaRepo.findByQrCode(json.get("qrCodeVaga"));

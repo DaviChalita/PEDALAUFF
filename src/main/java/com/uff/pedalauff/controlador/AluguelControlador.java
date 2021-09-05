@@ -21,7 +21,6 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
-import static com.uff.pedalauff.controlador.UsuarioControlador.userIdent;
 import static com.uff.pedalauff.enums.EstadoBicicleta.EM_USO;
 import static com.uff.pedalauff.enums.EstadoBicicleta.NA_VAGA;
 
@@ -42,10 +41,12 @@ public class AluguelControlador {
     @Autowired
     private VagaRepo vagaRepo;
 
+    UsuarioControlador usuarioControlador = new UsuarioControlador();
+
     @CrossOrigin
     @PostMapping(path = "/aluguel/alugar")
     public String alugar(@RequestBody Map<String, String> json) {
-        if (userIdent != null) {
+        if (usuarioControlador.getUserIdent() != null) {
             Aluguel aluguel = new Aluguel();
             aluguel.setDthrAluguel(new Date(System.currentTimeMillis()));
 
@@ -72,7 +73,7 @@ public class AluguelControlador {
             vaga.setBicicleta(null);
             bicicleta.setEstadoAtual(EM_USO);
 
-            Optional<Usuario> usuarioOpt = this.usuarioRepo.findById(Integer.valueOf(userIdent));
+            Optional<Usuario> usuarioOpt = this.usuarioRepo.findById(Integer.valueOf(usuarioControlador.getUserIdent()));
             Usuario usuario;
             if (usuarioOpt.isPresent()) {
                 usuario = usuarioOpt.get();
@@ -100,12 +101,12 @@ public class AluguelControlador {
     @CrossOrigin
     @PostMapping(path = "/aluguel/devolver")
     public String devolver(@RequestBody Map<String, String> json) {
-        if (userIdent != null) {
+        if (usuarioControlador.getUserIdent() != null) {
             Aluguel aluguel = null;
             Integer idAluguel;
 
             try {
-                idAluguel = aluguelRepo.findByIdUsuarioAndBikeNDevolvida(Integer.parseInt(userIdent));
+                idAluguel = aluguelRepo.findByIdUsuarioAndBikeNDevolvida(Integer.parseInt(usuarioControlador.getUserIdent()));
                 if (idAluguel == null) {
                     return "Não foi possível encontrar o aluguel atual do usuário logado";
                 }

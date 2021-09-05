@@ -14,8 +14,6 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
-import static com.uff.pedalauff.controlador.UsuarioControlador.userIdent;
-import static com.uff.pedalauff.controlador.UsuarioControlador.userLvl;
 
 @RestController
 public class PostoControlador {
@@ -26,10 +24,12 @@ public class PostoControlador {
     @Autowired
     private VagaRepo vagaRepo;
 
+    UsuarioControlador usuarioControlador = new UsuarioControlador();
     @CrossOrigin
     @PostMapping(path = "/posto/salvar")
     public String salvar(@RequestBody PostoDTO postoDTO) {
-        if (userIdent != null && userLvl.equals("ADMIN")) {
+
+        if (usuarioControlador.getUserIdent() != null && usuarioControlador.getUserLvl().equals("ADMIN")) {
             postoRepo.save(postoDTO.transformaParaObjeto());
             return "Posto criado com sucesso.";
         }
@@ -39,7 +39,7 @@ public class PostoControlador {
     @CrossOrigin
     @PostMapping(path = "/posto/consultar")
     public String consultar(@RequestBody Map<String, String> json) {
-        if (userIdent != null) {
+        if (usuarioControlador.getUserIdent() != null) {
             Integer idPosto;
             Posto posto = null;
             try {

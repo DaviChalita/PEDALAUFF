@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
-import static com.uff.pedalauff.controlador.UsuarioControlador.userIdent;
-import static com.uff.pedalauff.controlador.UsuarioControlador.userLvl;
 import static com.uff.pedalauff.enums.EstadoBicicleta.CRIADA;
 import static com.uff.pedalauff.enums.EstadoBicicleta.EM_MANUTENCAO;
 
@@ -27,10 +25,12 @@ public class BicicletaControlador {
     @Autowired
     private VagaRepo vagaRepo;
 
+    UsuarioControlador usuarioControlador = new UsuarioControlador();
+
     @CrossOrigin
     @PostMapping(path = "/bicicleta/consulta")
     public String consultar(@RequestBody Map<String, String> json) {
-        if (userIdent != null && userLvl.equals("ADMIN")) {
+        if (usuarioControlador.getUserIdent() != null && usuarioControlador.getUserLvl().equals("ADMIN")) {
             Bicicleta bicicleta;
             Vaga vaga;
             String resp = "";
@@ -59,7 +59,7 @@ public class BicicletaControlador {
     @PostMapping(path = "/bicicleta/salvar")
     public String salvar(@RequestBody Bicicleta bicicleta) {
         Comuns comuns = new Comuns();
-        if (userIdent != null && userLvl.equals("ADMIN")) {
+        if (usuarioControlador.getUserIdent() != null && usuarioControlador.getUserLvl().equals("ADMIN")) {
             bicicleta.setQrCode(comuns.geraQrCodeAleatorio());
             bicicleta.setEstadoAtual(CRIADA);
             bicicletaRepo.save(bicicleta);
@@ -71,7 +71,7 @@ public class BicicletaControlador {
     @CrossOrigin
     @PostMapping(path = "/bicicleta/manutencao")
     public String consertarBicicleta(@RequestBody Map<String, String> json) {
-        if (userIdent != null && userLvl.equals("ADMIN")) {
+        if (usuarioControlador.getUserIdent() != null && usuarioControlador.getUserLvl().equals("ADMIN")) {
             Bicicleta bicicleta;
             try {
                 bicicleta = bicicletaRepo.findByQrCode(json.get("qrCodeBicicleta"));

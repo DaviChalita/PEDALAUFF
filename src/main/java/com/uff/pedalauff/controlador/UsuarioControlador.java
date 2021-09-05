@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE_BUILDER;
-import static com.uff.pedalauff.enums.TipoUsuario.NORMAL;
 
 @RestController
 public class UsuarioControlador {
@@ -23,8 +22,17 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioRepo repo;
 
-    public static String userIdent;
-    public static String userLvl;
+    private String userIdent;
+
+    private String userLvl;
+
+    public String getUserIdent() {
+        return userIdent;
+    }
+
+    public String getUserLvl() {
+        return userLvl;
+    }
 
     private Logger log;
 
