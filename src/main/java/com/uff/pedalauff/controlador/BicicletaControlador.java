@@ -25,12 +25,10 @@ public class BicicletaControlador {
     @Autowired
     private VagaRepo vagaRepo;
 
-    UsuarioControlador usuarioControlador = new UsuarioControlador();
-
     @CrossOrigin
     @PostMapping(path = "/bicicleta/consulta")
     public String consultar(@RequestBody Map<String, String> json) {
-        if (usuarioControlador.getUserIdent() != null && usuarioControlador.getUserLvl().equals("ADMIN")) {
+        if (UsuarioControlador.getUserIdent() != null && UsuarioControlador.getUserLvl().equals("ADMIN")) {
             Bicicleta bicicleta;
             Vaga vaga;
             String resp = "";
@@ -59,7 +57,7 @@ public class BicicletaControlador {
     @PostMapping(path = "/bicicleta/salvar")
     public String salvar(@RequestBody Bicicleta bicicleta) {
         Comuns comuns = new Comuns();
-        if (usuarioControlador.getUserIdent() != null && usuarioControlador.getUserLvl().equals("ADMIN")) {
+        if (UsuarioControlador.getUserIdent() != null && UsuarioControlador.getUserLvl().equals("ADMIN")) {
             bicicleta.setQrCode(comuns.geraQrCodeAleatorio());
             bicicleta.setEstadoAtual(CRIADA);
             bicicletaRepo.save(bicicleta);
@@ -71,7 +69,7 @@ public class BicicletaControlador {
     @CrossOrigin
     @PostMapping(path = "/bicicleta/manutencao")
     public String consertarBicicleta(@RequestBody Map<String, String> json) {
-        if (usuarioControlador.getUserIdent() != null && usuarioControlador.getUserLvl().equals("ADMIN")) {
+        if (UsuarioControlador.getUserIdent() != null && UsuarioControlador.getUserLvl().equals("ADMIN")) {
             Bicicleta bicicleta;
             try {
                 bicicleta = bicicletaRepo.findByQrCode(json.get("qrCodeBicicleta"));

@@ -41,12 +41,10 @@ public class AluguelControlador {
     @Autowired
     private VagaRepo vagaRepo;
 
-    UsuarioControlador usuarioControlador = new UsuarioControlador();
-
     @CrossOrigin
     @PostMapping(path = "/aluguel/alugar")
     public String alugar(@RequestBody Map<String, String> json) {
-        if (usuarioControlador.getUserIdent() != null) {
+        if (UsuarioControlador.getUserIdent() != null) {
             Aluguel aluguel = new Aluguel();
             aluguel.setDthrAluguel(new Date(System.currentTimeMillis()));
 
@@ -73,7 +71,7 @@ public class AluguelControlador {
             vaga.setBicicleta(null);
             bicicleta.setEstadoAtual(EM_USO);
 
-            Optional<Usuario> usuarioOpt = this.usuarioRepo.findById(Integer.valueOf(usuarioControlador.getUserIdent()));
+            Optional<Usuario> usuarioOpt = this.usuarioRepo.findById(Integer.valueOf(UsuarioControlador.getUserIdent()));
             Usuario usuario;
             if (usuarioOpt.isPresent()) {
                 usuario = usuarioOpt.get();
@@ -101,12 +99,12 @@ public class AluguelControlador {
     @CrossOrigin
     @PostMapping(path = "/aluguel/devolver")
     public String devolver(@RequestBody Map<String, String> json) {
-        if (usuarioControlador.getUserIdent() != null) {
+        if (UsuarioControlador.getUserIdent() != null) {
             Aluguel aluguel = null;
             Integer idAluguel;
 
             try {
-                idAluguel = aluguelRepo.findByIdUsuarioAndBikeNDevolvida(Integer.parseInt(usuarioControlador.getUserIdent()));
+                idAluguel = aluguelRepo.findByIdUsuarioAndBikeNDevolvida(Integer.parseInt(UsuarioControlador.getUserIdent()));
                 if (idAluguel == null) {
                     return "Não foi possível encontrar o aluguel atual do usuário logado";
                 }

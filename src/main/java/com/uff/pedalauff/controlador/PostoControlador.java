@@ -24,12 +24,11 @@ public class PostoControlador {
     @Autowired
     private VagaRepo vagaRepo;
 
-    UsuarioControlador usuarioControlador = new UsuarioControlador();
     @CrossOrigin
     @PostMapping(path = "/posto/salvar")
     public String salvar(@RequestBody PostoDTO postoDTO) {
 
-        if (usuarioControlador.getUserIdent() != null && usuarioControlador.getUserLvl().equals("ADMIN")) {
+        if (UsuarioControlador.getUserIdent() != null && UsuarioControlador.getUserLvl().equals("ADMIN")) {
             postoRepo.save(postoDTO.transformaParaObjeto());
             return "Posto criado com sucesso.";
         }
@@ -39,7 +38,7 @@ public class PostoControlador {
     @CrossOrigin
     @PostMapping(path = "/posto/consultar")
     public String consultar(@RequestBody Map<String, String> json) {
-        if (usuarioControlador.getUserIdent() != null) {
+        if (UsuarioControlador.getUserIdent() != null) {
             Integer idPosto;
             Posto posto = null;
             try {

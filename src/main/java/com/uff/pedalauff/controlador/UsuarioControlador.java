@@ -22,17 +22,32 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioRepo repo;
 
-    private String userIdent;
+    private static String userIdent;
 
-    private String userLvl;
+    private static String userLvl;
 
-    public String getUserIdent() {
+    public static String getUserIdent() {
+        if(userIdent == null){
+            userIdent = "";
+        }
         return userIdent;
     }
 
-    public String getUserLvl() {
+    public static String getUserLvl() {
+        if(userLvl == null){
+            userLvl = "";
+        }
         return userLvl;
     }
+
+    public static void setUserIdent(String param) {
+        userIdent = param;
+    }
+
+    public static void setUserLvl(String param) {
+        userLvl = param;
+    }
+
 
     private Logger log;
 
@@ -76,12 +91,12 @@ public class UsuarioControlador {
 
         Integer idUsuario = repo.findByEmailAndSenha(json.get("email"), json.get("senha"));
         if (idUsuario != null) {
-            userIdent = String.valueOf(idUsuario);
+            setUserIdent(String.valueOf(idUsuario));
             Optional<Usuario> usuarioOpt = repo.findById(idUsuario);
             Usuario usuario;
             if (usuarioOpt.isPresent()) {
                 usuario = usuarioOpt.get();
-                userLvl = String.valueOf(usuario.getTipoUsuario());
+                setUserLvl(String.valueOf(usuario.getTipoUsuario()));
                 return "true";
             }
         }
@@ -113,8 +128,8 @@ public class UsuarioControlador {
 
     @PostMapping(path = "/usuario/deslogar")
     public String logout() {
-        if (userIdent != null) {
-            userIdent = "";
+        if (getUserIdent() != null) {
+            setUserIdent("");
             return "Usuário deslogado com sucesso";
         }
         return "Você não está logado";

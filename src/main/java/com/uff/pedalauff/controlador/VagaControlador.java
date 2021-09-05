@@ -35,12 +35,12 @@ public class VagaControlador {
     private BicicletaRepo bicicletaRepo;
     private Logger log;
 
-    UsuarioControlador usuarioControlador = new UsuarioControlador();
+
 
     @CrossOrigin
     @PostMapping(path = "/vaga/ver-todas")
     public StringBuilder verTodasVagas() {
-        if (usuarioControlador.getUserIdent() != null && usuarioControlador.getUserLvl().equals("ADMIN")) {
+        if (UsuarioControlador.getUserIdent() != null && UsuarioControlador.getUserLvl().equals("ADMIN")) {
             Iterable<Vaga> vagas = vagaRepo.findAll();
             StringBuilder listaVagasStr = new StringBuilder("Lista de Vagas:\n");
 
@@ -68,7 +68,7 @@ public class VagaControlador {
     @PostMapping(path = "/vaga/salvar")
     public String salvar(@RequestBody Map<String, String> json) {
         Comuns comuns = new Comuns();
-        if (usuarioControlador.getUserIdent() != null) {
+        if (UsuarioControlador.getUserIdent() != null) {
             Vaga vaga = new Vaga();
             try {
                 vaga.setQrCode(comuns.geraQrCodeAleatorio());
@@ -117,7 +117,7 @@ public class VagaControlador {
     @CrossOrigin
     @PostMapping(path = "vaga/inserebike")
     public String insereBikeNaVaga(@RequestBody Map<String, String> json) {
-        if (usuarioControlador.getUserIdent() != null && usuarioControlador.getUserLvl().equals("ADMIN")) {
+        if (UsuarioControlador.getUserIdent() != null && UsuarioControlador.getUserLvl().equals("ADMIN")) {
             Vaga vaga;
             try {
                 vaga = vagaRepo.findByQrCode(json.get("qrCodeVaga"));
