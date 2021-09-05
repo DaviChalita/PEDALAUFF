@@ -99,49 +99,54 @@ public class AluguelControlador {
     @CrossOrigin
     @PostMapping(path = "/aluguel/devolver")
     public String devolver(@RequestBody Map<String, String> json) {
-        if (UsuarioControlador.getUserIdent() != null) {
-            Aluguel aluguel = null;
-            Integer idAluguel;
 
-            try {
-                idAluguel = aluguelRepo.findByIdUsuarioAndBikeNDevolvida(Integer.parseInt(UsuarioControlador.getUserIdent()));
-                if (idAluguel == null) {
-                    return "Não foi possível encontrar o aluguel atual do usuário logado";
-                }
-                Optional<Aluguel> aluguelOpt = aluguelRepo.findById(idAluguel);
-                if (aluguelOpt.isPresent()) {
-                    aluguel = aluguelOpt.get();
-                    aluguel.setDthrDevolucao(new Date(System.currentTimeMillis()));
-                }
-            } catch (NullPointerException | IllegalArgumentException e) {
-                return "Erro ao buscar o aluguel";
+        if (UsuarioControlador.getUserIdent() == null) {
+            return LOGAR_NO_SITE;
+        }
+        Aluguel aluguel = null;
+        Integer idAluguel;
+
+        try {
+            idAluguel = aluguelRepo.findByIdUsuarioAndBikeNDevolvida(Integer.parseInt(UsuarioControlador.getUserIdent()));
+            if (idAluguel == null) {
+                return "Não foi possível encontrar o aluguel atual do usuário logado";
             }
-            Optional<Bicicleta> bicicletaOpt = this.bicicletaRepo.findById(aluguelRepo.findIdBikeByIdAluguel(idAluguel));
-            Bicicleta bicicleta = null;
-            if (bicicletaOpt.isPresent()) {
-                bicicleta = bicicletaOpt.get();
-                bicicleta.setEstadoAtual(NA_VAGA);
+            Optional<Aluguel> aluguelOpt = aluguelRepo.findById(idAluguel);
+            if (aluguelOpt.isPresent()) {
+                aluguel = aluguelOpt.get();
+                aluguel.setDthrDevolucao(new Date(System.currentTimeMillis()));
             }
+        } catch (NullPointerException | IllegalArgumentException e) {
+            return "Erro ao buscar o aluguel";
+        }
+        Optional<Bicicleta> bicicletaOpt = this.bicicletaRepo.findById(aluguelRepo.findIdBikeByIdAluguel(idAluguel));
 
-            Vaga vaga;
+        Bicicleta bicicleta = null;
+        if (bicicletaOpt.isPresent()) {
+            bicicleta = bicicletaOpt.get();
+            bicicleta.setEstadoAtual(NA_VAGA);
+        }
 
-            try {
-                vaga = vagaRepo.findByQrCode(json.get("qrCodeVaga"));
-                vaga.alteraDisponibilidadeVaga(vaga);
-                vaga.setBicicleta(bicicleta);
-                vagaRepo.save(vaga);
-            } catch (NullPointerException | NumberFormatException ex) {
-                return "Você está tentando encontrar uma vaga que não existe.";
+        Vaga vaga;
 
-            }
-
-
-            bicicletaRepo.save(bicicleta);
-            aluguelRepo.save(aluguel);
-            return "Bicicleta: " + bicicleta.getIdBicicleta() + " devolvida com sucesso";
+        try {
+            vaga = vagaRepo.findByQrCode(json.get("qrCodeVaga"));
+            vaga.alteraDisponibilidadeVaga(vaga);
+            vaga.setBicicleta(bicicleta);
+            vagaRepo.save(vaga);
+        } catch (NullPointerException | NumberFormatException ex) {
+            return "Você está tentando encontrar uma vaga que não existe.";
 
         }
-        return LOGAR_NO_SITE;
+
+
+        assert bicicleta != null;
+        bicicletaRepo.save(bicicleta);
+        assert aluguel != null;
+        aluguelRepo.save(aluguel);
+        return "Bicicleta: " + bicicleta.getIdBicicleta() + " devolvida com sucesso";
+
+
     }
 
 }
