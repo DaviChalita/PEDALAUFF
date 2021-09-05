@@ -36,7 +36,6 @@ public class VagaControlador {
     private Logger log;
 
 
-
     @CrossOrigin
     @PostMapping(path = "/vaga/ver-todas")
     public StringBuilder verTodasVagas() {
@@ -68,50 +67,50 @@ public class VagaControlador {
     @PostMapping(path = "/vaga/salvar")
     public String salvar(@RequestBody Map<String, String> json) {
         Comuns comuns = new Comuns();
-        if (UsuarioControlador.getUserIdent() != null) {
-            Vaga vaga = new Vaga();
-            try {
-                vaga.setQrCode(comuns.geraQrCodeAleatorio());
-                vaga.setDisponibilidade(true);
-            } catch (NullPointerException e) {
-                return "Vaga está sendo criada sem Qr Code";
-            }
+        if (UsuarioControlador.getUserIdent() == null)
+            return LOGAR_NO_SITE;
 
-            try {
-                Optional<Posto> postoOpt = postoRepo.findById(Integer.parseInt(json.get("idPosto")));
-                if (postoOpt.isPresent()) {
-                    Posto posto = postoOpt.get();
-                    vaga.setPosto(posto);
-                } else {
-                    return "Posto inserido não existe";
-                }
-            } catch (NumberFormatException e) {
-                return "Vaga não pode ser criada sem um posto vinculado, favor tentar novamente";
-            }
-
-            try {
-                String qrCode = json.get("qrCodeBicicleta");
-                if (!qrCode.equals("")) {
-                    Bicicleta bicicleta = bicicletaRepo.findByQrCode(qrCode);
-                    if (bicicleta == null) {
-                        return "QRCode da bicicleta inserido é inválido";
-                    }
-                    bicicleta.setEstadoAtual(NA_VAGA);
-                    vaga.setBicicleta(bicicleta);
-                    vaga.setDisponibilidade(false);
-                    bicicletaRepo.save(bicicleta);
-                }
-            } catch (NullPointerException | NumberFormatException e) {
-                log.warning("Vaga sendo criada sem uma bicicleta vinculada");
-            } catch (NoSuchElementException e) {
-                return "Bicicleta inserida não existe";
-            }
-
-            vagaRepo.save(vaga);
-            return "Vaga com o QRCode: " + vaga.getQrCode() + " criada com sucesso";
-
+        Vaga vaga = new Vaga();
+        try {
+            vaga.setQrCode(comuns.geraQrCodeAleatorio());
+            vaga.setDisponibilidade(true);
+        } catch (NullPointerException e) {
+            return "Vaga está sendo criada sem Qr Code";
         }
-        return LOGAR_NO_SITE;
+
+        try {
+            Optional<Posto> postoOpt = postoRepo.findById(Integer.parseInt(json.get("idPosto")));
+            if (postoOpt.isPresent()) {
+                Posto posto = postoOpt.get();
+                vaga.setPosto(posto);
+            } else {
+                return "Posto inserido não existe";
+            }
+        } catch (NumberFormatException e) {
+            return "Vaga não pode ser criada sem um posto vinculado, favor tentar novamente";
+        }
+
+        try {
+            String qrCode = json.get("qrCodeBicicleta");
+            if (!qrCode.equals("")) {
+                Bicicleta bicicleta = bicicletaRepo.findByQrCode(qrCode);
+                if (bicicleta == null) {
+                    return "QRCode da bicicleta inserido é inválido";
+                }
+                bicicleta.setEstadoAtual(NA_VAGA);
+                vaga.setBicicleta(bicicleta);
+                vaga.setDisponibilidade(false);
+                bicicletaRepo.save(bicicleta);
+            }
+        } catch (NullPointerException | NumberFormatException e) {
+            log.warning("Vaga sendo criada sem uma bicicleta vinculada");
+        } catch (NoSuchElementException e) {
+            return "Bicicleta inserida não existe";
+        }
+
+        vagaRepo.save(vaga);
+        return "Vaga com o QRCode: " + vaga.getQrCode() + " criada com sucesso";
+
     }
 
     @CrossOrigin
