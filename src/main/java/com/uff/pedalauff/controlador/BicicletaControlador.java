@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.ADMIN;
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
@@ -25,6 +27,7 @@ public class BicicletaControlador {
 
     @Autowired
     private VagaRepo vagaRepo;
+    private Logger log;
 
     @CrossOrigin
     @PostMapping(path = "/bicicleta/consulta")
@@ -41,11 +44,12 @@ public class BicicletaControlador {
                 return "Favor inserir um id de bicicleta válido";
             }
 
-            try {
-                vaga = vagaRepo.findById(bicicleta.getIdBicicleta()).get();
+            Optional<Vaga> vagaOpt = vagaRepo.findById(bicicleta.getIdBicicleta());
+            if (vagaOpt.isPresent()) {
+                vaga = vagaOpt.get();
                 resp += "\nE se encontra na vaga de QRCode: " + vaga.getQrCode();
-            } catch (NullPointerException e) {
-                System.out.println("Bicicleta não está em nenhuma vaga");
+            } else {
+                log.info("Bicicleta não está em nenhuma vaga");
             }
 
             return resp;
@@ -81,13 +85,14 @@ public class BicicletaControlador {
                 return "Favor inserir um id de bicicleta válido";
             }
 
-            try {
-                Integer idVaga = vagaRepo.findByBicicletaQrCode(bicicleta.getQrCode());
-                Vaga vaga = vagaRepo.findById(idVaga).get();
+            Integer idVaga = vagaRepo.findByBicicletaQrCode(bicicleta.getQrCode());
+            Optional<Vaga> vagaOpt = vagaRepo.findById(idVaga);
+            if (vagaOpt.isPresent()) {
+                Vaga vaga = vagaOpt.get();
                 vaga.setDisponibilidade(true);
                 vaga.setBicicleta(null);
                 vagaRepo.save(vaga);
-            } catch (NullPointerException e) {
+            } else {
                 return "Bicicleta não está em nenhuma vaga, favor devolvê-la a uma vaga antes de consertá-la";
             }
 
