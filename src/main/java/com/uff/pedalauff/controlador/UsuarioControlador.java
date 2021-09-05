@@ -128,7 +128,7 @@ public class UsuarioControlador {
 
     @PostMapping(path = "/usuario/deslogar")
     public String logout() {
-        if (getUserIdent() != null) {
+        if (!getUserIdent().equals("")) {
             setUserIdent("");
             return "Usuário deslogado com sucesso";
         }
