@@ -1,6 +1,7 @@
 package com.uff.pedalauff.controlador;
 
 import com.uff.pedalauff.comuns.Comuns;
+import com.uff.pedalauff.dto.BicicletaDTO;
 import com.uff.pedalauff.modelo.Bicicleta;
 import com.uff.pedalauff.modelo.Vaga;
 import com.uff.pedalauff.repo.BicicletaRepo;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -60,13 +62,13 @@ public class BicicletaControlador {
 
     @CrossOrigin
     @PostMapping(path = "/bicicleta/salvar")
-    public String salvar(@RequestBody Bicicleta bicicleta) {
+    public String salvar(@RequestBody BicicletaDTO bicicletaDTO) {
         Comuns comuns = new Comuns();
         if (UsuarioControlador.getUserIdent() != null && UsuarioControlador.getUserLvl().equals(ADMIN)) {
-            bicicleta.setQrCode(comuns.geraQrCodeAleatorio());
-            bicicleta.setEstadoAtual(CRIADA);
-            bicicletaRepo.save(bicicleta);
-            return "O QR Code da bicicleta criada é igual a: " + bicicleta.getQrCode();
+            bicicletaDTO.setQrCode(comuns.geraQrCodeAleatorio());
+            bicicletaDTO.setEstadoAtual(CRIADA);
+            bicicletaRepo.save(bicicletaDTO.transformaParaObjeto());
+            return "O QR Code da bicicleta criada é igual a: " + bicicletaDTO.getQrCode();
         }
         return LOGAR_NO_SITE;
     }
