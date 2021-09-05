@@ -1,5 +1,6 @@
 package com.uff.pedalauff.controlador;
 
+import com.uff.pedalauff.dto.UsuarioDTO;
 import com.uff.pedalauff.modelo.Usuario;
 import com.uff.pedalauff.repo.UsuarioRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +52,9 @@ public class UsuarioControlador {
 
     @CrossOrigin
     @PostMapping(path = "/usuario/salvar")
-    public String salvar(@RequestBody Usuario usuario) {
+    public String salvar(@RequestBody UsuarioDTO usuarioDTO) {
         try {
-            usuario.setTipoUsuario(NORMAL);
-            repo.save(usuario);
+            repo.save(usuarioDTO.transformaParaObjeto());
         } catch (Exception e) {
             log.warning("Exceção: " + e.getMessage());
             return "Já existe usuário cadastrado com esse email e/ou matrícula";
