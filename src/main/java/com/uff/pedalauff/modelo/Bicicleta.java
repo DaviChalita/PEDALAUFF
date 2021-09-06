@@ -2,6 +2,7 @@ package com.uff.pedalauff.modelo;
 
 
 import com.uff.pedalauff.enums.EstadoBicicleta;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;

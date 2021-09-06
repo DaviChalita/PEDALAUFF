@@ -1,5 +1,6 @@
 package com.uff.pedalauff.modelo;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;

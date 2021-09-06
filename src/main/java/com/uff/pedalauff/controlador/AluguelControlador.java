@@ -38,18 +38,21 @@ public class AluguelControlador {
     @Autowired
     private VagaRepo vagaRepo;
 
+    public String userId(){ return userIdent;}
+    public String userLvl(){ return userIdent;}
+
     @CrossOrigin
     @PostMapping(path = "/aluguel/alugar")
     public String alugar(@RequestBody Map<String, String> json) {
-
-        System.out.println(userIdent);
+        System.out.println("json bicicleta: " + json);
+        userIdent = userId();
         if (userIdent != null) {
+            Integer idAluguel;
             Aluguel aluguel = new Aluguel();
             aluguel.setDthrAluguel(new Date(System.currentTimeMillis()));
 
             Bicicleta bicicleta;
             try {
-
                 bicicleta = bicicletaRepo.findByQrCode(json.get("qrCodeBicicleta"));
                 if (bicicleta.getEstadoAtual() == EM_USO) {
                     return "Você está tentando alugar uma bicicleta que já está em uso, favor alugar uma bicicleta disponível";
@@ -76,8 +79,11 @@ public class AluguelControlador {
                 usuario = usuarioRepo.findById(Integer.valueOf(userIdent)).get();
                 System.out.println("Usuario: " + usuario.getNome());
                 try {
-                    int idAluguel = usuarioRepo.checkBicicletaNDevolvida(usuario.getIdUsuario());
-                    return "Usuário precisa devolver uma bicicleta antes de alugar outra!";
+                    Integer id = usuario.getIdUsuario();
+                    idAluguel = usuarioRepo.checkBicicletaNDevolvida(id);
+                    if (idAluguel != null){
+                        return "Usuário precisa devolver uma bicicleta antes de alugar outra!";
+                    }
                 } catch (NullPointerException | AopInvocationException e) {
                     System.out.println("Usuário não está alugando nenhuma bicicleta no momento");
                 }
@@ -99,13 +105,15 @@ public class AluguelControlador {
     @CrossOrigin
     @PostMapping(path = "/aluguel/devolver")
     public String devolver(@RequestBody Map<String, String> json) {
+        userIdent = userId();
         if (userIdent != null) {
             Aluguel aluguel;
             Bicicleta bicicleta;
             Integer idAluguel;
 
             try {
-                idAluguel = aluguelRepo.findByIdUsuarioAndBikeNDevolvida(Integer.parseInt(userIdent));
+                Integer id = Integer.parseInt(userIdent);
+                idAluguel = aluguelRepo.findByIdUsuarioAndBikeNDevolvida(id);
                 if(idAluguel == null){
                     return "Não foi possível encontrar o aluguel atual do usuário logado";
                 }
@@ -121,7 +129,8 @@ public class AluguelControlador {
             Vaga vaga;
 
                 try {
-                    vaga = vagaRepo.findByQrCode(json.get("qrCodeVaga"));
+                    String qrCode = json.get("qrCodeVaga");
+                    vaga = vagaRepo.findByQrCode(qrCode);
                     vaga.alteraDisponibilidadeVaga(vaga);
                     vaga.setBicicleta(bicicleta);
                     vagaRepo.save(vaga);

@@ -14,5 +14,5 @@ public interface UsuarioRepo extends CrudRepository<Usuario, Integer> {
     Integer findByEmailAndSenha(String email, String senha);
 
     @Query("select idAluguel from aluguel where usuarioAlugado.idUsuario = ?1 and dthrDevolucao is NULL")
-    int checkBicicletaNDevolvida(Integer idUsuario);
+    Integer checkBicicletaNDevolvida(Integer idUsuario);
 }
