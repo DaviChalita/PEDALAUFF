@@ -27,6 +27,9 @@ public class PostoControlador {
     @Autowired
     private VagaRepo vagaRepo;
 
+    public String userId(){ return userIdent;}
+    public String userLvl(){ return userIdent;}
+
     @CrossOrigin
     @PostMapping(path = "/posto/salvar")
     public String salvar(@RequestBody Posto posto) {

@@ -26,9 +26,16 @@ public class BicicletaControlador {
     @Autowired
     private VagaRepo vagaRepo;
 
+    public String userId(){ return userIdent;}
+    public String userLvl(){ return userIdent;}
+
     @CrossOrigin
     @PostMapping(path = "/bicicleta/consulta")
     public String consultar(@RequestBody Map<String, String> json) {
+
+        userIdent = userId();
+        userLvl = userLvl();
+
         if (userIdent != null && userLvl.equals("ADMIN")) {
             Bicicleta bicicleta;
             Vaga vaga;
@@ -57,6 +64,10 @@ public class BicicletaControlador {
     @CrossOrigin
     @PostMapping(path = "/bicicleta/salvar")
     public String salvar(@RequestBody Bicicleta bicicleta) {
+
+        userIdent = userId();
+        userLvl = userLvl();
+
         if (userIdent != null && userLvl.equals("ADMIN")) {
             bicicleta.setQrCode(geraQrCodeAleatorio());
             bicicleta.setEstadoAtual(CRIADA);
@@ -69,6 +80,8 @@ public class BicicletaControlador {
     @CrossOrigin
     @PostMapping(path = "/bicicleta/manutencao")
     public String consertarBicicleta(@RequestBody Map<String, String> json) {
+        userIdent = userId();
+        userLvl = userLvl();
         if (userIdent != null && userLvl.equals("ADMIN")) {
             Bicicleta bicicleta;
             try {
@@ -97,7 +110,7 @@ public class BicicletaControlador {
         return LOGAR_NO_SITE;
     }
 
-    private String geraQrCodeAleatorio() {
+    public String geraQrCodeAleatorio() {
         //https://www.geeksforgeeks.org/generate-random-string-of-given-size-in-java/
         String ALPHA_NUMERIC_STRING = "0123456789abcdefghijklmnopqrstuvxyz";
         int n = 4;
