@@ -51,7 +51,7 @@ public class PostoControladorTest {
     private PostoControlador controller;
 
     @Test
-    public void salvarPostoSemLogin_falha(){
+    public void salvarPostoSemLogin_falha() {
 
         Posto posto = new Posto();
         Mockito.doReturn(null).when(controller).userId();
@@ -63,7 +63,7 @@ public class PostoControladorTest {
     }
 
     @Test
-    public void salvarPosto_sucesso(){
+    public void salvarPosto_sucesso() {
 
         Posto posto = new Posto();
         Mockito.doReturn("3").when(controller).userId();
@@ -74,13 +74,13 @@ public class PostoControladorTest {
     }
 
     @Test
-    public void consultarPostoSemLogin_falha(){
+    public void consultarPostoSemLogin_falha() {
 
         Posto posto = new Posto();
         Mockito.doReturn(null).when(controller).userId();
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeBicicleta", new String("en2r"));
 
         assertThat(controller.consultar(bicicletaMap))
                 .isEqualTo("Você não possui acesso para " +
@@ -88,7 +88,7 @@ public class PostoControladorTest {
     }
 
     @Test
-    public void consultarPostoInexistente_falha(){
+    public void consultarPostoInexistente_falha() {
 
         Posto posto = new Posto();
         posto.setIdPosto(1);
@@ -96,15 +96,15 @@ public class PostoControladorTest {
         Mockito.doReturn("3").when(controller).userId();
         Mockito.doReturn(null).when(postoRepo).findById(1);
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeBicicleta", new String("en2r"));
 
         assertThat(controller.consultar(bicicletaMap))
                 .isEqualTo("Posto buscado não existe");
     }
 
     @Test
-    public void consultarPostoSucesso(){
+    public void consultarPostoSucesso() {
 
         Posto posto = new Posto();
         posto.setIdPosto(1);
@@ -130,8 +130,8 @@ public class PostoControladorTest {
                 .when(vagaRepo).qtdVagasDisp(1);
 
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "idPosto", new String( "1" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("idPosto", new String("1"));
 
         assertThat(controller.consultar(bicicletaMap))
                 .isEqualTo("Posto: 1 tem 3 bicicleta(s) disponivel(is) " +
