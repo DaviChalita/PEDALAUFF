@@ -1,15 +1,11 @@
 package com.uff.pedalauff.controlador;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uff.pedalauff.modelo.*;
 import com.uff.pedalauff.repo.*;
-import io.restassured.http.ContentType;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.springframework.aop.AopInvocationException;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 

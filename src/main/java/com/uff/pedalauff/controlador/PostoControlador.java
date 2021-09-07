@@ -33,6 +33,8 @@ public class PostoControlador {
     @CrossOrigin
     @PostMapping(path = "/posto/salvar")
     public String salvar(@RequestBody Posto posto) {
+        userIdent = userId();
+        userLvl = userLvl();
         if (userIdent != null && userLvl.equals("ADMIN")) {
             postoRepo.save(posto);
             return "Posto criado com sucesso.";
@@ -43,6 +45,8 @@ public class PostoControlador {
     @CrossOrigin
     @PostMapping(path = "/posto/consultar")
     public String consultar(@RequestBody Map<String, String> json) {
+        userIdent = userId();
+        userLvl = userLvl();
         if (userIdent != null) {
             Integer idPosto;
             Posto posto;
