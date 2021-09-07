@@ -32,9 +32,15 @@ public class VagaControlador {
     @Autowired
     private BicicletaRepo bicicletaRepo;
 
+    public String userId(){ return userIdent;}
+    public String userLvl(){ return userIdent;}
+
     @CrossOrigin
     @PostMapping(path = "/vaga/ver-todas")
     public String verTodasVagas() {
+        userIdent = userId();
+        userLvl = userLvl();
+
         if (userIdent != null && userLvl.equals("ADMIN")) {
             Iterable<Vaga> vagas = vagaRepo.findAll();
             String listaVagasStr = "Lista de Vagas:\n";
@@ -60,6 +66,9 @@ public class VagaControlador {
     @CrossOrigin
     @PostMapping(path = "/vaga/salvar")
     public String salvar(@RequestBody Map<String, String> json) {
+        userIdent = userId();
+        userLvl = userLvl();
+
         if (userIdent != null) {
             Vaga vaga = new Vaga();
             try {
@@ -109,6 +118,9 @@ public class VagaControlador {
     @CrossOrigin
     @PostMapping(path = "vaga/inserebike")
     public String insereBikeNaVaga(@RequestBody Map<String, String> json) {
+        userIdent = userId();
+        userLvl = userLvl();
+
         if (userIdent != null && userLvl.equals("ADMIN")) {
             Vaga vaga;
             try {
@@ -147,7 +159,7 @@ public class VagaControlador {
         return LOGAR_NO_SITE;
     }
 
-    private String geraQrCodeAleatorio() {
+    public String geraQrCodeAleatorio() {
         //https://www.geeksforgeeks.org/generate-random-string-of-given-size-in-java/
         String ALPHA_NUMERIC_STRING = "0123456789abcdefghijklmnopqrstuvxyz";
         int n = 4;
