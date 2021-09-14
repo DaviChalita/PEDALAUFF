@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import static com.uff.pedalauff.enums.EstadoBicicleta.EM_USO;
 import static com.uff.pedalauff.enums.TipoUsuario.ADMIN;
@@ -27,11 +28,16 @@ public class BicicletaControladorTest {
     @Mock
     private AluguelRepo aluguelRepo;
     @Mock
+    private Random random;
+    @Mock
     private BicicletaRepo bicicletaRepo;
     @Mock
     private UsuarioRepo usuarioRepo;
     @Mock
     private VagaRepo vagaRepo;
+
+    @MockBean
+    Random randomMock;
 
     @MockBean
     Bicicleta bike;
@@ -193,6 +199,16 @@ public class BicicletaControladorTest {
 
         assertThat(controller.consertarBicicleta(bicicletaMap))
                 .isEqualTo("Status da bicicleta atualizado com sucesso.");
+    }
+
+    @Test
+    public void qrCode(){
+
+        Mockito.doReturn(11).when(random).nextInt(35);
+
+        assertThat(controller.geraQrCodeAleatorio())
+                .isEqualTo("bbbb");
+
     }
 
 }
