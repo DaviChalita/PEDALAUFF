@@ -25,4 +25,8 @@ public class Vaga implements Serializable {
         vaga.setDisponibilidade(!vaga.isDisponibilidade());
     }
 
+    public boolean get_disponibilidade(){
+        return this.disponibilidade;
+    }
+
 }
