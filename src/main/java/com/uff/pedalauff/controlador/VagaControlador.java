@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import static com.uff.pedalauff.consts.PedalaUffConstants.LOGAR_NO_SITE;
 import static com.uff.pedalauff.controlador.UsuarioControlador.userIdent;
@@ -25,6 +26,9 @@ public class VagaControlador {
 
     @Autowired
     private VagaRepo vagaRepo;
+
+    @Autowired
+    private Random random;
 
     @Autowired
     private PostoRepo postoRepo;
@@ -167,7 +171,8 @@ public class VagaControlador {
         StringBuilder sb = new StringBuilder(n);
         for (int i = 0; i < n; i++) {
 
-            int index = (int) (ALPHA_NUMERIC_STRING.length() * Math.random());
+            int index = random.nextInt(ALPHA_NUMERIC_STRING.length());
+            //int index = (int) (ALPHA_NUMERIC_STRING.length() * Math.random());
 
             sb.append(ALPHA_NUMERIC_STRING.charAt(index));
         }

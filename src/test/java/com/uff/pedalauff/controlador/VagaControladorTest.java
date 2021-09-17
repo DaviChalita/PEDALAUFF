@@ -23,6 +23,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class VagaControladorTest {
 
     @Mock
+    private Random random;
+    @Mock
     private AluguelRepo aluguelRepo;
     @Mock
     private BicicletaRepo bicicletaRepo;
@@ -32,6 +34,9 @@ public class VagaControladorTest {
     private VagaRepo vagaRepo;
     @Mock
     private PostoRepo postoRepo;
+
+    @MockBean
+    Random randomMock;
 
     @MockBean
     AluguelRepo aluguelRepoMock;
@@ -389,5 +394,15 @@ public class VagaControladorTest {
 
         assertThat(controller.insereBikeNaVaga(vagaMap))
                 .isEqualTo("Bicicleta: abc123 inserida na vaga com sucesso");
+    }
+
+    @Test
+    public void qrCode(){
+
+        Mockito.doReturn(11).when(random).nextInt(35);
+
+        assertThat(controller.geraQrCodeAleatorio())
+                .isEqualTo("bbbb");
+
     }
 }
