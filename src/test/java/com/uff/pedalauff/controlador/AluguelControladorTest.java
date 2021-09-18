@@ -74,7 +74,20 @@ public class AluguelControladorTest {
     }
 
     @Test
-    public void alugarBicicletaInexistente_falha() {
+    public void alugarSemLogin(){
+        Mockito.doReturn(null).when(controller).userId();
+
+
+        Map<String,String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+
+        assertThat(controller.alugar(bicicletaMap))
+                .isEqualTo("Você não possui acesso para " +
+                        "realizar tal ação.");
+    }
+
+    @Test
+    public void alugarBicicletaInexistente_falha(){
 
         Bicicleta bicicleta = new Bicicleta();
         bicicleta.setIdBicicleta(1);
@@ -330,7 +343,8 @@ public class AluguelControladorTest {
     }
 
     @Test
-    public void alugarOuDevolverSemLogin() {
+
+    public void devolverSemLogin(){
         Mockito.doReturn(null).when(controller).userId();
 
 

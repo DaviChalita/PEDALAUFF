@@ -166,6 +166,26 @@ public class VagaControladorTest {
     }
 
     @Test
+    public void criarVagaSemPosto_falha(){
+        NumberFormatException e = new NumberFormatException();
+        Posto posto = new Posto();
+        posto.setIdPosto(1);
+
+        Mockito.doReturn("3").when(controller).userId();
+        Mockito.doReturn("ADMIN").when(controller).userLvl();
+
+        Mockito.doThrow(e).when(postoRepo).findById(1);
+
+        Map<String,String> vagaMap = new HashMap<>();
+        vagaMap.put( "idPosto", new String( "1" ));
+        vagaMap.put( "qrCodeBicicleta", new String( "abc123" ));
+
+        assertThat(controller.salvar(vagaMap))
+                .isEqualTo("Vaga não pode ser criada sem um " +
+                        "posto vinculado, favor tentar novamente");
+    }
+
+    @Test
     public void salvarVagaComPostoInexistente_falha(){
         NoSuchElementException e = new NoSuchElementException();
         Posto posto = new Posto();

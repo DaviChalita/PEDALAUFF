@@ -52,10 +52,8 @@ public class PostoControlador {
             Posto posto;
             try {
                 idPosto = Integer.parseInt(json.get("idPosto"));
-                System.out.println("idPosto: " + idPosto);
                 posto = postoRepo.findById(idPosto).get();
             } catch (NullPointerException | NumberFormatException | NoSuchElementException e) {
-                System.out.println("Erro ao pegar o id do posto: " + e);
                 return "Posto buscado não existe";
             }
 
@@ -72,8 +70,6 @@ public class PostoControlador {
                 if (vaga)
                     qtdVagasDisp++;
             }
-
-            System.out.println("Vagas Disps:" + qtdVagasDisp);
 
             return "Posto: " + idPosto + " tem " + qtdBicicletasDisp + " bicicleta(s) disponivel(is) para aluguel" +
                     " e " + qtdVagasDisp + " vaga(s) disponível(is).";

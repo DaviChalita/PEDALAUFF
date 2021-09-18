@@ -50,10 +50,6 @@ public class AluguelControlador {
             Integer idAluguel;
             Aluguel aluguel = new Aluguel();
             aluguel.setDthrAluguel(new Date(System.currentTimeMillis()));
-            if (aluguel.getDthrAluguel() == null){
-                return "Falha ao setar a Data/Hora do aluguel. Tente novamente";
-            }
-
             Bicicleta bicicleta;
             try {
                 bicicleta = bicicletaRepo.findByQrCode(json.get("qrCodeBicicleta"));
@@ -73,19 +69,8 @@ public class AluguelControlador {
             }
 
             vaga.alteraDisponibilidadeVaga(vaga);
-            if (vaga.get_disponibilidade() == false){
-                return "Falha ao retirar bicicleta da vaga. Tente novamente";
-            }
-
             vaga.setBicicleta(null);
-            if (vaga.getBicicleta() != null){
-                return "Falha ao retirar bicicleta da vaga. Tente novamente";
-            }
-
             bicicleta.setEstadoAtual(EM_USO);
-            if (bicicleta.getEstadoAtual() != EM_USO){
-                return "Falha ao retirar bicicleta da vaga. Tente novamente";
-            }
 
             Usuario usuario;
             try {
@@ -105,9 +90,6 @@ public class AluguelControlador {
             }
 
             aluguel.setUsuarioAlugado(usuario);
-            if (aluguel.getUsuarioAlugado() == null){
-                return "Falha ao retirar bicicleta da vaga. Tente novamente";
-            }
             aluguel.setBicicletaAlugada(bicicleta);
             bicicletaRepo.save(bicicleta);
             vagaRepo.save(vaga);
@@ -134,18 +116,12 @@ public class AluguelControlador {
                 }
                 aluguel = aluguelRepo.findById(idAluguel).get();
                 aluguel.setDthrDevolucao(new Date(System.currentTimeMillis()));
-                if (aluguel.getDthrDevolucao() == null){
-                    return "Falha ao setar a Data/Hora da devolução. Tente novamente";
-                }
             } catch (NullPointerException | IllegalArgumentException e) {
                 return "Erro ao buscar o aluguel";
             }
 
             bicicleta = bicicletaRepo.findById(aluguelRepo.findIdBikeByIdAluguel(idAluguel)).get();
             bicicleta.setEstadoAtual(NA_VAGA);
-            if (bicicleta.getEstadoAtual() != NA_VAGA){
-                return "Falha ao devolver bicicleta na vaga. Tente novamente";
-            }
 
             Vaga vaga;
 
@@ -153,20 +129,12 @@ public class AluguelControlador {
                     String qrCode = json.get("qrCodeVaga");
                     vaga = vagaRepo.findByQrCode(qrCode);
                     vaga.alteraDisponibilidadeVaga(vaga);
-                    if (vaga.get_disponibilidade() == false){
-                        return "Falha ao devolver bicicleta na vaga. Tente novamente";
-                    }
                     vaga.setBicicleta(bicicleta);
-                    if (vaga.getBicicleta() == null){
-                        return "Falha ao devolver bicicleta na vaga. Tente novamente";
-                    }
                     vagaRepo.save(vaga);
                 } catch (NullPointerException | NumberFormatException ex) {
                     return "Você está tentando encontrar uma vaga que não existe.";
 
             }
-
-
             bicicletaRepo.save(bicicleta);
             aluguelRepo.save(aluguel);
             return "Bicicleta: " + bicicleta.getIdBicicleta() + " devolvida com sucesso";
