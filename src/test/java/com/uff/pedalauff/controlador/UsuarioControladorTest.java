@@ -18,9 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static com.uff.pedalauff.enums.TipoUsuario.ADMIN;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,7 +44,7 @@ public class UsuarioControladorTest {
     UsuarioRepo usuarioRepo;
 
     @Test
-    public void consultarUsuario_sucesso(){
+    public void consultarUsuario_sucesso() {
 
         Usuario usuario = Usuario.builder()
                 .idUsuario(3)
@@ -163,9 +163,9 @@ public class UsuarioControladorTest {
 
         Optional<Usuario> userOpt = Optional.of(usuario);
 
-        Map<String,String> example = new HashMap<>();
-        example.put( "senha", new String( "Admin" ));
-        example.put( "email", new String( "admin@gmail.com" ));
+        Map<String, String> example = new HashMap<>();
+        example.put("senha", new String("Admin"));
+        example.put("email", new String("admin@gmail.com"));
 
         Mockito.when(usuarioRepo.findByEmailAndSenha("admin@gmail.com", "Admin")).thenReturn(3);
         Mockito.when(usuarioRepo.findById(3)).thenReturn(userOpt);
@@ -195,9 +195,9 @@ public class UsuarioControladorTest {
 
         Optional<Usuario> userOpt = Optional.of(usuario);
 
-        Map<String,String> example = new HashMap<>();
-        example.put( "senha", new String( "Amin" ));
-        example.put( "email", new String( "adm@gmail.com" ));
+        Map<String, String> example = new HashMap<>();
+        example.put("senha", new String("Amin"));
+        example.put("email", new String("adm@gmail.com"));
 
         System.out.println(example);
         Mockito.when(usuarioRepo.findByEmailAndSenha("adm@gmail.com", "Amin")).thenReturn(null);
@@ -290,7 +290,7 @@ public class UsuarioControladorTest {
     }
 
     @Test
-    public void realizarLogout_sucesso(){
+    public void realizarLogout_sucesso() {
         Usuario usuario = Usuario.builder()
                 .idUsuario(3)
                 .nome("Admin")
@@ -307,7 +307,7 @@ public class UsuarioControladorTest {
     }
 
     @Test
-    public void realizarLogout_falha(){
+    public void realizarLogout_falha() {
         Usuario usuario = Usuario.builder()
                 .idUsuario(3)
                 .nome("Admin")

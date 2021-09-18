@@ -1,6 +1,13 @@
 package com.uff.pedalauff.controlador;
-import com.uff.pedalauff.modelo.*;
-import com.uff.pedalauff.repo.*;
+
+import com.uff.pedalauff.modelo.Aluguel;
+import com.uff.pedalauff.modelo.Bicicleta;
+import com.uff.pedalauff.modelo.Usuario;
+import com.uff.pedalauff.modelo.Vaga;
+import com.uff.pedalauff.repo.AluguelRepo;
+import com.uff.pedalauff.repo.BicicletaRepo;
+import com.uff.pedalauff.repo.UsuarioRepo;
+import com.uff.pedalauff.repo.VagaRepo;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -47,7 +54,7 @@ public class AluguelControladorTest {
     private AluguelControlador controller;
 
     @Test
-    public void alugarBicicletaJaAlugada_falha(){
+    public void alugarBicicletaJaAlugada_falha() {
 
         Bicicleta bicicleta = new Bicicleta();
         bicicleta.setIdBicicleta(1);
@@ -58,8 +65,8 @@ public class AluguelControladorTest {
         Mockito.doReturn(bicicleta).when(bicicletaRepo)
                 .findByQrCode("en2r");
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeBicicleta", new String("en2r"));
 
         assertThat(controller.alugar(bicicletaMap))
                 .isEqualTo("Você está tentando alugar uma bicicleta que já está em uso," +
@@ -91,8 +98,8 @@ public class AluguelControladorTest {
         Mockito.doReturn(null).when(bicicletaRepo)
                 .findByQrCode("en2r");
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeBicicleta", new String("en2r"));
 
         assertThat(controller.alugar(bicicletaMap))
                 .isEqualTo("Você está tentando encontrar uma bicicleta que não existe.");
@@ -100,7 +107,7 @@ public class AluguelControladorTest {
     }
 
     @Test
-    public void buscarVagaInexistenteAluguel_falha(){
+    public void buscarVagaInexistenteAluguel_falha() {
 
         Bicicleta bicicleta = new Bicicleta();
         bicicleta.setIdBicicleta(1);
@@ -115,8 +122,8 @@ public class AluguelControladorTest {
         Mockito.doReturn(null).when(vagaRepo)
                 .findById(12);
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeBicicleta", new String("en2r"));
 
         assertThat(controller.alugar(bicicletaMap))
                 .isEqualTo("Você está tentando encontrar uma vaga que não existe.");
@@ -124,7 +131,7 @@ public class AluguelControladorTest {
 
 
     @Test
-    public void usuarioJaEstaAlugandoBicicleta_falha(){
+    public void usuarioJaEstaAlugandoBicicleta_falha() {
 
         Bicicleta bicicleta = new Bicicleta();
         bicicleta.setIdBicicleta(1);
@@ -163,7 +170,7 @@ public class AluguelControladorTest {
     }
 
     @Test
-    public void usuarioInexistente_falha(){
+    public void usuarioInexistente_falha() {
 
         Bicicleta bicicleta = new Bicicleta();
         bicicleta.setIdBicicleta(1);
@@ -191,15 +198,15 @@ public class AluguelControladorTest {
         Mockito.doReturn(null)
                 .when(usuarioRepo).findById(3);
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeBicicleta", new String("en2r"));
 
         assertThat(controller.alugar(bicicletaMap))
                 .isEqualTo("Você está tentando encontrar um usuário que não existe.");
     }
 
     @Test
-    public void alugarBicicleta_sucesso(){
+    public void alugarBicicleta_sucesso() {
 
         Bicicleta bicicleta = new Bicicleta();
         bicicleta.setIdBicicleta(1);
@@ -230,22 +237,22 @@ public class AluguelControladorTest {
                 .when(usuarioRepo).checkBicicletaNDevolvida(3);
         //Mockito.doThrow(new Exception("Testing")).when(usuarioRepo).checkBicicletaNDevolvida(3);
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeBicicleta", new String("en2r"));
 
         assertThat(controller.alugar(bicicletaMap))
                 .isEqualTo("Bicicleta: 1 alugada com sucesso");
     }
 
     @Test
-    public void devolverSemALugar_falha(){
+    public void devolverSemALugar_falha() {
 
         Mockito.doReturn("3").when(controller).userId();
         Mockito.doReturn(null).when(aluguelRepo)
                 .findByIdUsuarioAndBikeNDevolvida(3);
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeBicicleta", new String("en2r"));
 
         assertThat(controller.devolver(bicicletaMap))
                 .isEqualTo("Não foi possível encontrar o aluguel" +
@@ -253,22 +260,22 @@ public class AluguelControladorTest {
     }
 
     @Test
-    public void bucarAluguel_falha(){
+    public void bucarAluguel_falha() {
         Mockito.doReturn("3").when(controller).userId();
         Mockito.doReturn(3).when(aluguelRepo)
                 .findByIdUsuarioAndBikeNDevolvida(3);
         Mockito.doReturn(null).when(aluguelRepo)
                 .findById(3);
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeBicicleta", new String("en2r"));
 
         assertThat(controller.devolver(bicicletaMap))
                 .isEqualTo("Erro ao buscar o aluguel");
     }
 
     @Test
-    public void buscarVagaInexistenteDevolver_falha(){
+    public void buscarVagaInexistenteDevolver_falha() {
 
         Bicicleta bicicleta = new Bicicleta();
 
@@ -293,8 +300,8 @@ public class AluguelControladorTest {
         Mockito.doReturn(vaga).when(vagaRepo)
                 .findByQrCode("en");
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeBicicleta", new String("en2r"));
 
         assertThat(controller.devolver(bicicletaMap))
                 .isEqualTo("Você está tentando encontrar " +
@@ -302,7 +309,7 @@ public class AluguelControladorTest {
     }
 
     @Test
-    public void devolverBicicleta_sucesso(){
+    public void devolverBicicleta_sucesso() {
 
         Bicicleta bicicleta = new Bicicleta();
         bicicleta.setIdBicicleta(1);
@@ -328,23 +335,25 @@ public class AluguelControladorTest {
         Mockito.doReturn(vaga).when(vagaRepo)
                 .findByQrCode("en2r");
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeVaga", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeVaga", new String("en2r"));
 
         assertThat(controller.devolver(bicicletaMap))
                 .isEqualTo("Bicicleta: 1 devolvida com sucesso");
     }
 
     @Test
+
     public void devolverSemLogin(){
         Mockito.doReturn(null).when(controller).userId();
 
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeBicicleta", new String("en2r"));
 
         assertThat(controller.devolver(bicicletaMap))
                 .isEqualTo("Você não possui acesso para " +
                         "realizar tal ação.");
     }
+
 }
