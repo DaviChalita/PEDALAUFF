@@ -1,0 +1,485 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>PedalaUFF</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" href="../assets/css/main.css"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <a class="logo" href="../index.html">PedalaUFF</a>
+</header>
+
+<!-- Banner -->
+<div id="heading">
+    <h1>Pedala UFF - Página do Admin</h1>
+</div>
+
+<!-- Modal cadastrar bike -->
+<div class="container">
+    <!-- Trigger the modal with a button -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalCadBike" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cadastrar bicicleta</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="http://localhost:8080/bicicleta/salvar" id="myform"
+                          class="some-class">
+                        <div class="row gtr-uniform">
+                            <div class="col-6 col-12-xsmall">
+                                Tem certeza que deseja cadastrar uma nova bicicleta?
+                            </div>
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" value="Sim" class="primary"/></li>
+                                    <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                               value="Não"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- Fim modal cadastrar bike -->
+
+<!-- Modal cadastrar vaga -->
+<div class="container">
+    <!-- Trigger the modal with a button -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalCadVaga" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cadastrar Vaga</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="http://localhost:8080/vaga/salvar" id="myform" class="some-class">
+                        <div class="row gtr-uniform">
+                            <div class="col-6 col-12-xsmall">
+                                <label>Código do Posto que a vaga será inserida*</label>
+                                <input type="text" name="idPosto" id="name" value="" placeholder="Código..."
+                                       required/>
+                                <label>QRCode da bicicleta que estará na vaga</label>
+                                <input type="text" name="qrCodeBicicleta" id="name" value="" placeholder="Código..."/>
+                            </div>
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" value="Submit" class="primary"/></li>
+                                    <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                               value="Fechar"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- Fim modal cadastrar vaga -->
+
+<!-- Modal cadastro bicicletario -->
+<div class="container">
+    <!-- Trigger the modal with a button -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalCadPosto" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cadastrar Posto</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="http://localhost:8080/posto/salvar" id="myform" class="some-class">
+                        <div class="row gtr-uniform">
+                            <div class="col-6 col-12-xsmall">
+                                <label>Endereço do posto</label>
+                                <input type="text" name="endereco" id="name" value="" placeholder="Endereco..."
+                                       required/>
+                                <label>Campus da UFF</label>
+                                <input type="text" name="campus" id="name" value="" placeholder="Campus..."
+                                       required/>
+                            </div>
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" value="Submit" class="primary"/></li>
+                                    <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                               value="Fechar"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- Fim modal cadastro bicicletario -->
+
+<!-- Modal inserir bike -->
+<div class="container">
+    <!-- Trigger the modal with a button -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalInsereBike" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Inserir bicicleta na vaga</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="http://localhost:8080/vaga/inserebike" id="myform"
+                          class="some-class">
+                        <div class="row gtr-uniform">
+                            <div class="col-6 col-12-xsmall">
+                                <label>Código da bicicleta*</label>
+                                <input type="text" name="qrCodeBicicleta" id="name" value="" placeholder="Código..."
+                                       required/>
+                                <label>Código da vaga*</label>
+                                <input type="text" name="qrCodeVaga" id="name" value="" placeholder="Código..."
+                                       required/>
+                            </div>
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" value="Sim" class="primary"/></li>
+                                    <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                               value="Não"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- Fim modal inserir bike -->
+
+<!-- Modal status bike -->
+<div class="container">
+    <!-- Trigger the modal with a button -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalStatusBike" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Alterar status da bicicleta</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="http://localhost:8080/bicicleta/manutencao" id="myform"
+                          class="some-class">
+                        <div class="row gtr-uniform">
+                            <div class="col-6 col-12-xsmall">
+                                <label>Código da bicicleta*</label>
+                                <input type="text" name="qrCodeBicicleta" id="name" value="" placeholder="Código..."
+                                       required/>
+                            </div>
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" value="Sim" class="primary"/></li>
+                                    <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                               value="Não"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- Fim modal status bike -->
+
+<!-- Modal status vagas -->
+<div class="container">
+    <!-- Trigger the modal with a button -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalVerVagas" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Visualizar Vagas</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="http://localhost:8080/vaga/ver-todas" id="myform"
+                          class="some-class">
+                        <div class="row gtr-uniform">
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" value="Sim" class="primary"/></li>
+                                    <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                               value="Não"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- Fim modal status vaga -->
+
+
+<!-- Modal ver bicicleta -->
+<div class="container">
+    <!-- Trigger the modal with a button -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalVerBike" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ver bicicleta</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="http://localhost:8080/bicicleta/consulta" id="myform"
+                          class="some-class">
+                        <div class="row gtr-uniform">
+                            <div class="col-6 col-12-xsmall">
+                                <label>Código da bicicleta*</label>
+                                <input type="text" name="qrCodeBicicleta" id="name" value="" placeholder="Código..."
+                                       required/>
+                            </div>
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" value="Sim" class="primary"/></li>
+                                    <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                               value="Não"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- Fim modal ver bicicleta -->
+
+
+<!-- Highlights -->
+<section class="wrapper">
+    <div class="inner">
+        <header class="special">
+            <h2>O que você deseja fazer?</h2>
+        </header>
+        <div class="highlights">
+            <section>
+                <div class="content">
+                    <header>
+                        <a href="#" class="icon fa-bicycle" data-toggle="modal"
+                           data-target="#myModalCadBike"><span class="label">Icon</span></a>
+                        <h3>Cadastrar bicicleta</h3>
+                    </header>
+                    <p>Cadastre um nova bicicleta.</p>
+                </div>
+            </section>
+            <section>
+                <div class="content">
+                    <header>
+                        <a href="#" class="icon fa-qrcode" data-toggle="modal" data-target="#myModalCadVaga"><span
+                                class="label">Icon</span></a>
+                        <h3>Cadastrar vaga</h3>
+                    </header>
+                    <p>Cadastre uma nova vaga em um posto existente.</p>
+                </div>
+            </section>
+            <section>
+                <div class="content">
+                    <header>
+                        <a href="#" class="icon fa-map-marker" data-toggle="modal"
+                           data-target="#myModalCadPosto"><span class="label">Cadastrar</span></a>
+                        <h3>Cadastrar posto</h3>
+                    </header>
+                    <p>Cadastre um novo posto.</p>
+                </div>
+            </section>
+            <section>
+                <div class="content">
+                    <header>
+                        <a href="#" class="icon fa-level-down" data-toggle="modal"
+                           data-target="#myModalInsereBike"><span class="label">Icon</span></a>
+                        <h3>Inserir bicicleta livre na vaga</h3>
+                    </header>
+                    <p>Insira bicicleta que não está em uma vaga.</p>
+                </div>
+            </section>
+            <section>
+                <div class="content">
+                    <header>
+                        <a href="#" class="icon fa-wrench" data-toggle="modal"
+                           data-target="#myModalStatusBike"><span class="label">Icon</span></a>
+                        <h3>Bicicleta em manutenção</h3>
+                    </header>
+                    <p>Coloque uma bicicleta em manutenção.</p>
+                </div>
+            </section>
+            <section>
+                <div class="content">
+                    <header>
+                        <a href="#" class="icon fas fa-star" data-toggle="modal"
+                           data-target="#myModalVerVagas"><span class="label">Icon</span></a>
+                        <h3>Ver todas as vagas</h3>
+                    </header>
+                    <p>Visualize as vagas do Pedala UFF</p>
+                </div>
+            </section>
+            <section>
+                <div class="content">
+                    <header>
+                        <a href="#" class="icon fas fa-search" data-toggle="modal"
+                        data-target="#myModalVerBike"><span class="label">Icon</span></a>
+                        <h3>Ver uma bicicleta</h3>
+                    </header>
+                    <p>Visualize uma bicicleta do Pedala UFF</p>
+                </div>
+            </section>
+            <section>
+                <div class="content">
+                    <header>
+                        <a href="../index.html" class="icon fa-vcard-o"><span class="label">Icon</span></a>
+                        <h3>Logout</h3>
+                    </header>
+                </div>
+            </section>
+            <section>
+                <div class="content">
+                    <header>
+                        <a href="#" class="icon fa-user-circle-o" data-toggle="modal"
+                           data-target="#myModalVerUsuarios"><span class="label">Icon</span></a>
+                        <h3>Ver os usuários</h3>
+                    </header>
+                    <p>Visualize todos os usuários do Pedala UFF</p>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+</div>
+</div>
+</section>
+
+
+<div class="container">
+    <!-- Trigger the modal with a button -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalVerUsuarios" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ver usuários</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="http://localhost:8080/usuario/ver-usuarios" id="myform"
+                          class="some-class">
+                        <div class="row gtr-uniform">
+                            <div class="col-12">
+                                <ul class="actions">
+                                    <li><input type="submit" value="Sim" class="primary"/></li>
+                                    <li><input type="button" class="btn btn-default" data-dismiss="modal"
+                                               value="Não"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <div class="content">
+            <section>
+                <h3>Git do projeto</h3>
+                <ul class="plain">
+                    <li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
+                </ul>
+            </section>
+            <section>
+                <h3>Grupo</h3>
+                <p>Catherine Costa</p>
+                <p>Davi Chalita</p>
+                <p>Isaac Klein</p>
+                <p>Sophia Duboc</p>
+            </section>
+        </div>
+        <div class="copyright">
+            &copy; PedalaUFF
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/browser.min.js"></script>
+<script src="../assets/js/breakpoints.min.js"></script>
+<script src="../assets/js/util.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/form_json.js"></script>
+<script src="../assets/js/map.js"></script>
+
+
+</body>
+
+</html>
