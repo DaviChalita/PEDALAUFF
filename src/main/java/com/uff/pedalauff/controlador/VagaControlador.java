@@ -61,7 +61,6 @@ public class VagaControlador {
                 }
                 listaVagasStr += "\n";
             }
-            System.out.println(listaVagasStr);
             return listaVagasStr;
         }
         return LOGAR_NO_SITE;
@@ -94,7 +93,6 @@ public class VagaControlador {
 
             try {
                 String qrCode = json.get("qrCodeBicicleta");
-                System.out.println("QRCode Bicicleta: " + qrCode);
                 if (qrCode != "") {
                     Bicicleta bicicleta = bicicletaRepo.findByQrCode(qrCode);
                     if (bicicleta == null) {

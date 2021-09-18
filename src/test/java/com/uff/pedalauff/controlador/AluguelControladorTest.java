@@ -67,6 +67,19 @@ public class AluguelControladorTest {
     }
 
     @Test
+    public void alugarSemLogin(){
+        Mockito.doReturn(null).when(controller).userId();
+
+
+        Map<String,String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+
+        assertThat(controller.alugar(bicicletaMap))
+                .isEqualTo("Você não possui acesso para " +
+                        "realizar tal ação.");
+    }
+
+    @Test
     public void alugarBicicletaInexistente_falha(){
 
         Bicicleta bicicleta = new Bicicleta();
@@ -142,8 +155,8 @@ public class AluguelControladorTest {
                 .when(usuarioRepo).checkBicicletaNDevolvida(3);
 
 
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+        Map<String, String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put("qrCodeBicicleta", new String("en2r"));
 
         assertThat(controller.alugar(bicicletaMap))
                 .isEqualTo("Usuário precisa devolver uma bicicleta antes de alugar outra!");
@@ -323,7 +336,7 @@ public class AluguelControladorTest {
     }
 
     @Test
-    public void alugarOuDevolverSemLogin(){
+    public void devolverSemLogin(){
         Mockito.doReturn(null).when(controller).userId();
 
 
@@ -334,128 +347,4 @@ public class AluguelControladorTest {
                 .isEqualTo("Você não possui acesso para " +
                         "realizar tal ação.");
     }
-
-    @Test
-    //Teste que só funciona em mutação
-    public void setarDataHoraAluguel_falha(){
-        Mockito.doReturn("3").when(controller).userId();
-
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
-
-        assertThat(controller.alugar(bicicletaMap))
-                .isEqualTo("Falha ao setar a Data/Hora do " +
-                        "aluguel. Tente novamente");
-    }
-
-    @Test
-    //Teste que só funciona em mutação
-    public void retirarBikeVaga_falha(){
-        Bicicleta bicicleta = new Bicicleta();
-        bicicleta.setIdBicicleta(1);
-        bicicleta.setEstadoAtual(NA_VAGA);
-        bicicleta.setQrCode("en2r");
-
-        Vaga vaga = new Vaga();
-        vaga.setBicicleta(bicicleta);
-
-        Usuario usuario = Usuario.builder()
-                .idUsuario(3)
-                .nome("Admin")
-                .matricula(98456321)
-                .email("admin@gmail.com")
-                .senha("987456321")
-                .tipoUsuario(ADMIN)
-                .build();
-
-        Mockito.doReturn("3").when(controller).userId();
-        Mockito.doReturn(bicicleta).when(bicicletaRepo)
-                .findByQrCode("en2r");
-        Mockito.doReturn(1).when(vagaRepo)
-                .findByBicicleta(1);
-        Mockito.doReturn(java.util.Optional.ofNullable(vaga)).when(vagaRepo)
-                .findById(1);
-        Mockito.doReturn(java.util.Optional.ofNullable(usuario))
-                .when(usuarioRepo).findById(3);
-        Mockito.doReturn(null)
-                .when(usuarioRepo).checkBicicletaNDevolvida(3);
-        //Mockito.doThrow(new Exception("Testing")).when(usuarioRepo).checkBicicletaNDevolvida(3);
-
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
-
-        assertThat(controller.alugar(bicicletaMap))
-                .isEqualTo("Falha ao retirar bicicleta da " +
-                        "vaga. Tente novamente");
-    }
-
-    @Test
-    //Teste que só funciona em mutação
-    public void setarDataHoraDevolucao_falha(){
-        Bicicleta bicicleta = new Bicicleta();
-
-        Usuario usuario = new Usuario();
-
-        Aluguel aluguel = new Aluguel();
-        aluguel.setIdAluguel(1);
-        aluguel.setBicicletaAlugada(bicicleta);
-        aluguel.setUsuarioAlugado(usuario);
-
-        Vaga vaga = new Vaga();
-
-        Mockito.doReturn("3").when(controller).userId();
-        Mockito.doReturn(1).when(aluguelRepo)
-                .findByIdUsuarioAndBikeNDevolvida(3);
-        Mockito.doReturn(java.util.Optional.ofNullable(aluguel))
-                .when(aluguelRepo).findById(1);
-        Mockito.doReturn(1).when(aluguelRepo)
-                .findIdBikeByIdAluguel(1);
-        Mockito.doReturn(java.util.Optional.ofNullable(bicicleta)).when(bicicletaRepo)
-                .findById(1);
-        Mockito.doReturn(vaga).when(vagaRepo)
-                .findByQrCode("en");
-
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
-
-        assertThat(controller.devolver(bicicletaMap))
-                .isEqualTo("Falha ao setar a Data/Hora da " +
-                        "devolução. Tente novamente");
-    }
-
-    @Test
-    //Teste que só funciona em mutação
-    public void devolverBikeVaga_falha(){
-        Bicicleta bicicleta = new Bicicleta();
-        bicicleta.setIdBicicleta(1);
-
-        Usuario usuario = new Usuario();
-
-        Aluguel aluguel = new Aluguel();
-        aluguel.setIdAluguel(1);
-        aluguel.setBicicletaAlugada(bicicleta);
-        aluguel.setUsuarioAlugado(usuario);
-
-        Vaga vaga = new Vaga();
-
-        Mockito.doReturn("3").when(controller).userId();
-        Mockito.doReturn(1).when(aluguelRepo)
-                .findByIdUsuarioAndBikeNDevolvida(3);
-        Mockito.doReturn(java.util.Optional.ofNullable(aluguel))
-                .when(aluguelRepo).findById(1);
-        Mockito.doReturn(1).when(aluguelRepo)
-                .findIdBikeByIdAluguel(1);
-        Mockito.doReturn(java.util.Optional.ofNullable(bicicleta)).when(bicicletaRepo)
-                .findById(1);
-        Mockito.doReturn(vaga).when(vagaRepo)
-                .findByQrCode("en2r");
-
-        Map<String,String> bicicletaMap = new HashMap<>();
-        bicicletaMap.put( "qrCodeVaga", new String( "en2r" ));
-
-        assertThat(controller.devolver(bicicletaMap))
-                .isEqualTo("Falha ao devolver bicicleta na " +
-                        "vaga. Tente novamente");
-    }
-
 }

@@ -51,7 +51,6 @@ public class UsuarioControlador {
             usuario.setTipoUsuario(NORMAL);
             repo.save(usuario);
         } catch (Exception e) {
-            System.out.println("Exceção: " + e.getMessage());
             return "Já existe usuário cadastrado com esse email e/ou matrícula";
         }
         return "Usuário registrado com sucesso";
@@ -60,15 +59,11 @@ public class UsuarioControlador {
     @CrossOrigin
     @PostMapping(path = "/usuario/logar")
     public String login(@RequestBody Map<String, String> json) {
-        System.out.println("json: " + json);
         Integer idUsuario = repo.findByEmailAndSenha(json.get("email"), json.get("senha"));
-        System.out.println("Id Usuario: " + idUsuario);
         if (idUsuario != null) {
             userIdent = String.valueOf(idUsuario);
             Usuario usuario = repo.findById(idUsuario).get();
             userLvl = String.valueOf(usuario.getTipoUsuario());
-            System.out.println("Nivel usuario: " + userLvl);
-            System.out.println("Usuário: " + usuario.getNome() + " logado com sucesso");
             return "true";
         }
 
@@ -90,7 +85,6 @@ public class UsuarioControlador {
                         + "Email do usuário: " + usuario.getEmail() + "\n"
                         + "Matrícula do usuário: " + usuario.getMatricula() + "\n";
             }
-            System.out.println(listaUsuariosStr);
             return listaUsuariosStr;
         }
         return LOGAR_NO_SITE;

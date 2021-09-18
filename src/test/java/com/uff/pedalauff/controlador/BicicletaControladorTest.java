@@ -132,6 +132,20 @@ public class BicicletaControladorTest {
     }
 
     @Test
+    public void consertarBicicletaSemLogin_falha(){
+
+        Mockito.doReturn(null).when(controller).userId();
+        Mockito.doReturn(null).when(controller).userLvl();
+
+        Map<String,String> bicicletaMap = new HashMap<>();
+        bicicletaMap.put( "qrCodeBicicleta", new String( "en2r" ));
+
+        assertThat(controller.consertarBicicleta(bicicletaMap))
+                .isEqualTo("Você não possui acesso para " +
+                        "realizar tal ação.");
+    }
+
+    @Test
     public void consertarBicicletaInexistente_falha(){
 
         Bicicleta bicicleta = new Bicicleta();
